@@ -1,0 +1,337 @@
+// SPDX-License-Identifier: GPL-2.0-or-later
+/*
+ * Tenbay WR1204S (eWeLink / twifi branded, ODM by Shenzhen Nuoxincheng)
+ *
+ * Hardware verified on the running device (root shell, 2026-11-13):
+ *   SoC        Siflower SF19A2890 / SF19A28, MIPS 24Kc
+ *   RAM        128 MiB          (free shows 119720 KiB after kernel reserve)
+ *   Flash      16 MiB SPI NOR   (/proc/mtd, mtd0..mtd9)
+ *   Switch     Airoha AN8855    (swconfig: "Siflower MII Bus:01(AN8855), ports: 6 (cpu @ 5)")
+ *   Reset key  GPIO 14          (/sys/kernel/debug/gpio: gpio-14 reset  in hi)
+ *   WPS key    GPIO 27          (/sys/kernel/debug/gpio: gpio-27 wps    in hi)
+ *   LEDs       green=GPIO 1, blue=GPIO 2, red=GPIO 3
+ *   UART       115200n8
+ *
+ * Partition layout is taken verbatim from /proc/mtd -- it differs from both
+ * the Siflower EVB and the Banana Pi WiFi5 references:
+ *
+ *   0x000000  0x020000  spl-loader    (read-only)
+ *   0x020000  0x060000  u-boot
+ *   0x080000  0x010000  u-boot-env
+ *   0x090000  0x010000  factory       (MAC / SN / RGMII delay / WiFi calibration)
+ *   0x0A0000  0x010000  product       (vendor product block, ASCII SN at 0x40)
+ *   0x0B0000  0xF40000  firmware      (15.25 MiB)
+ *   0xFF0000  0x010000  custom        (vendor custom block)
+ *
+ * Port mapping from /etc/config/network:
+ *   vlan 1 (LAN) = ports 0 1 2 + 5t (CPU)
+ *   vlan 2 (WAN) = port  3     + 5t (CPU)
+ * so port 3 is the WAN jack, ports 0/1/2 are the LAN jacks.
+ */
+
+/dts-v1/;
+
+#include <dt-bindings/input/input.h>
+#include <dt-bindings/leds/common.h>
+#include "sf19a2890.dtsi"
+
+/ {
+	model = "Tenbay WR1204S";
+	compatible = "tenbay,wr1204s", "siflower,sf19a2890";
+
+	aliases {
+		led-boot = &led_green;
+		led-failsafe = &led_red;
+		led-running = &led_green;
+		led-upgrade = &led_blue;
+	};
+
+	chosen {
+		stdout-path = "serial0:115200n8";
+		bootargs = "console=ttyS0,115200";
+	};
+
+	memory@0 {
+		device_type = "memory";
+		reg = <0x0 0x8000000>;	/* 128 MiB */
+	};
+
+	leds {
+		compatible = "gpio-leds";
+
+		led_green: green {
+			function = LED_FUNCTION_STATUS;
+			color = <LED_COLOR_ID_GREEN>;
+			gpios = <&gpio 1 GPIO_ACTIVE_HIGH>;
+			default-state = "keep";
+		};
+
+		led_blue: blue {
+			function = LED_FUNCTION_WLAN;
+			color = <LED_COLOR_ID_BLUE>;
+			gpios = <&gpio 2 GPIO_ACTIVE_HIGH>;
+			default-state = "off";
+		};
+
+		led_red: red {
+			function = LED_FUNCTION_FAULT;
+			color = <LED_COLOR_ID_RED>;
+			gpios = <&gpio 3 GPIO_ACTIVE_HIGH>;
+			default-state = "off";
+		};
+	};
+
+	keys {
+		compatible = "gpio-keys";
+
+		reset {
+			label = "reset";
+			gpios = <&gpio 14 GPIO_ACTIVE_LOW>;
+			linux,code = <KEY_RESTART>;
+		};
+
+		wps {
+			label = "wps";
+			gpios = <&gpio 27 GPIO_ACTIVE_LOW>;
+			linux,code = <KEY_WPS_BUTTON>;
+		};
+	};
+};
+
+/* AN8855 management function lives on MDIO address 1 (same as BPI-WiFi5). */
+&mdio {
+	mfd: mfd@1 {
+		compatible = "airoha,an8855-mfd";
+		reg = <1>;
+	};
+};
+
+&mfd {
+	efuse {
+		compatible = "airoha,an8855-efuse";
+		#nvmem-cell-cells = <0>;
+
+		nvmem-layout {
+			compatible = "fixed-layout";
+			#address-cells = <1>;
+			#size-cells = <1>;
+
+			shift_sel_port0_tx_a: shift-sel-port0-tx-a@c  { reg = <0xc 0x4>; };
+			shift_sel_port0_tx_b: shift-sel-port0-tx-b@10 { reg = <0x10 0x4>; };
+			shift_sel_port0_tx_c: shift-sel-port0-tx-c@14 { reg = <0x14 0x4>; };
+			shift_sel_port0_tx_d: shift-sel-port0-tx-d@18 { reg = <0x18 0x4>; };
+
+			shift_sel_port1_tx_a: shift-sel-port1-tx-a@1c { reg = <0x1c 0x4>; };
+			shift_sel_port1_tx_b: shift-sel-port1-tx-b@20 { reg = <0x20 0x4>; };
+			shift_sel_port1_tx_c: shift-sel-port1-tx-c@24 { reg = <0x24 0x4>; };
+			shift_sel_port1_tx_d: shift-sel-port1-tx-d@28 { reg = <0x28 0x4>; };
+
+			shift_sel_port2_tx_a: shift-sel-port2-tx-a@2c { reg = <0x2c 0x4>; };
+			shift_sel_port2_tx_b: shift-sel-port2-tx-b@30 { reg = <0x30 0x4>; };
+			shift_sel_port2_tx_c: shift-sel-port2-tx-c@34 { reg = <0x34 0x4>; };
+			shift_sel_port2_tx_d: shift-sel-port2-tx-d@38 { reg = <0x38 0x4>; };
+
+			shift_sel_port3_tx_a: shift-sel-port3-tx-a@4c { reg = <0x4c 0x4>; };
+			shift_sel_port3_tx_b: shift-sel-port3-tx-b@50 { reg = <0x50 0x4>; };
+			shift_sel_port3_tx_c: shift-sel-port3-tx-c@54 { reg = <0x54 0x4>; };
+			shift_sel_port3_tx_d: shift-sel-port3-tx-d@58 { reg = <0x58 0x4>; };
+		};
+	};
+
+	ethernet-switch {
+		compatible = "airoha,an8855-switch";
+		/*
+		 * GPIO 8 is driven high by the vendor firmware and was the only
+		 * unclaimed output GPIO on the running device, so it is the
+		 * AN8855 reset line. If the switch is not detected on boot, try
+		 * <&gpio 11 GPIO_ACTIVE_HIGH> (the BPI-WiFi5 value) or drop the
+		 * property entirely.
+		 */
+		reset-gpios = <&gpio 8 GPIO_ACTIVE_HIGH>;
+		airoha,ext-surge;
+
+		ports {
+			#address-cells = <1>;
+			#size-cells = <0>;
+
+			/* LAN jacks -- vlan 1, ports 0 1 2 5t */
+			port@0 {
+				reg = <0>;
+				label = "lan1";
+				phy-mode = "internal";
+				phy-handle = <&internal_phy1>;
+			};
+
+			port@1 {
+				reg = <1>;
+				label = "lan2";
+				phy-mode = "internal";
+				phy-handle = <&internal_phy2>;
+			};
+
+			port@2 {
+				reg = <2>;
+				label = "lan3";
+				phy-mode = "internal";
+				phy-handle = <&internal_phy3>;
+			};
+
+			/* WAN jack -- vlan 2, port 3 5t */
+			port@3 {
+				reg = <3>;
+				label = "wan";
+				phy-mode = "internal";
+				phy-handle = <&internal_phy4>;
+			};
+
+			port@5 {
+				reg = <5>;
+				label = "cpu";
+				ethernet = <&gmac>;
+				phy-mode = "rgmii";
+
+				fixed-link {
+					speed = <1000>;
+					full-duplex;
+					pause;
+				};
+			};
+		};
+	};
+
+	mdio {
+		compatible = "airoha,an8855-mdio";
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		internal_phy1: phy@1 {
+			reg = <1>;
+			nvmem-cells = <&shift_sel_port0_tx_a>, <&shift_sel_port0_tx_b>,
+				      <&shift_sel_port0_tx_c>, <&shift_sel_port0_tx_d>;
+			nvmem-cell-names = "tx_a", "tx_b", "tx_c", "tx_d";
+		};
+
+		internal_phy2: phy@2 {
+			reg = <2>;
+			nvmem-cells = <&shift_sel_port1_tx_a>, <&shift_sel_port1_tx_b>,
+				      <&shift_sel_port1_tx_c>, <&shift_sel_port1_tx_d>;
+			nvmem-cell-names = "tx_a", "tx_b", "tx_c", "tx_d";
+		};
+
+		internal_phy3: phy@3 {
+			reg = <3>;
+			nvmem-cells = <&shift_sel_port2_tx_a>, <&shift_sel_port2_tx_b>,
+				      <&shift_sel_port2_tx_c>, <&shift_sel_port2_tx_d>;
+			nvmem-cell-names = "tx_a", "tx_b", "tx_c", "tx_d";
+		};
+
+		internal_phy4: phy@4 {
+			reg = <4>;
+			nvmem-cells = <&shift_sel_port3_tx_a>, <&shift_sel_port3_tx_b>,
+				      <&shift_sel_port3_tx_c>, <&shift_sel_port3_tx_d>;
+			nvmem-cell-names = "tx_a", "tx_b", "tx_c", "tx_d";
+		};
+	};
+};
+
+&gmac {
+	nvmem-cells = <&macaddr_factory_0 0>, <&rgmii_delay_factory_b2>;
+	nvmem-cell-names = "mac-address", "rgmii-delay";
+
+	status = "okay";
+	phy-mode = "rgmii-id";
+	snps,ps-speed = <1000>;
+
+	fixed-link {
+		speed = <1000>;
+		full-duplex;
+		pause;
+	};
+};
+
+&wlan_rf {
+	status = "okay";
+};
+
+&uart0 {
+	status = "okay";
+};
+
+&usb {
+	status = "okay";
+};
+
+&usb_phy {
+	status = "okay";
+};
+
+&spi {
+	status = "okay";
+
+	flash@0 {
+		compatible = "jedec,spi-nor";
+		reg = <0>;
+		spi-max-frequency = <30000000>;
+
+		partitions {
+			compatible = "fixed-partitions";
+			#address-cells = <1>;
+			#size-cells = <1>;
+
+			partition@0 {
+				label = "spl-loader";
+				reg = <0x0 0x20000>;		/* 128 KiB */
+				read-only;
+			};
+
+			partition@20000 {
+				label = "u-boot";
+				reg = <0x20000 0x60000>;	/* 384 KiB */
+				read-only;
+			};
+
+			partition@80000 {
+				label = "u-boot-env";
+				reg = <0x80000 0x10000>;	/* 64 KiB */
+			};
+
+			factory: partition@90000 {
+				label = "factory";
+				reg = <0x90000 0x10000>;	/* 64 KiB */
+				read-only;
+
+				nvmem-layout {
+					compatible = "fixed-layout";
+					#address-cells = <1>;
+					#size-cells = <1>;
+
+					macaddr_factory_0: macaddr@0 {
+						reg = <0x0 0x6>;
+						#nvmem-cell-cells = <1>;
+					};
+
+					rgmii_delay_factory_b2: rgmii-delay@b2 {
+						reg = <0xb2 0x4>;
+					};
+				};
+			};
+
+			partition@a0000 {
+				label = "product";
+				reg = <0xa0000 0x10000>;	/* 64 KiB */
+				read-only;
+			};
+
+			partition@b0000 {
+				compatible = "denx,uimage";
+				label = "firmware";
+				reg = <0xb0000 0xf40000>;	/* 15.25 MiB */
+			};
+
+			partition@ff0000 {
+				label = "custom";
+				reg = <0xff0000 0x10000>;	/* 64 KiB */
+			};
+		};
+	};
+};

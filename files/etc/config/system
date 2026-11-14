@@ -1,0 +1,17 @@
+config system
+	option hostname 'WR1204S'
+	option timezone 'CST-8'
+	option zonename 'Asia/Shanghai'
+	option ttylogin '1'
+	option log_size '128'
+	option conloglevel '8'
+	option cronloglevel '8'
+
+config timeserver 'ntp'
+	option enabled '1'
+	option enable_server '0'
+	list server 'ntp.ntsc.ac.cn'
+	list server 'cn.ntp.org.cn'
+	list server 'ntp1.aliyun.com'
+	list server 'ntp2.aliyun.com'
+	list server 'ntp.tuna.tsinghua.edu.cn'

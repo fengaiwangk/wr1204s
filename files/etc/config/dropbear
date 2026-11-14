@@ -1,0 +1,13 @@
+# 原厂 SSH 就在 12580 上，这里保留同一个端口，只把认证方式打开。
+#
+# 原厂状态（实测）：PasswordAuth 'off' + RootPasswordAuth 'off'，而且
+# /etc/dropbear/ 下没有任何 authorized_keys —— 端口开着但谁也进不去。
+# 下面的配置让 admin 密码就能登。
+#
+# 只监听 LAN，WAN 侧不暴露。
+config dropbear
+	option PasswordAuth 'on'
+	option RootPasswordAuth 'on'
+	option Port '12580'
+	option Interface 'lan'
+	option BannerFile '/etc/banner'

@@ -1,0 +1,45 @@
+config interface 'loopback'
+	option device 'lo'
+	option proto 'static'
+	option ipaddr '127.0.0.1'
+	option netmask '255.0.0.0'
+
+config globals 'globals'
+	option ula_prefix 'auto'
+
+# ---------------------------------------------------------------------------
+# LAN -- 原厂 192.168.100.1/24，三个 LAN 口桥接
+#
+# 端口名来自 dts（sf19a2890_wr1204s.dts）：
+#   port@0 -> lan1   port@1 -> lan2   port@2 -> lan3   port@3 -> wan
+# ---------------------------------------------------------------------------
+config device
+	option name 'br-lan'
+	option type 'bridge'
+	list ports 'lan1'
+	list ports 'lan2'
+	list ports 'lan3'
+
+config interface 'lan'
+	option device 'br-lan'
+	option proto 'static'
+	option ipaddr '192.168.100.1'
+	option netmask '255.255.255.0'
+	list dns '223.5.5.5'
+	list dns '8.8.8.8'
+	option ip6assign '0'
+
+# ---------------------------------------------------------------------------
+# WAN -- 原厂是静态 IP，保持完全一致
+#   addr 44.0.30.233/24  gw 44.0.30.129  dns 59.51.78.210
+# ---------------------------------------------------------------------------
+config interface 'wan'
+	option device 'wan'
+	option proto 'static'
+	option ipaddr '44.0.30.233'
+	option netmask '255.255.255.0'
+	option gateway '44.0.30.129'
+	list dns '59.51.78.210'
+	option peerdns '0'
+	option ip6assign '0'
+	option mtu '1500'

@@ -1,0 +1,15 @@
+# build trees and outputs -- never commit these
+/openwrt/
+/sf_wifi/
+/out/
+build.log
+
+# intermediate
+*.o
+*.ko
+*.tar.gz
+*.ipk
+
+# OS noise
+.DS_Store
+Thumbs.db

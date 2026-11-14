@@ -1,0 +1,60 @@
+#!/bin/sh
+#
+# 首次启动执行一次，然后自动删除。
+#
+# 做三件事：
+#   1. root 密码设为 admin（与原网页登录一致）
+#   2. 建立 UID 0 的 admin 账户，密码同为 admin，这样 ssh admin@... 也能进
+#   3. 确认 dropbear 起来（端口 / 认证方式在 /etc/config/dropbear 里）
+#
+# 不改系统文件结构，只做追加和就地替换，避免覆盖掉 OpenWrt 自带的账户。
+#
+# 密码哈希：$1$ 是 MD5-crypt，明文为 "admin"
+#   openssl passwd -1 -salt k42SP.sZ admin
+#   -> $1$k42SP.sZ$fmfeQ57MfaC/ZRp4/HVcC1
+
+HASH='$1$k42SP.sZ$fmfeQ57MfaC/ZRp4/HVcC1'
+STAMP=20770          # 2026-11-13，只是占位，OpenWrt 不做密码时效检查
+
+# --- 1. root 密码 -----------------------------------------------------------
+if grep -q '^root:' /etc/shadow; then
+	sed -i "s|^root:[^:]*:|root:${HASH}:|" /etc/shadow
+else
+	echo "root:${HASH}:${STAMP}:0:99999:7:::" >> /etc/shadow
+fi
+
+# --- 2. admin 账户（UID 0，密码 admin）--------------------------------------
+# /etc/passwd 格式: name:passwd:uid:gid:gecos:home:shell
+# 直接用 GID 0（root 组），不再新建同名组——GID 0 已经被占用，同名组会冲突。
+if ! grep -q '^admin:' /etc/passwd; then
+	echo 'admin:x:0:0:admin:/root:/bin/ash' >> /etc/passwd
+fi
+if grep -q '^admin:' /etc/shadow; then
+	sed -i "s|^admin:[^:]*:|admin:${HASH}:|" /etc/shadow
+else
+	echo "admin:${HASH}:${STAMP}:0:99999:7:::" >> /etc/shadow
+fi
+
+# dropbear 会核对 shell 是否在 /etc/shells 里，缺了就补上
+if [ -f /etc/shells ] && ! grep -qx '/bin/ash' /etc/shells; then
+	echo '/bin/ash' >> /etc/shells
+fi
+
+# --- 3. dropbear ------------------------------------------------------------
+if [ -x /etc/init.d/dropbear ]; then
+	uci -q set dropbear.@dropbear[0].Port='12580'
+	uci -q set dropbear.@dropbear[0].PasswordAuth='on'
+	uci -q set dropbear.@dropbear[0].RootPasswordAuth='on'
+	uci -q set dropbear.@dropbear[0].Interface='lan'
+	uci -q commit dropbear
+	/etc/init.d/dropbear enable
+	/etc/init.d/dropbear restart
+fi
+
+# --- 4. 时区 / 主机名（沿用原厂）-------------------------------------------
+uci -q set system.@system[0].hostname='WR1204S'
+uci -q set system.@system[0].timezone='CST-8'
+uci -q set system.@system[0].zonename='Asia/Shanghai'
+uci -q commit system
+
+exit 0

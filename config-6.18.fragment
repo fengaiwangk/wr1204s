@@ -1,0 +1,25 @@
+# ---------------------------------------------------------------------------
+# WR1204S kernel config fragment
+#
+# This list is deliberately tiny. The upstream sf19a2890 config-6.18 already
+# carries every AN8855 / DSA / stmmac option this board needs, and it is the
+# config the hardware was actually validated against:
+#
+#   CONFIG_NET_DSA=y                  CONFIG_NET_DSA_AN8855=y
+#   CONFIG_MFD_AIROHA_AN8855=y        CONFIG_MDIO_AN8855=y
+#   CONFIG_AIR_AN8855_PHY=y           CONFIG_NVMEM_AN8855_EFUSE=y
+#   CONFIG_STMMAC_ETH=y               CONFIG_STMMAC_PLATFORM=y
+#   CONFIG_LEDS_GPIO=y                CONFIG_MTD_SPI_NOR=y
+#   # CONFIG_DWMAC_GENERIC is not set   <-- on purpose, keep it that way
+#
+# Overwriting any of those breaks the build, so build.sh only APPENDS keys that
+# are absent and never rewrites an existing one.
+#
+# What is genuinely absent upstream is the input layer the reset and WPS keys
+# in our dts need. They are normally pulled in by the kmod-input-gpio-keys
+# package; these two lines make the image work even if that package is dropped
+# from DEVICE_PACKAGES.
+# ---------------------------------------------------------------------------
+
+CONFIG_INPUT_EVDEV=y
+CONFIG_KEYBOARD_GPIO=y
