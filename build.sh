@@ -143,12 +143,17 @@ ok "5 driver sources + 1 header in ${GENFILES#$SRC/}"
 # not a single frame crosses it, with no error counted anywhere.
 say "Patching AN8855 MAC5 sideband (CPU port)"
 if [ -f "$HERE/patches/0004-an8855-force-mac5-sideband.patch" ]; then
-	( cd "$SRC" && patch -p1 --no-backup-if-mismatch -s \
-		< "$HERE/patches/0004-an8855-force-mac5-sideband.patch" ) \
-		|| die "AN8855 sideband patch failed"
+	# The patch is written against generic/files-6.18, but a base tree without
+	# per-version override dirs got the drivers merged into generic/files.
+	# Rewrite the prefix on the fly so -p1 lands on the real location.
+	GENREL="${GENFILES#$SRC/}"
+	( cd "$SRC" && sed "s|target/linux/generic/files-6\.18|$GENREL|g" \
+		"$HERE/patches/0004-an8855-force-mac5-sideband.patch" \
+		| patch -p1 --no-backup-if-mismatch -s ) \
+		|| die "AN8855 sideband patch failed (driver dir: $GENREL)"
 	grep -q "AN8855_RG_FORCE_MAC5_SB" "$GENFILES/drivers/net/dsa/an8855.h" \
 		|| die "sideband patch did not take"
-	ok "MAC5 sideband forced for port 5 in RGMII mode"
+	ok "MAC5 sideband forced for port 5 in RGMII mode ($GENREL)"
 else
 	info "patch not found, skipping (Ethernet may not pass traffic)"
 fi
