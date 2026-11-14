@@ -42,6 +42,9 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: false
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-22.04
@@ -104,7 +107,36 @@ jobs:
           echo "running: ./build.sh $ARGS"
           echo "prepare_only=${PREP:-false}" >> "$GITHUB_OUTPUT"
           echo "base=$BASE"                   >> "$GITHUB_OUTPUT"
+          # pipefail matters: without it the pipeline exits with tee's status and
+          # a failed build reports green.
+          set -o pipefail
           ./build.sh $ARGS 2>&1 | tee build.log
+
+      - name: Publish log tail
+        if: always()
+        run: |
+          for f in build.log prepare.log; do
+            [ -f "$f" ] || continue
+            {
+              echo "### $f — last 120 lines"
+              echo '```'
+              tail -120 "$f"
+              echo '```'
+            } >> "$GITHUB_STEP_SUMMARY"
+          done
+
+      - name: Archive log to ci-log branch
+        if: failure()
+        run: |
+          mkdir -p /tmp/ci
+          cp build.log prepare.log /tmp/ci/ 2>/dev/null || true
+          cd /tmp/ci
+          git init -q
+          git config user.name  "ci"
+          git config user.email "ci@local"
+          git add -A
+          git commit -qm "ci log $(date -u +%FT%TZ) ${GITHUB_REF_NAME}"
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" HEAD:ci-log
 
       - name: Verify artifacts
         if: always()
