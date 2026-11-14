@@ -225,7 +225,7 @@ chmod 0755 "$SRC"/files/etc/uci-defaults/* 2>/dev/null || true
 [ -f "$SRC/files/etc/config/network" ]  || die "files/etc/config/network missing"
 [ -f "$SRC/files/etc/config/wireless" ] || die "files/etc/config/wireless missing"
 [ -f "$SRC/files/etc/config/dropbear" ] || die "files/etc/config/dropbear missing"
-grep -q "192.168.100.1" "$SRC/files/etc/config/network"  || die "LAN IP not preserved"
+grep -q "192.168.99.1"  "$SRC/files/etc/config/network"  || die "LAN IP not preserved"
 grep -q "44.0.30.233"   "$SRC/files/etc/config/network"  || die "WAN IP not preserved"
 grep -q "TENDAINF-D9DA" "$SRC/files/etc/config/wireless" || die "2.4G SSID not preserved"
 grep -q "9876543210"    "$SRC/files/etc/config/wireless" || die "WiFi key not preserved"
