@@ -63,7 +63,10 @@ while [ $# -gt 0 ]; do
 	shift
 done
 
-case "$BASE" in immortal|ulli) ;; *) echo "--base must be immortal or ulli" >&2; exit 1 ;; esac
+case "$BASE" in
+	immortal|ulli|bleach) ;;
+	*) echo "--base must be immortal, ulli or bleach" >&2; exit 1 ;;
+esac
 
 STEP=0
 say()  { STEP=$((STEP+1)); printf '\n\033[1;36m[%02d] ==> %s\033[0m\n' "$STEP" "$*"; }
