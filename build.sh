@@ -175,6 +175,18 @@ grep -q "tenbay_wr1204s" "$IMG_MK" || die "device definition not installed"
 grep -q "DEVICE_DTS := sf19a2890_wr1204s" "$IMG_MK" || die "dts reference missing"
 ok "device: tenbay_wr1204s (BOARD_NAME tenbay,wr1204s, IMAGE_SIZE 15616k)"
 
+say "Pinning the kernel to 6.18"
+# The archived target tree ships KERNEL_PATCHVER:=6.12 with 6.18 only behind
+# KERNEL_TESTING_PATCHVER. The board runs 6.18.35 and every patch, config and
+# the AN8855 file override (generic/files-6.18) is keyed to 6.18, so the default
+# has to be 6.18 or the build silently produces a 6.12 image with no Ethernet.
+TMK="$SRC/target/linux/siflower/Makefile"
+sed -i 's/^KERNEL_PATCHVER:=.*/KERNEL_PATCHVER:=6.18/' "$TMK"
+grep -q '^KERNEL_PATCHVER:=6.18' "$TMK" || die "could not pin KERNEL_PATCHVER to 6.18"
+sed -i 's/^KERNEL_TESTING_PATCHVER:=6\.18$/KERNEL_TESTING_PATCHVER:=6.12/' \
+	"$SRC/target/linux/siflower/sf19a2890/target.mk" 2>/dev/null || true
+ok "KERNEL_PATCHVER:=6.18 (testing left at 6.12)"
+
 say "Clearing the source-only flag"
 TMK="$SRC/target/linux/siflower/sf19a2890/target.mk"
 [ -f "$TMK" ] || die "missing $TMK"
@@ -372,24 +384,24 @@ if [ "$PREPARE_ONLY" = 1 ]; then
 		ok "kernel prepared -- make returned 0"
 		# Proof, not faith: these five files are created by the siflower patches
 		# and exist nowhere else, so finding them means the patches really ran.
-		KDIR="$(ls -d "$SRC"/build_dir/target-*/linux-*/linux-6.18* 2>/dev/null | head -1)"
-		if [ -n "$KDIR" ]; then
-			info "kernel tree: ${KDIR#$SRC/}"
-			grep -m1 '^VERSION\|^PATCHLEVEL\|^SUBLEVEL' "$KDIR/Makefile" 2>/dev/null \
-				| tr '\n' ' ' | sed 's/^/       /'; echo
-			miss=0
-			for p in drivers/net/dsa/lantiq/mxl-gsw1xx.c \
-			         drivers/net/dsa/lantiq/mxl-gsw1xx.h \
-			         drivers/net/dsa/lantiq/mxl-gsw1xx_pce.h \
-			         drivers/net/dsa/lantiq/lantiq_gswip_common.c \
-			         net/dsa/tag_mxl-gsw1xx.c; do
-				[ -f "$KDIR/$p" ] || { info "MISSING $p"; miss=$((miss+1)); }
-			done
-			[ "$miss" = 0 ] || die "$miss patch-created file(s) absent -- the patches did not apply"
-			ok "all 5 patch-created files present -- siflower patches applied"
-		else
-			info "no kernel build dir found; cannot verify patch application"
-		fi
+		KDIR="$(ls -d "$SRC"/build_dir/target-*/linux-*/linux-6.18* 2>/dev/null | head -1 || true)"
+		[ -n "$KDIR" ] || die "no linux-6.18 build dir -- prepare used the wrong KERNEL_PATCHVER (look for linux-6.12 in the log)"
+		case "$KDIR" in
+			*linux-6.18*) ;;
+			*) die "prepared kernel is not 6.18: $KDIR" ;;
+		esac
+		info "kernel tree: ${KDIR#$SRC/}"
+		awk '/^VERSION =/{v=$3} /^PATCHLEVEL =/{p=$3} /^SUBLEVEL =/{s=$3} END{printf "       kernel %s.%s.%s\n",v,p,s}' "$KDIR/Makefile"
+		miss=0
+		for p in drivers/net/dsa/lantiq/mxl-gsw1xx.c \
+		         drivers/net/dsa/lantiq/mxl-gsw1xx.h \
+		         drivers/net/dsa/lantiq/mxl-gsw1xx_pce.h \
+		         drivers/net/dsa/lantiq/lantiq_gswip_common.c \
+		         net/dsa/tag_mxl-gsw1xx.c; do
+			[ -f "$KDIR/$p" ] || { info "MISSING $p"; miss=$((miss+1)); }
+		done
+		[ "$miss" = 0 ] || die "$miss patch-created file(s) absent -- the patches did not apply"
+		ok "all 5 patch-created files present -- siflower patches applied"
 		info "log: $LOG"
 		exit 0
 	fi
