@@ -369,7 +369,27 @@ if [ "$PREPARE_ONLY" = 1 ]; then
 	say "Preflight: extracting the kernel and applying every target patch"
 	LOG="$HERE/prepare.log"
 	if ( cd "$SRC" && make -j1 target/linux/prepare V=s 2>&1 | tee "$LOG" | tail -40 ); then
-		ok "kernel prepared -- all siflower patches applied cleanly"
+		ok "kernel prepared -- make returned 0"
+		# Proof, not faith: these five files are created by the siflower patches
+		# and exist nowhere else, so finding them means the patches really ran.
+		KDIR="$(ls -d "$SRC"/build_dir/target-*/linux-*/linux-6.18* 2>/dev/null | head -1)"
+		if [ -n "$KDIR" ]; then
+			info "kernel tree: ${KDIR#$SRC/}"
+			grep -m1 '^VERSION\|^PATCHLEVEL\|^SUBLEVEL' "$KDIR/Makefile" 2>/dev/null \
+				| tr '\n' ' ' | sed 's/^/       /'; echo
+			miss=0
+			for p in drivers/net/dsa/lantiq/mxl-gsw1xx.c \
+			         drivers/net/dsa/lantiq/mxl-gsw1xx.h \
+			         drivers/net/dsa/lantiq/mxl-gsw1xx_pce.h \
+			         drivers/net/dsa/lantiq/lantiq_gswip_common.c \
+			         net/dsa/tag_mxl-gsw1xx.c; do
+				[ -f "$KDIR/$p" ] || { info "MISSING $p"; miss=$((miss+1)); }
+			done
+			[ "$miss" = 0 ] || die "$miss patch-created file(s) absent -- the patches did not apply"
+			ok "all 5 patch-created files present -- siflower patches applied"
+		else
+			info "no kernel build dir found; cannot verify patch application"
+		fi
 		info "log: $LOG"
 		exit 0
 	fi

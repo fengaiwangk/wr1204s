@@ -126,7 +126,7 @@ jobs:
           done
 
       - name: Archive log to ci-log branch
-        if: failure()
+        if: always()
         run: |
           mkdir -p /tmp/ci
           cp build.log prepare.log defconfig.log /tmp/ci/ 2>/dev/null || true
