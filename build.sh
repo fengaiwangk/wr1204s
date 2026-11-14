@@ -337,7 +337,14 @@ if ! ( cd "$SRC" && make defconfig >"$DEFLOG" 2>&1 ); then
 	info "defconfig returned non-zero -- tail of $DEFLOG:"
 	tail -25 "$DEFLOG" | sed 's/^/       /'
 fi
-if ! grep -q "CONFIG_TARGET_siflower_sf19a2890_DEVICE_${DEVICE}=y" "$SRC/.config"; then
+# Newer trees emit CONFIG_TARGET_DEVICE_<board>_<subtarget>_DEVICE_<name> and no
+# longer the legacy CONFIG_TARGET_<board>_<subtarget>_DEVICE_<name>; accept either.
+PROF_OK=0
+for sym in "CONFIG_TARGET_DEVICE_siflower_sf19a2890_DEVICE_${DEVICE}" \
+           "CONFIG_TARGET_siflower_sf19a2890_DEVICE_${DEVICE}"; do
+	grep -q "^${sym}=y" "$SRC/.config" && PROF_OK=1
+done
+if [ "$PROF_OK" = 0 ]; then
 	printf '\n\033[1;31m--- profile lost: diagnostics ---\033[0m\n'
 	printf 'defconfig log tail:\n'
 	tail -30 "$DEFLOG" 2>/dev/null | sed 's/^/  | /' || echo '  | (no log)'
