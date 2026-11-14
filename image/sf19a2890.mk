@@ -20,9 +20,16 @@ define Device/Default
   DEVICE_DTS_DIR := ../dts
   KERNEL := kernel-bin | append-dtb | lzma | uImage lzma
   KERNEL_INITRAMFS := kernel-bin | append-dtb | lzma | uImage lzma
-  IMAGES := sysupgrade.bin
+  # sysupgrade.bin carries OpenWrt's JSON metadata trailer, which makes it a few
+  # hundred bytes longer than the rootfs partition; factory.bin is the same pair
+  # of blobs without that trailer, so the two partitions can be written verbatim
+  # with mtd (this board has kernel/rootfs/rootfs_data, no firmware container,
+  # so stock sysupgrade cannot be used).
+  IMAGES := sysupgrade.bin factory.bin
   IMAGE/sysupgrade.bin = append-kernel | pad-to $$$$(BLOCKSIZE) | \
 	append-rootfs | pad-rootfs | append-metadata
+  IMAGE/factory.bin = append-kernel | pad-to $$$$(BLOCKSIZE) | \
+	append-rootfs | pad-rootfs
 endef
 
 # ---------------------------------------------------------------------------

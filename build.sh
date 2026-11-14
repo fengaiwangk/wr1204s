@@ -421,7 +421,7 @@ say "Collecting artifacts"
 OUT="$HERE/out"
 mkdir -p "$OUT"
 found=0
-for pat in "*wr1204s*sysupgrade.bin" "*wr1204s*initramfs*" "*wr1204s*Image*"; do
+for pat in "*wr1204s*factory.bin" "*wr1204s*sysupgrade.bin" "*wr1204s*initramfs*" "*wr1204s*Image*"; do
 	for f in "$SRC"/bin/targets/siflower/sf19a2890/$pat; do
 		[ -f "$f" ] || continue
 		case "$f" in *.itb|*.bin|*.tar) cp "$f" "$OUT/" && found=$((found+1)) ;; esac
@@ -435,5 +435,6 @@ for f in "$OUT"/*; do
 	printf '  %-58s %10d bytes\n' "$(basename "$f")" "$(wc -c < "$f")"
 	printf '     sha256 %s\n' "$(sha256sum "$f" | cut -d' ' -f1)"
 done
-printf '\n  flash with:  mtd -r write %s firmware\n' "$(basename "$(ls "$OUT"/*sysupgrade.bin 2>/dev/null | head -1)")"
-printf '  or via U-Boot httpd at 192.168.1.1\n\n'
+printf '\n  flash on the router (no sysupgrade -- custom partition layout):\n'
+printf '    cat factory.bin | ssh root@192.168.100.1 "cat > /tmp/fw.bin"\n'
+printf '    ssh root@192.168.100.1 "wr1204s-upgrade -n /tmp/fw.bin && wr1204s-upgrade /tmp/fw.bin && reboot"\n\n'
