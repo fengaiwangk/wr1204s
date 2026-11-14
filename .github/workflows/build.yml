@@ -115,7 +115,7 @@ jobs:
       - name: Publish log tail
         if: always()
         run: |
-          for f in build.log prepare.log; do
+          for f in build.log prepare.log make.log; do
             [ -f "$f" ] || continue
             {
               echo "### $f — last 120 lines"
@@ -129,7 +129,7 @@ jobs:
         if: always()
         run: |
           mkdir -p /tmp/ci
-          cp build.log prepare.log defconfig.log /tmp/ci/ 2>/dev/null || true
+          cp build.log prepare.log defconfig.log make.log /tmp/ci/ 2>/dev/null || true
           cd /tmp/ci
           git init -q
           git config user.name  "ci"

@@ -37,6 +37,7 @@ JOBS="$(nproc 2>/dev/null || echo 4)"
 MINIMAL=0
 CLEAN=0
 PREPARE_ONLY=0
+SKIP_ELFUTILS=0
 
 IMMORTAL_URL="https://github.com/immortalwrt/immortalwrt.git"
 IMMORTAL_REF="master"
@@ -47,7 +48,9 @@ ULLI_REF="openwrt-siflower/v6.18/sf19/master"
 # already run -- but only ships the Siflower EVB dts and is marked source-only,
 # so the same board overlay below applies unchanged.
 BLEACH_URL="https://github.com/coolsnowwolf/lede.git"
-BLEACH_REF="master"
+# Pinned, not "master": a moving upstream turns every CI iteration into two
+# variables (our change + whatever Lean merged overnight). Bump deliberately.
+BLEACH_REF="a0c958aee9d6dda2dc2241318b0c7507053ea21b"
 
 DRIVER_URL="https://github.com/Siflower/sf_wifi.git"
 DRIVER_COMMIT="da991fafab179a2ed495c2925a0bf219ef38e22e"
@@ -59,6 +62,7 @@ while [ $# -gt 0 ]; do
 	--min)    MINIMAL=1 ;;
 	--clean)  CLEAN=1 ;;
 	--prepare) PREPARE_ONLY=1 ;;
+	--skip-elfutils) SKIP_ELFUTILS=1 ;;
 		--src)    SRC="$2"; shift ;;
 		-h|--help) sed -n '2,30p' "$0"; exit 0 ;;
 		*) echo "unknown option: $1" >&2; exit 1 ;;
@@ -75,6 +79,7 @@ STEP=0
 say()  { STEP=$((STEP+1)); printf '\n\033[1;36m[%02d] ==> %s\033[0m\n' "$STEP" "$*"; }
 info() { printf '     %s\n' "$*"; }
 ok()   { printf '     \033[1;32m✓\033[0m %s\n' "$*"; }
+warn() { printf '     \033[1;33m!\033[0m %s\n' "$*"; }
 die()  { printf '\n\033[1;31m!!! %s\033[0m\n' "$*" >&2; exit 1; }
 
 # ---------------------------------------------------------------- host deps --
@@ -101,7 +106,16 @@ case "$BASE" in
 esac
 if [ ! -d "$SRC/.git" ]; then
 	info "cloning $URL ($REF) -- this is ~300 MB, be patient"
-	git clone --depth 1 -b "$REF" "$URL" "$SRC" || die "clone failed: $URL"
+	if printf '%s' "$REF" | grep -qE '^[0-9a-f]{40}$'; then
+		# a bare sha cannot be passed to `git clone -b`, fetch it directly
+		mkdir -p "$SRC"
+		git -C "$SRC" init -q
+		git -C "$SRC" remote add origin "$URL"
+		git -C "$SRC" fetch -q --depth 1 origin "$REF" || die "fetch failed: $URL $REF"
+		git -C "$SRC" checkout -q FETCH_HEAD || die "checkout failed: $REF"
+	else
+		git clone --depth 1 -b "$REF" "$URL" "$SRC" || die "clone failed: $URL"
+	fi
 else
 	info "reusing existing tree at $SRC"
 fi
@@ -413,8 +427,70 @@ if [ "$PREPARE_ONLY" = 1 ]; then
 fi
 
 # ------------------------------------------------------------------- build --
+MAKELOG="$HERE/make.log"
+: >"$MAKELOG"
+
+# Drop tools/elfutils (and its only consumer, dwarves/pahole) from the host tool
+# list. Neither is needed for a MIPS router image: they exist to generate BTF
+# debug info, and this profile does not enable CONFIG_DEBUG_INFO_BTF.
+drop_elfutils() {
+	local TM="$SRC/tools/Makefile"
+	[ -f "$TM" ] || return 0
+	grep -q '^tools-y += elfutils' "$TM" || return 0
+	cp "$TM" "$TM.orig"
+	sed -i -E \
+		-e 's|^tools-y \+= elfutils$|# &  # dropped: BTF/pahole not used|' \
+		-e 's|^(\s*)\$\(curdir\)/dwarves/compile|#\1$(curdir)/dwarves/compile|' \
+		-e 's|^(\s*)tools-\$\(if \$\(CONFIG_BUILD_ALL_HOST_TOOLS\)\$\(CONFIG_DWARVES\),y\) \+= dwarves|#\1&|' \
+		"$TM"
+	info "tools/Makefile: $(grep -c '^#' "$TM.orig") -> $(grep -c '^#' "$TM") comment lines"
+	ok "elfutils + dwarves removed from the host tool list"
+}
+
+run_make() {
+	if ( cd "$SRC" && make -j"$JOBS" 2>&1 | tee -a "$MAKELOG" | tail -40 ); then
+		return 0
+	fi
+
+	FAILED="$(grep -oE 'ERROR: [^ ]+ failed to build' "$MAKELOG" | tail -1 | awk '{print $2}')"
+	if [ -z "$FAILED" ]; then
+		warn "could not identify a failing package from the make output"
+		return 1
+	fi
+
+	# `make -j` prints one summary line per failed package and swallows the
+	# compiler message, so re-run the culprit alone to put the reason on record.
+	warn "make failed at $FAILED -- rebuilding it alone with V=s to surface the reason"
+	{
+		printf '\n========== VERBOSE RETRY: %s ==========\n' "$FAILED"
+		( cd "$SRC" && make "$FAILED/clean" V=s >/dev/null 2>&1 || true
+		  make -j1 "$FAILED/compile" V=s 2>&1 | tail -150 )
+		printf '\n========== END VERBOSE RETRY ==========\n'
+	} 2>&1 | tee -a "$MAKELOG" | tail -160 || true
+
+	if [ "$FAILED" = "tools/elfutils" ] && [ "$SKIP_ELFUTILS" = 0 ]; then
+		warn "elfutils is only required by dwarves/pahole for BTF -- not used by this image"
+		warn "dropping it and resuming the build (same run, no new CI job)"
+		drop_elfutils
+		SKIP_ELFUTILS=1
+		return 2
+	fi
+	return 1
+}
+
 say "Building (jobs=$JOBS) -- first run downloads ~3 GB of sources and takes 2-4 h"
-( cd "$SRC" && make -j"$JOBS" 2>&1 | tail -40 ) || die "build failed -- rerun with: cd $SRC && make V=s"
+if [ "$SKIP_ELFUTILS" = 1 ]; then
+	say "Skipping the elfutils host tool (requested)"
+	drop_elfutils
+fi
+rc=0
+run_make || rc=$?
+if [ "$rc" = 2 ]; then
+	info "resuming after the elfutils fallback"
+	rc=0
+	run_make || rc=$?
+fi
+[ "$rc" = 0 ] || die "build failed -- full output in $MAKELOG"
 
 # ---------------------------------------------------------------- artifacts --
 say "Collecting artifacts"
