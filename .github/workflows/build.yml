@@ -107,10 +107,45 @@ jobs:
           echo "running: ./build.sh $ARGS"
           echo "prepare_only=${PREP:-false}" >> "$GITHUB_OUTPUT"
           echo "base=$BASE"                   >> "$GITHUB_OUTPUT"
+          # Heartbeat: a 2-4 h step is unobservable from outside -- the run
+          # object only changes at step boundaries, and the log API needs admin
+          # rights. So push a small progress.txt to the ci-log branch every
+          # 5 min; `curl raw.githubusercontent.com/.../ci-log/progress.txt`
+          # then answers "how far along is it" without any token.
+          REPO="$PWD"
+          (
+            cd /tmp && rm -rf hb && mkdir hb && cd hb && git init -q
+            git config user.name ci && git config user.email ci@local
+            while :; do
+              sleep 300
+              {
+                echo "time  : $(date -u +%FT%TZ)"
+                echo "ref   : ${GITHUB_REF_NAME}  run ${GITHUB_RUN_NUMBER}"
+                if [ -f "$REPO/make.log" ]; then
+                  echo "lines : $(wc -l < "$REPO/make.log")"
+                  echo "---- last 10 ----"
+                  tail -10 "$REPO/make.log"
+                else
+                  echo "lines : 0 (make.log not created yet)"
+                fi
+                echo "---- disk ----"
+                df -h / | tail -1
+              } > progress.txt
+              git add -A >/dev/null 2>&1
+              git commit -qm progress >/dev/null 2>&1
+              git push -q -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" HEAD:ci-log >/dev/null 2>&1 || true
+            done
+          ) &
+          HB=$!
+          echo "heartbeat pid $HB"
+
           # pipefail matters: without it the pipeline exits with tee's status and
           # a failed build reports green.
           set -o pipefail
-          ./build.sh $ARGS 2>&1 | tee build.log
+          RC=0
+          ./build.sh $ARGS 2>&1 | tee build.log || RC=$?
+          kill "$HB" 2>/dev/null || true
+          exit $RC
 
       - name: Publish log tail
         if: always()
