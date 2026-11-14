@@ -332,9 +332,24 @@ EOF
 	fi
 fi
 
-( cd "$SRC" && { yes "" | make defconfig >/dev/null 2>&1 || true; } )
-grep -q "CONFIG_TARGET_siflower_sf19a2890_DEVICE_${DEVICE}=y" "$SRC/.config" \
-	|| die "profile ${DEVICE} did not survive defconfig -- the device recipe was renamed or dropped"
+DEFLOG="$HERE/defconfig.log"
+if ! ( cd "$SRC" && make defconfig >"$DEFLOG" 2>&1 ); then
+	info "defconfig returned non-zero -- tail of $DEFLOG:"
+	tail -25 "$DEFLOG" | sed 's/^/       /'
+fi
+if ! grep -q "CONFIG_TARGET_siflower_sf19a2890_DEVICE_${DEVICE}=y" "$SRC/.config"; then
+	printf '\n\033[1;31m--- profile lost: diagnostics ---\033[0m\n'
+	printf 'defconfig log tail:\n'
+	tail -30 "$DEFLOG" 2>/dev/null | sed 's/^/  | /' || echo '  | (no log)'
+	printf '\ntarget symbols surviving in .config:\n'
+	grep -E '^CONFIG_TARGET' "$SRC/.config" | sed 's/^/  | /' | head -20
+	printf '\ndevice recipes found:\n'
+	grep -rn "TARGET_DEVICES.*tenbay_wr1204s\|Device/tenbay_wr1204s" \
+		"$SRC/target/linux/siflower/image/" 2>/dev/null | sed 's/^/  | /' | head -10
+	printf '\nsubtarget target.mk:\n'
+	sed 's/^/  | /' "$SRC/target/linux/siflower/sf19a2890/target.mk" 2>/dev/null
+	die "profile ${DEVICE} did not survive defconfig -- the device recipe was renamed or dropped"
+fi
 ok "profile ${DEVICE} active"
 
 # ---------------------------------------------------------------- preflight --

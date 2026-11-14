@@ -129,7 +129,7 @@ jobs:
         if: failure()
         run: |
           mkdir -p /tmp/ci
-          cp build.log prepare.log /tmp/ci/ 2>/dev/null || true
+          cp build.log prepare.log defconfig.log /tmp/ci/ 2>/dev/null || true
           cd /tmp/ci
           git init -q
           git config user.name  "ci"
