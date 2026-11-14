@@ -19,6 +19,7 @@
 #   ./build.sh --base ulli        # upstream hardware tree as the base instead
 #   ./build.sh --base bleach      # BleachWrt base (coolsnowwolf/lede) + Argon
 #   ./build.sh --min              # no LuCI, smallest rootfs
+#   ./build.sh --prepare          # stop after the kernel patches are applied (~10 min)
 #   ./build.sh --jobs 8           # parallel build jobs
 #   ./build.sh --clean            # wipe the source tree first
 #
@@ -35,6 +36,7 @@ BASE="immortal"
 JOBS="$(nproc 2>/dev/null || echo 4)"
 MINIMAL=0
 CLEAN=0
+PREPARE_ONLY=0
 
 IMMORTAL_URL="https://github.com/immortalwrt/immortalwrt.git"
 IMMORTAL_REF="master"
@@ -54,8 +56,9 @@ while [ $# -gt 0 ]; do
 	case "$1" in
 		--base)   BASE="$2"; shift ;;
 		--jobs)   JOBS="$2"; shift ;;
-		--min)    MINIMAL=1 ;;
-		--clean)  CLEAN=1 ;;
+	--min)    MINIMAL=1 ;;
+	--clean)  CLEAN=1 ;;
+	--prepare) PREPARE_ONLY=1 ;;
 		--src)    SRC="$2"; shift ;;
 		-h|--help) sed -n '2,30p' "$0"; exit 0 ;;
 		*) echo "unknown option: $1" >&2; exit 1 ;;
@@ -328,6 +331,27 @@ fi
 grep -q "CONFIG_TARGET_siflower_sf19a2890_DEVICE_${DEVICE}=y" "$SRC/.config" \
 	|| die "profile ${DEVICE} did not survive defconfig -- the device recipe was renamed or dropped"
 ok "profile ${DEVICE} active"
+
+# ---------------------------------------------------------------- preflight --
+# The 61 siflower patches-6.18 files were written against kernel 6.18.35, while
+# Lean's tree tracks 6.18.62. Same stable series, but hunks can still drift. A
+# full build spends 2-4 h before it ever reaches a failing patch, so --prepare
+# stops right after the kernel is extracted and every patch is applied: about
+# ten minutes to learn whether the overlay is compatible with this base.
+if [ "$PREPARE_ONLY" = 1 ]; then
+	say "Preflight: extracting the kernel and applying every target patch"
+	LOG="$HERE/prepare.log"
+	if ( cd "$SRC" && make -j1 target/linux/prepare V=s 2>&1 | tee "$LOG" | tail -40 ); then
+		ok "kernel prepared -- all siflower patches applied cleanly"
+		info "log: $LOG"
+		exit 0
+	fi
+	printf '\n\033[1;31m========== PATCH FAILURES ==========\033[0m\n'
+	grep -nE 'Patch failed|patch.*failed|Hunk #[0-9]+ (FAILED|succeeded)|^Applying .*patch' "$LOG" \
+		| tail -40 || true
+	printf '\n  full log: %s\n' "$LOG"
+	die "preflight failed -- the patches above need re-basing onto this base"
+fi
 
 # ------------------------------------------------------------------- build --
 say "Building (jobs=$JOBS) -- first run downloads ~3 GB of sources and takes 2-4 h"

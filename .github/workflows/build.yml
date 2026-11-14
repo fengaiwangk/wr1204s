@@ -23,6 +23,11 @@ on:
         required: false
         default: false
         type: boolean
+      prepare_only:
+        description: 'Preflight only: stop after kernel patches apply (~10 min, no image)'
+        required: false
+        default: false
+        type: boolean
   push:
     branches: [main]
     paths-ignore: ['**.md', 'out/**']
@@ -76,6 +81,9 @@ jobs:
           if [ "${{ inputs.minimal || 'false' }}" = "true" ]; then
             ARGS="$ARGS --min"
           fi
+          if [ "${{ inputs.prepare_only || 'false' }}" = "true" ]; then
+            ARGS="$ARGS --prepare"
+          fi
           echo "running: ./build.sh $ARGS"
           ./build.sh $ARGS 2>&1 | tee build.log
 
@@ -93,10 +101,10 @@ jobs:
           done
 
       - name: Upload firmware
-        if: success()
+        if: success() && inputs.prepare_only != true
         uses: actions/upload-artifact@v4
         with:
-          name: wr1204s-immortalwrt-${{ github.run_number }}
+          name: wr1204s-${{ inputs.base || 'immortal' }}-${{ github.run_number }}
           path: out/*
           if-no-files-found: error
           retention-days: 30
