@@ -49,3 +49,8 @@ time: target/linux/prereq#0.07#0.06#0.12
  make[3] -C tools/flex compile
  make[3] -C tools/fakeroot compile
  make[3] -C tools/gengetopt compile
+ make[3] -C tools/mklibs compile
+ make[3] -C tools/patchelf compile
+ make[3] -C tools/gmp compile
+ make[3] -C tools/bison compile
+ make[3] -C tools/cmake compile
