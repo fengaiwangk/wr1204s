@@ -470,6 +470,26 @@ done
 sed -i -e '/^CONFIG_XRAY_CORE_NAIVE=/d' \
        -e '/^# CONFIG_XRAY_CORE_NAIVE is not set$/d' "$SRC/.config"
 printf '# CONFIG_XRAY_CORE_NAIVE is not set\n' >> "$SRC/.config"
+
+# One ustream backend only. DEFAULT_PACKAGES ships libustream-openssl, while
+# luci-ssl (dragged in by the LuCI collections) ships libustream-mbedtls, and
+# both install /lib/libustream-ssl.so. opkg then aborts the whole image with
+#   check_data_file_clashes: Package libustream-openssl20201210 wants to
+#   install .../lib/libustream-ssl.so, But that file is already provided by
+#   package * libustream-mbedtls20201210
+# and make dies at package/Makefile:100 with Error 255 -- that is what killed
+# runs 22 and 23 after 130 minutes of otherwise clean compiling, and it is
+# invisible until the install phase. mbedtls wins: luci-ssl hard-depends on it
+# and it is the smaller backend on a 16 MiB flash.
+for pkg in libustream-openssl libustream-wolfssl; do
+	sed -i -e "/^CONFIG_PACKAGE_${pkg}=/d" \
+	       -e "/^# CONFIG_PACKAGE_${pkg} is not set\$/d" "$SRC/.config"
+	printf '# CONFIG_PACKAGE_%s is not set\n' "$pkg" >> "$SRC/.config"
+done
+sed -i -e '/^CONFIG_PACKAGE_libustream-mbedtls=/d' \
+       -e '/^# CONFIG_PACKAGE_libustream-mbedtls is not set$/d' "$SRC/.config"
+printf 'CONFIG_PACKAGE_libustream-mbedtls=y\n' >> "$SRC/.config"
+
 ( cd "$SRC" && make defconfig >>"$DEFLOG" 2>&1 ) || warn "second defconfig returned non-zero"
 
 # An exclusion is only real if no dependency pulled the symbol back in. A symbol
@@ -495,6 +515,30 @@ if [ -n "$LEAKED" ]; then
 	done
 	die "package trim did not stick:$LEAKED -- a dependency still selects them"
 fi
+
+# Packages that install the same files. opkg only finds out at install time --
+# 130 minutes in, after everything compiled -- so refuse to start the build at
+# all when the resolved .config asks for two of them.
+assert_exclusive() {
+	if grep -qE "^CONFIG_PACKAGE_$1=[ym]" "$SRC/.config" &&
+	   grep -qE "^CONFIG_PACKAGE_$2=[ym]" "$SRC/.config"; then
+		printf '\n\033[1;31m  %s and %s are both selected\033[0m\n' "$1" "$2"
+		printf '  they ship the same files -- opkg aborts with check_data_file_clashes\n'
+		printf '  who pulls them in:\n'
+		for pkg in "$1" "$2"; do
+			grep -rn --include=Makefile --include=*.mk \
+				-e "+${pkg}" -e "select PACKAGE_${pkg}" \
+				"$SRC/feeds" "$SRC/package" "$SRC/target" 2>/dev/null | head -3 | sed 's/^/    /'
+		done
+		die "exclusive packages both selected: $1 / $2"
+	fi
+}
+assert_exclusive libustream-openssl libustream-mbedtls
+assert_exclusive libustream-wolfssl  libustream-mbedtls
+assert_exclusive libustream-openssl libustream-wolfssl
+assert_exclusive px5g px5g-mbedtls
+info "ustream backend: $(grep -oE '^CONFIG_PACKAGE_libustream-[a-z0-9]+=y' "$SRC/.config" | cut -d= -f1 | sed 's/CONFIG_PACKAGE_//' | tr '\n' ' ')"
+ok "no file-clash package pairs selected"
 
 ok "dropped $(printf '%s\n' $DROP_PKGS | wc -l) packages (proxy stack, KMS, FTP, benchmark, design theme)"
 
