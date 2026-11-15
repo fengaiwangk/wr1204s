@@ -26,3 +26,19 @@ time: target/linux/prereq#0.10#0.08#0.16
  make[2] -C tools/xz compile
  make[2] -C tools/gnulib compile
  make[2] -C tools/expat compile
+ make[2] -C tools/zlib compile
+ make[2] -C tools/cpio compile
+ make[2] -C tools/lzma compile
+ make[2] -C tools/make-ext4fs compile
+ make[2] -C tools/mtools compile
+ make[2] -C tools/patch-image compile
+ make[2] -C tools/squashfs4 compile
+ make[2] -C tools/sstrip compile
+ make[2] -C tools/zip compile
+ make[2] -C tools/autoconf compile
+ make[2] -C tools/meson compile
+ make[2] -C tools/pkgconf compile
+ make[2] -C tools/lz4 compile
+ make[2] -C tools/missing-macros compile
+ make[2] -C tools/automake compile
+ make[2] -C tools/libressl compile
