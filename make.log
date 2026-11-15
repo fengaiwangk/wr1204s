@@ -142,3 +142,11 @@ time: target/linux/prereq#0.07#0.05#0.11
  make[3] -C feeds/luci/protocols/luci-proto-ipv6 compile
  make[3] -C package/libs/elfutils compile
  make[3] -C feeds/packages/utils/acl compile
+ make[3] -C feeds/luci/libs/luci-lib-ip compile
+ make[3] -C feeds/luci/libs/luci-lib-jsonc compile
+ make[3] -C feeds/luci/libs/luci-lib-nixio compile
+ make[3] -C feeds/luci/applications/luci-app-vlmcsd compile
+ make[3] -C feeds/packages/admin/htop compile
+ make[3] -C feeds/packages/utils/nano compile
+ make[3] -C feeds/packages/libs/libudev-zero compile
+ make[3] -C package/system/opkg host-compile
