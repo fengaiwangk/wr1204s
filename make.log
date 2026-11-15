@@ -170,3 +170,16 @@ luci-theme-argon does not support CSS source minification
  make[3] -C package/libs/libbpf compile
  make[3] -C feeds/packages/admin/htop compile
  make[3] -C feeds/packages/utils/nano compile
+ make[3] -C package/network/utils/nftables compile
+ make[3] -C package/network/services/odhcpd compile
+ make[3] -C package/network/services/ppp compile
+ make[3] -C package/utils/ucode compile
+ make[3] -C package/utils/busybox compile
+ make[3] -C feeds/luci/contrib/package/lucihttp compile
+ make[3] -C package/system/rpcd compile
+ make[3] -C feeds/luci/contrib/package/ucode-mod-html compile
+ make[3] -C feeds/luci/libs/rpcd-mod-rrdns compile
+ make[3] -C package/network/utils/iproute2 compile
+ make[3] -C feeds/luci/libs/luci-lib-base compile
+ make[3] -C feeds/luci/contrib/package/ucode-mod-lua compile
+ make[3] -C feeds/packages/net/miniupnpd-nftables compile
