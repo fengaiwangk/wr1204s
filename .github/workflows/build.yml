@@ -114,35 +114,40 @@ jobs:
           # upload step must not demand one.
           echo "prepare_only=${NOIMAGE:-${PREP:-false}}" >> "$GITHUB_OUTPUT"
           echo "base=$BASE"                   >> "$GITHUB_OUTPUT"
-          # Heartbeat: a 2-4 h step is unobservable from outside -- the run
-          # object only changes at step boundaries, and the log API needs admin
-          # rights. So push a small progress.txt to the ci-log branch every
-          # 5 min; `curl raw.githubusercontent.com/.../ci-progress/progress.txt`
-          # then answers "how far along is it" without any token. Separate
-          # branch from ci-log on purpose: both force-push, so sharing one
-          # branch meant a heartbeat could erase the archived failure log.
+          # Heartbeat. Two problems this solves at once:
+          #
+          # 1. Visibility. A 2-4 h step is unobservable from outside -- the run
+          #    object only changes at step boundaries, and the log API needs
+          #    admin rights. Every 60 s the *whole* build.log goes to a branch,
+          #    so even a run that dies in two minutes leaves a readable trace.
+          # 2. Collisions. This and the archive step both force-push. Pointing
+          #    them at one shared branch meant run 9's heartbeat erased run 11's
+          #    archived failure log 15 s after it was written, and artifact
+          #    download needs a token, so there was no second copy. Each run now
+          #    gets its own branch: ci-live-<n> while running, ci-log-<n> after.
           REPO="$PWD"
+          LIVE="ci-live-${GITHUB_RUN_NUMBER}"
           (
             cd /tmp && rm -rf hb && mkdir hb && cd hb && git init -q
             git config user.name ci && git config user.email ci@local
             while :; do
-              sleep 300
+              sleep 60
+              for f in build.log make.log prepare.log defconfig.log; do
+                [ -f "$REPO/$f" ] && cp "$REPO/$f" . || true
+              done
               {
                 echo "time  : $(date -u +%FT%TZ)"
                 echo "ref   : ${GITHUB_REF_NAME}  run ${GITHUB_RUN_NUMBER}"
-                if [ -f "$REPO/make.log" ]; then
-                  echo "lines : $(wc -l < "$REPO/make.log")"
-                  echo "---- last 10 ----"
-                  tail -10 "$REPO/make.log"
-                else
-                  echo "lines : 0 (make.log not created yet)"
-                fi
-                echo "---- disk ----"
-                df -h / | tail -1
+                echo "--- sizes (bytes) ---"
+                for f in build.log make.log prepare.log defconfig.log; do
+                  [ -f "$f" ] && echo "$f $(wc -c < "$f")"
+                done
+                echo "--- tail of build.log ---"
+                tail -25 build.log 2>/dev/null || echo "(no build.log)"
               } > progress.txt
-              git add -A >/dev/null 2>&1
-              git commit -qm progress >/dev/null 2>&1
-              git push -q -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" HEAD:ci-progress >/dev/null 2>&1 || true
+              git add -A >/dev/null 2>&1 || true
+              git commit -qm "live $GITHUB_RUN_NUMBER $(date -u +%T)" >/dev/null 2>&1 || true
+              git push -q -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" HEAD:"$LIVE" >/dev/null 2>&1 || true
             done
           ) &
           HB=$!
@@ -169,7 +174,7 @@ jobs:
             } >> "$GITHUB_STEP_SUMMARY"
           done
 
-      - name: Archive log to ci-log branch
+      - name: Archive log to a per-run branch
         if: always()
         run: |
           mkdir -p /tmp/ci
@@ -179,8 +184,10 @@ jobs:
           git config user.name  "ci"
           git config user.email "ci@local"
           git add -A
-          git commit -qm "ci log $(date -u +%FT%TZ) ${GITHUB_REF_NAME}"
-          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" HEAD:ci-log
+          git commit -qm "ci log $(date -u +%FT%TZ) ${GITHUB_REF_NAME} run ${GITHUB_RUN_NUMBER}"
+          # Per-run branch, not a shared ci-log: the heartbeat force-pushes too,
+          # and a shared branch let a later run's heartbeat wipe this log.
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" HEAD:"ci-log-${GITHUB_RUN_NUMBER}"
 
       - name: Verify artifacts
         if: always()
