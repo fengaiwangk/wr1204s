@@ -47,3 +47,8 @@ time: target/linux/prereq#0.07#0.06#0.13
  make[2] -C tools/elfutils compile
  make[2] -C tools/flex compile
  make[2] -C tools/fakeroot compile
+ make[2] -C tools/gengetopt compile
+ make[2] -C tools/mklibs compile
+ make[2] -C tools/patchelf compile
+ make[2] -C tools/gmp compile
+ make[2] -C tools/bison compile
