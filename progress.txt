@@ -1,0 +1,32 @@
+time  : 2026-11-15T01:11:28Z
+ref   : build-bleach  run 15
+--- sizes (bytes) ---
+build.log 2550
+make.log 1437
+defconfig.log 1344
+--- tail of build.log ---
+
+[1;36m[10] ==> Assembling the WiFi driver package (sf_smac)[0m
+     cloning https://github.com/Siflower/sf_wifi.git
+Cloning into '/home/runner/work/wr1204s/wr1204s/sf_wifi'...
+     [1;32m✓[0m driver tree at da991fafab179a2ed495c2925a0bf219ef38e22e + linux-6.18 port
+
+[1;36m[11] ==> Installing LMAC firmware blobs[0m
+     [1;32m✓[0m sf1688_hb_fmac.bin (236768 bytes, md5 verified)
+     [1;32m✓[0m sf1688_lb_fmac.bin (236624 bytes, md5 verified)
+
+[1;36m[12] ==> Seeding kernel config (append-only)[0m
+     appended CONFIG_INPUT_EVDEV=y
+     appended CONFIG_KEYBOARD_GPIO=y
+     [1;32m✓[0m 2 key(s) appended; existing AN8855/DSA options left untouched
+     [1;32m✓[0m AN8855 driver options confirmed present
+
+[1;36m[13] ==> Updating feeds[0m
+     [1;32m✓[0m feeds ready
+
+[1;36m[14] ==> Writing .config[0m
+     [1;32m✓[0m profile tenbay_wr1204s active
+     tools/Makefile: 16 -> 19 comment lines
+     [1;32m✓[0m elfutils + dwarves removed from the host tool list
+
+[1;36m[15] ==> Building (jobs=4) -- first run downloads ~3 GB of sources and takes 2-4 h[0m
