@@ -1,14 +1,9 @@
-time  : 2026-11-15T16:31:37Z
+time  : 2026-11-15T16:32:38Z
 ref   : build-bleach  run 27
 --- sizes (bytes) ---
-build.log 2484
+build.log 2657
+defconfig.log 2577
 --- tail of build.log ---
-
-[1;36m[10] ==> Installing default configuration (keeps the current settings)[0m
-     [1;32m✓[0m network/wireless/dhcp/system/firewall/dropbear + uci-defaults installed
-     LAN 192.168.99.1 | WAN 44.0.30.233 static | WiFi TENDAINF-D9DA + -5G
-     SSH admin/admin on port 12580 (also root/admin)
-
 [1;36m[11] ==> Assembling the WiFi driver package (sf_smac)[0m
      cloning https://github.com/Siflower/sf_wifi.git
 Cloning into '/home/runner/work/wr1204s/wr1204s/sf_wifi'...
@@ -28,3 +23,9 @@ Cloning into '/home/runner/work/wr1204s/wr1204s/sf_wifi'...
      [1;32m✓[0m helloworld commented out of feeds.conf.default
 
 [1;36m[15] ==> Updating feeds[0m
+     [1;32m✓[0m feeds ready
+
+[1;36m[16] ==> Writing .config[0m
+     [1;32m✓[0m profile tenbay_wr1204s active
+
+[1;36m[17] ==> Trimming the default package set[0m

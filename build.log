@@ -53,3 +53,9 @@ Cloning into '/home/runner/work/wr1204s/wr1204s/sf_wifi'...
      [1;32m✓[0m helloworld commented out of feeds.conf.default
 
 [1;36m[15] ==> Updating feeds[0m
+     [1;32m✓[0m feeds ready
+
+[1;36m[16] ==> Writing .config[0m
+     [1;32m✓[0m profile tenbay_wr1204s active
+
+[1;36m[17] ==> Trimming the default package set[0m

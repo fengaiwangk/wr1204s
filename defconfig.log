@@ -1,0 +1,27 @@
+
+WARNING: Makefile 'package/feeds/video/kmscon/Makefile' has a dependency on 'input-support', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-amdgpu', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-radeon', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-intel', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-tegra', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-etnaviv', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-nouveau', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-intel', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-intel', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-amdgpu', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-etnaviv', which does not exist
+.config:4:warning: override: TARGET_MULTI_PROFILE changes choice state
+#
+# configuration written to .config
+#
+WARNING: Makefile 'package/feeds/video/kmscon/Makefile' has a dependency on 'input-support', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-amdgpu', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-radeon', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-intel', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-tegra', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-etnaviv', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-nouveau', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-intel', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-intel', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-amdgpu', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-etnaviv', which does not exist
