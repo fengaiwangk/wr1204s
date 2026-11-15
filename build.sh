@@ -334,6 +334,28 @@ done
 ok "AN8855 driver options confirmed present"
 
 # ------------------------------------------------------------------- feeds --
+# The helloworld feed is Lean's proxy collection (ssr-plus, passwall, ...). Its
+# ssr-plus Makefile carries an invisible sub-option that defaults to y and does
+# `select PACKAGE_xray-core`, so xray-core stays selected even with ssr-plus
+# itself switched off -- an invisible default beats any user choice. Dropping
+# the whole feed is the only reliable way to keep the proxy stack out, and
+# nothing in this image needs it.
+say "Dropping the helloworld feed"
+FEEDS="$SRC/feeds.conf.default"
+[ -f "$FEEDS" ] || FEEDS="$SRC/feeds.conf"
+[ -f "$FEEDS" ] || die "no feeds.conf in $SRC"
+if grep -qE '^src-git[[:space:]]+helloworld' "$FEEDS"; then
+	sed -i -E 's|^(src-git[[:space:]]+helloworld.*)$|# \1|' "$FEEDS"
+	grep -qE '^# src-git[[:space:]]+helloworld' "$FEEDS" \
+		|| die "could not comment out the helloworld feed"
+	ok "helloworld commented out of ${FEEDS#$SRC/}"
+else
+	ok "helloworld feed already absent from ${FEEDS#$SRC/}"
+fi
+# a reused tree keeps the old checkout and its package symlinks around
+rm -rf "$SRC/feeds/helloworld"
+rm -rf "$SRC/package/feeds/helloworld"
+
 say "Updating feeds"
 ( cd "$SRC" && ./scripts/feeds update -a >/dev/null 2>&1 ) || die "feeds update failed"
 ( cd "$SRC" && ./scripts/feeds install -a >/dev/null 2>&1 ) || die "feeds install failed"
