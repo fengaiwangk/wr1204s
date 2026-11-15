@@ -117,8 +117,10 @@ jobs:
           # Heartbeat: a 2-4 h step is unobservable from outside -- the run
           # object only changes at step boundaries, and the log API needs admin
           # rights. So push a small progress.txt to the ci-log branch every
-          # 5 min; `curl raw.githubusercontent.com/.../ci-log/progress.txt`
-          # then answers "how far along is it" without any token.
+          # 5 min; `curl raw.githubusercontent.com/.../ci-progress/progress.txt`
+          # then answers "how far along is it" without any token. Separate
+          # branch from ci-log on purpose: both force-push, so sharing one
+          # branch meant a heartbeat could erase the archived failure log.
           REPO="$PWD"
           (
             cd /tmp && rm -rf hb && mkdir hb && cd hb && git init -q
@@ -140,7 +142,7 @@ jobs:
               } > progress.txt
               git add -A >/dev/null 2>&1
               git commit -qm progress >/dev/null 2>&1
-              git push -q -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" HEAD:ci-log >/dev/null 2>&1 || true
+              git push -q -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" HEAD:ci-progress >/dev/null 2>&1 || true
             done
           ) &
           HB=$!
