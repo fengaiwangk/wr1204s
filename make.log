@@ -60,3 +60,9 @@ time: target/linux/prereq#0.07#0.05#0.11
  make[3] -C tools/mkimage compile
  make[3] -C tools/mpfr compile
  make[3] -C tools/padjffs2 compile
+ make[3] -C tools/quilt compile
+ make[3] -C tools/mpc compile
+ make[3] -C tools/e2fsprogs compile
+ make[3] -C tools/erofs-utils compile
+ make[3] -C tools/firmware-utils compile
+ make[3] -C tools/mtd-utils compile
