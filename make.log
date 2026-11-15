@@ -111,3 +111,9 @@ time: target/linux/prereq#0.09#0.06#0.15
  make[3] -C package/utils/px5g-mbedtls compile
  make[3] -C feeds/packages/libs/libcbor compile
  make[3] -C feeds/packages/libs/libevdev compile
+ make[3] -C feeds/packages/libs/libpam compile
+ make[3] -C package/libs/pcre compile
+ make[3] -C package/kernel/gpio-button-hotplug compile
+ make[3] -C package/libs/jansson compile
+ make[3] -C package/libs/libpcap compile
+ make[3] -C package/network/services/dropbear compile
