@@ -207,3 +207,14 @@ luci-theme-argon does not support CSS source minification
  make[3] -C feeds/luci/modules/luci-lua-runtime compile
  make[3] -C feeds/luci/applications/luci-app-nlbwmon compile
  make[3] -C feeds/luci/applications/luci-app-upnp compile
+ make[3] -C feeds/luci/applications/luci-app-wol compile
+ make[3] -C package/system/procd compile
+ make[3] -C package/boot/uboot-envtools compile
+ make[3] -C feeds/luci/modules/luci-mod-admin-full compile
+ make[3] -C feeds/luci/modules/luci-compat compile
+ make[3] -C feeds/luci/collections/luci-light compile
+ make[3] -C feeds/luci/applications/luci-app-filetransfer compile
+ make[3] -C feeds/luci/collections/luci-ssl compile
+ make[3] -C package/lean/default-settings compile
+ make[3] -C feeds/luci/collections/luci compile
+ make[3] -C package/base-files compile
