@@ -1,8 +1,8 @@
-time  : 2026-11-15T08:21:15Z
+time  : 2026-11-15T08:22:16Z
 ref   : build-bleach  run 23
 --- sizes (bytes) ---
 build.log 2955
-make.log 1931
+make.log 2545
 defconfig.log 2616
 --- tail of build.log ---
 [1;36m[12] ==> Installing LMAC firmware blobs[0m
