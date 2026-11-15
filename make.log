@@ -51,3 +51,6 @@ time: target/linux/prereq#0.08#0.05#0.13
  make[3] -C tools/gengetopt compile
  make[3] -C tools/mklibs compile
  make[3] -C tools/patchelf compile
+ make[3] -C tools/gmp compile
+ make[3] -C tools/bison compile
+ make[3] -C tools/cmake compile
