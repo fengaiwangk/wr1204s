@@ -59,3 +59,5 @@ time: target/linux/prereq#0.08#0.08#0.15
  make[3] -C tools/findutils compile
  make[3] -C tools/mkimage compile
  make[3] -C tools/mpfr compile
+ make[3] -C tools/padjffs2 compile
+ make[3] -C tools/quilt compile
