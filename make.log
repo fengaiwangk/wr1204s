@@ -165,3 +165,13 @@ luci-theme-argon does not support CSS source minification
  make[3] -C feeds/packages/utils/coreutils compile
  make[3] -C feeds/packages/net/nlbwmon compile
  make[3] -C package/network/services/fullconenat-nft compile
+ make[3] -C package/network/ipv6/odhcp6c compile
+ make[3] -C package/network/services/shellsync compile
+ make[3] -C package/network/utils/ipset compile
+ make[3] -C package/system/mtd compile
+ make[3] -C package/system/urngd compile
+ make[3] -C package/system/ubus compile
+ make[3] -C package/system/uci compile
+ make[3] -C package/utils/busybox compile
+ make[3] -C feeds/packages/net/cgi-io compile
+ make[3] -C package/libs/openssl compile
