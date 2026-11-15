@@ -183,3 +183,31 @@ luci-theme-argon does not support CSS source minification
  make[3] -C feeds/luci/libs/luci-lib-base compile
  make[3] -C feeds/luci/contrib/package/ucode-mod-lua compile
  make[3] -C feeds/packages/net/miniupnpd-nftables compile
+ make[3] -C package/network/config/firewall4 compile
+ make[3] -C package/network/services/dnsmasq compile
+ make[3] -C package/libs/udebug compile
+ make[3] -C feeds/luci/libs/rpcd-mod-luci compile
+ make[3] -C feeds/luci/applications/luci-app-arpbind compile
+ make[3] -C feeds/luci/modules/luci-base compile
+ make[3] -C package/network/config/netifd compile
+ make[3] -C package/system/ubox compile
+ make[3] -C feeds/luci/applications/luci-app-package-manager compile
+ make[3] -C feeds/luci/applications/luci-app-firewall compile
+ make[3] -C feeds/luci/applications/luci-app-oui compile
+ make[3] -C feeds/luci/modules/luci-mod-network compile
+ make[3] -C feeds/luci/modules/luci-mod-status compile
+ make[3] -C feeds/luci/modules/luci-mod-system compile
+ make[3] -C feeds/luci/themes/luci-theme-bootstrap compile
+ make[3] -C feeds/luci/modules/luci-lua-runtime compile
+ make[3] -C feeds/luci/applications/luci-app-nlbwmon compile
+ make[3] -C feeds/luci/applications/luci-app-upnp compile
+ make[3] -C feeds/luci/applications/luci-app-wol compile
+ make[3] -C package/system/urandom-seed compile
+ make[3] -C package/system/fstools compile
+ make[3] -C feeds/luci/modules/luci-mod-admin-full compile
+ make[3] -C feeds/luci/modules/luci-compat compile
+ make[3] -C feeds/luci/applications/luci-app-filetransfer compile
+ make[3] -C package/lean/default-settings compile
+ make[3] -C package/system/procd compile
+ make[3] -C package/boot/uboot-envtools compile
+ make[3] -C package/base-files compile
