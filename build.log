@@ -1,0 +1,49 @@
+
+[1;36m[01] ==> Checking host tools[0m
+     [1;32m✓[0m all host tools present
+     cpu cores: 4
+
+[1;36m[02] ==> Preparing source tree (bleach)[0m
+     cloning https://github.com/coolsnowwolf/lede.git (a0c958aee9d6dda2dc2241318b0c7507053ea21b) -- this is ~300 MB, be patient
+     [1;32m✓[0m source tree ready
+
+[1;36m[03] ==> Installing hardware-complete siflower target[0m
+     [1;32m✓[0m target/linux/siflower replaced (181 files)
+
+[1;36m[04] ==> Installing Airoha AN8855 driver[0m
+     [1;32m✓[0m 5 driver sources + 1 header in target/linux/generic/files-6.18
+
+[1;36m[05] ==> Patching AN8855 MAC5 sideband (CPU port)[0m
+     [1;32m✓[0m MAC5 sideband forced for port 5 in RGMII mode (target/linux/generic/files-6.18)
+
+[1;36m[06] ==> Adding Tenbay WR1204S board definition[0m
+     [1;32m✓[0m dts: sf19a2890_wr1204s.dts
+     [1;32m✓[0m device: tenbay_wr1204s (BOARD_NAME tenbay,wr1204s, IMAGE_SIZE 15616k)
+
+[1;36m[07] ==> Pinning the kernel to 6.18[0m
+     [1;32m✓[0m KERNEL_PATCHVER:=6.18 (testing left at 6.12)
+
+[1;36m[08] ==> Clearing the source-only flag[0m
+     [1;32m✓[0m sf19a2890 is buildable
+
+[1;36m[09] ==> Installing default configuration (keeps the current settings)[0m
+     [1;32m✓[0m network/wireless/dhcp/system/firewall/dropbear + uci-defaults installed
+     LAN 192.168.99.1 | WAN 44.0.30.233 static | WiFi TENDAINF-D9DA + -5G
+     SSH admin/admin on port 12580 (also root/admin)
+
+[1;36m[10] ==> Assembling the WiFi driver package (sf_smac)[0m
+     cloning https://github.com/Siflower/sf_wifi.git
+Cloning into '/home/runner/work/wr1204s/wr1204s/sf_wifi'...
+     [1;32m✓[0m driver tree at da991fafab179a2ed495c2925a0bf219ef38e22e + linux-6.18 port
+
+[1;36m[11] ==> Installing LMAC firmware blobs[0m
+     [1;32m✓[0m sf1688_hb_fmac.bin (236768 bytes, md5 verified)
+     [1;32m✓[0m sf1688_lb_fmac.bin (236624 bytes, md5 verified)
+
+[1;36m[12] ==> Seeding kernel config (append-only)[0m
+     appended CONFIG_INPUT_EVDEV=y
+     appended CONFIG_KEYBOARD_GPIO=y
+     [1;32m✓[0m 2 key(s) appended; existing AN8855/DSA options left untouched
+     [1;32m✓[0m AN8855 driver options confirmed present
+
+[1;36m[13] ==> Updating feeds[0m
