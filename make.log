@@ -18,3 +18,11 @@ time: target/linux/prereq#0.10#0.08#0.16
  make[2] -C tools/flock compile
  make[2] -C tools/zstd compile
  make[2] -C tools/sed compile
+ make[2] -C tools/patch compile
+ make[2] -C tools/tar compile
+ make[2] -C tools/m4 compile
+ make[2] -C tools/autoconf-archive compile
+ make[2] -C tools/ninja compile
+ make[2] -C tools/xz compile
+ make[2] -C tools/gnulib compile
+ make[2] -C tools/expat compile
