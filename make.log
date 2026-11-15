@@ -115,3 +115,6 @@ time: target/linux/prereq#0.08#0.05#0.13
  make[3] -C package/libs/pcre compile
  make[3] -C package/kernel/gpio-button-hotplug compile
  make[3] -C package/libs/jansson compile
+ make[3] -C package/libs/libpcap compile
+ make[3] -C package/network/services/dropbear compile
+ make[3] -C package/network/utils/linux-atm compile
