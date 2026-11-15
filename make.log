@@ -229,3 +229,8 @@ luci-theme-argon does not support CSS source minification
  make[3] -C package/lean/ddns-scripts_aliyun compile
  make[3] -C package/lean/ddns-scripts_dnspod compile
  make[2] package/install
+ make[2] target/install
+ make[3] -C target/linux install
+ make[2] package/index
+WARNING: Applying padding in /home/runner/work/wr1204s/wr1204s/openwrt/bin/targets/siflower/sf19a2890/packages/Packages to workaround usign SHA-512 bug!
+ make[2] json_overview_image_info
