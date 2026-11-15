@@ -12,16 +12,25 @@
  *   LEDs       green=GPIO 1, blue=GPIO 2, red=GPIO 3
  *   UART       115200n8
  *
- * Partition layout is taken verbatim from /proc/mtd -- it differs from both
- * the Siflower EVB and the Banana Pi WiFi5 references:
+ * Partition layout. The vendor firmware keeps the whole image in one 15.25 MiB
+ * "firmware" container, but this image is built as kernel + rootfs blobs
+ * (image/sf19a2890.mk: append-kernel | pad-to 64k | append-rootfs), so the DTB
+ * declares them explicitly instead of relying on mtdsplit. Explicit numbering
+ * is what makes root= deterministic:
  *
- *   0x000000  0x020000  spl-loader    (read-only)
- *   0x020000  0x060000  u-boot
- *   0x080000  0x010000  u-boot-env
- *   0x090000  0x010000  factory       (MAC / SN / RGMII delay / WiFi calibration)
- *   0x0A0000  0x010000  product       (vendor product block, ASCII SN at 0x40)
- *   0x0B0000  0xF40000  firmware      (15.25 MiB)
- *   0xFF0000  0x010000  custom        (vendor custom block)
+ *   mtd0  0x000000  0x020000  spl-loader    (read-only)
+ *   mtd1  0x020000  0x060000  u-boot        (read-only)
+ *   mtd2  0x080000  0x010000  u-boot-env
+ *   mtd3  0x090000  0x010000  factory       (MAC / SN / RGMII delay / WiFi cal)
+ *   mtd4  0x0B0000  0x390000  kernel        uImage, 64 KiB aligned
+ *   mtd5  0x440000  0xBB0000  rootfs        squashfs; rootfs_data is split off
+ *   mtd6  0xFF0000  0x010000  custom        (vendor custom block, untouched)
+ *
+ * kernel is sized 0x390000 because the BleachWrt kernel uImage is 3704200 B;
+ * rootfs then starts at 0xB0000 + 0x390000 = 0x440000 and runs to 0xFF0000.
+ * root=/dev/mtdblock5 is therefore fixed and does not depend on mtdsplit order.
+ * The vendor's "product" partition at 0xA0000 is simply not declared -- nothing
+ * reads it, and skipping it keeps the numbering above stable.
  *
  * Port mapping from /etc/config/network:
  *   vlan 1 (LAN) = ports 0 1 2 + 5t (CPU)
@@ -56,18 +65,19 @@
 		 *   意思是内核命令行 = 内置 CONFIG_CMDLINE + 本节点 bootargs，
 		 *   u-boot 的 bootargs 根本不会被读。所以 dtsi 里那句
 		 *   bootargs = "earlycon" 一旦被这里覆盖掉，早期控制台就没了。
+		 *   （实测 boot5：只有 earlycon 在撑输出，真 console 从未注册成功）
 		 *
 		 * console=ttyAMA0,115200
-		 *   UART 是 arm,pl011（config-6.18: CONFIG_SERIAL_AMBA_PL011=y，
-		 *   同时 # CONFIG_SERIAL_8250 is not set），设备名是 ttyAMA0。
-		 *   写成 ttyS0 的话那台设备永远不存在，等于没有 console。
+		 *   UART 是 arm,pl011（config-6.18: CONFIG_SERIAL_AMBA_PL011=y、
+		 *   CONFIG_SERIAL_AMBA_PL011_CONSOLE=y，同时 # CONFIG_SERIAL_8250
+		 *   is not set），设备名是 ttyAMA0。写成 ttyS0 时那台设备永远不存在：
+		 *   内核只能靠 earlycon 输出，procd 会报 "failed to set stdio"。
 		 *
-		 * root=/dev/mtdblock7
-		 *   本 dts 的固定分区是 0..5（firmware 在 5），firmware 带
-		 *   compatible="denx,uimage"，由 mtdsplit 在它后面追加
-		 *   kernel(6) / rootfs(7)，custom 顺延成 8。
+		 * root=/dev/mtdblock5
+		 *   见文件头分区表：kernel=mtd4、rootfs=mtd5。rootfs_data 由
+		 *   squashfs-split 从 rootfs 尾部切出来（mtd7，名字查找，不依赖序号）。
 		 */
-		bootargs = "earlycon console=ttyAMA0,115200 rootfstype=squashfs rootwait root=/dev/mtdblock7";
+		bootargs = "earlycon console=ttyAMA0,115200 rootfstype=squashfs rootwait root=/dev/mtdblock5";
 	};
 
 	memory@0 {
@@ -335,16 +345,15 @@
 				};
 			};
 
-			partition@a0000 {
-				label = "product";
-				reg = <0xa0000 0x10000>;	/* 64 KiB */
+			partition@b0000 {
+				label = "kernel";
+				reg = <0xb0000 0x390000>;	/* 3.56 MiB, uImage 64K 对齐 */
 				read-only;
 			};
 
-			partition@b0000 {
-				compatible = "denx,uimage";
-				label = "firmware";
-				reg = <0xb0000 0xf40000>;	/* 15.25 MiB */
+			partition@440000 {
+				label = "rootfs";
+				reg = <0x440000 0xbb0000>;	/* 11.69 MiB */
 			};
 
 			partition@ff0000 {
