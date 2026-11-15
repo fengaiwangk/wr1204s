@@ -66,6 +66,8 @@ while [ $# -gt 0 ]; do
 	--clean)  CLEAN=1 ;;
 	--prepare) PREPARE_ONLY=1 ;;
 	--skip-elfutils) SKIP_ELFUTILS=1 ;;
+	--tools)   TOOLS_ONLY=1 ;;
+	--keep-elfutils) KEEP_ELFUTILS=1 ;;
 		--src)    SRC="$2"; shift ;;
 		-h|--help) sed -n '2,30p' "$0"; exit 0 ;;
 		*) echo "unknown option: $1" >&2; exit 1 ;;
