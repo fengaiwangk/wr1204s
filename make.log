@@ -225,3 +225,15 @@ luci-theme-argon does not support CSS source minification
  make[3] -C feeds/luci/collections/luci-light compile
  make[3] -C feeds/luci/collections/luci compile
  make[3] -C feeds/luci/collections/luci-ssl compile
+ make[3] -C feeds/packages/net/ddns-scripts compile
+ make[3] -C feeds/luci/applications/luci-app-ddns compile
+ make[3] -C package/lean/ddns-scripts_aliyun compile
+ make[3] -C package/lean/ddns-scripts_dnspod compile
+ make[2] package/install
+make -r world: build failed. Please re-run make with -j1 V=s or V=sc for a higher verbosity level to see what's going on
+make: *** [/home/runner/work/wr1204s/wr1204s/openwrt/include/toplevel.mk:231: world] Error 1
+
+  disk at failure:
+    Filesystem      Size  Used Avail Use% Mounted on
+    /dev/root       146G   48G   98G  33% /
+  build tree: 13G

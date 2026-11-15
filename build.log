@@ -64,3 +64,49 @@ Cloning into '/home/runner/work/wr1204s/wr1204s/sf_wifi'...
      [1;32m✓[0m elfutils + dwarves removed from the host tool list
 
 [1;36m[18] ==> Building (jobs=4) -- first run downloads ~3 GB of sources and takes 2-4 h[0m
+ make[3] -C feeds/luci/applications/luci-app-firewall compile
+ make[3] -C feeds/luci/applications/luci-app-oui compile
+ make[3] -C feeds/luci/modules/luci-mod-network compile
+ make[3] -C feeds/luci/modules/luci-mod-status compile
+ make[3] -C feeds/luci/modules/luci-mod-system compile
+ make[3] -C feeds/luci/themes/luci-theme-bootstrap compile
+ make[3] -C feeds/luci/modules/luci-lua-runtime compile
+ make[3] -C feeds/luci/applications/luci-app-nlbwmon compile
+ make[3] -C feeds/luci/applications/luci-app-upnp compile
+ make[3] -C feeds/luci/applications/luci-app-wol compile
+ make[3] -C package/system/urandom-seed compile
+ make[3] -C package/system/fstools compile
+ make[3] -C feeds/luci/modules/luci-mod-admin-full compile
+ make[3] -C feeds/luci/modules/luci-compat compile
+ make[3] -C feeds/luci/applications/luci-app-filetransfer compile
+ make[3] -C package/lean/default-settings compile
+ make[3] -C package/system/procd compile
+ make[3] -C package/boot/uboot-envtools compile
+ make[3] -C package/base-files compile
+ make[3] -C package/libs/ustream-ssl compile
+ make[3] -C feeds/packages/net/bind compile
+ make[3] -C feeds/packages/net/curl compile
+ make[3] -C feeds/packages/net/iperf3 compile
+ make[3] -C package/libs/ustream-ssl compile
+ make[3] -C feeds/packages/libs/libfido2 compile
+ make[3] -C feeds/packages/net/wget compile
+ make[3] -C package/libs/uclient compile
+ make[3] -C package/network/services/uhttpd compile
+ make[3] -C feeds/packages/net/openssh compile
+ make[3] -C package/system/opkg compile
+ make[3] -C feeds/luci/collections/luci-light compile
+ make[3] -C feeds/luci/collections/luci compile
+ make[3] -C feeds/luci/collections/luci-ssl compile
+ make[3] -C feeds/packages/net/ddns-scripts compile
+ make[3] -C feeds/luci/applications/luci-app-ddns compile
+ make[3] -C package/lean/ddns-scripts_aliyun compile
+ make[3] -C package/lean/ddns-scripts_dnspod compile
+ make[2] package/install
+make -r world: build failed. Please re-run make with -j1 V=s or V=sc for a higher verbosity level to see what's going on
+make: *** [/home/runner/work/wr1204s/wr1204s/openwrt/include/toplevel.mk:231: world] Error 1
+     [1;33m![0m make failed without naming a package (install phase?) -- resuming serially with V=s
+
+  disk at failure:
+    Filesystem      Size  Used Avail Use% Mounted on
+    /dev/root       146G   48G   98G  33% /
+  build tree: 13G
