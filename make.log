@@ -52,3 +52,5 @@ time: target/linux/prereq#0.10#0.08#0.16
  make[2] -C tools/gmp compile
  make[2] -C tools/bison compile
  make[2] -C tools/cmake compile
+ make[2] -C tools/bc compile
+ make[2] -C tools/util-linux compile
