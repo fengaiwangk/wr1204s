@@ -47,3 +47,9 @@ Cloning into '/home/runner/work/wr1204s/wr1204s/sf_wifi'...
      [1;32m✓[0m AN8855 driver options confirmed present
 
 [1;36m[13] ==> Updating feeds[0m
+     [1;32m✓[0m feeds ready
+
+[1;36m[14] ==> Writing .config[0m
+     [1;32m✓[0m profile tenbay_wr1204s active
+
+[1;36m[15] ==> Host tools only (make tools/compile) -- isolates toolchain failures[0m
