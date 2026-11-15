@@ -1,16 +1,10 @@
-time  : 2026-11-15T01:31:37Z
+time  : 2026-11-15T01:32:39Z
 ref   : build-bleach  run 17
 --- sizes (bytes) ---
-build.log 2221
+build.log 2550
+make.log 1641
+defconfig.log 1344
 --- tail of build.log ---
-
-[1;36m[08] ==> Clearing the source-only flag[0m
-     [1;32m✓[0m sf19a2890 is buildable
-
-[1;36m[09] ==> Installing default configuration (keeps the current settings)[0m
-     [1;32m✓[0m network/wireless/dhcp/system/firewall/dropbear + uci-defaults installed
-     LAN 192.168.99.1 | WAN 44.0.30.233 static | WiFi TENDAINF-D9DA + -5G
-     SSH admin/admin on port 12580 (also root/admin)
 
 [1;36m[10] ==> Assembling the WiFi driver package (sf_smac)[0m
      cloning https://github.com/Siflower/sf_wifi.git
@@ -28,3 +22,11 @@ Cloning into '/home/runner/work/wr1204s/wr1204s/sf_wifi'...
      [1;32m✓[0m AN8855 driver options confirmed present
 
 [1;36m[13] ==> Updating feeds[0m
+     [1;32m✓[0m feeds ready
+
+[1;36m[14] ==> Writing .config[0m
+     [1;32m✓[0m profile tenbay_wr1204s active
+     tools/Makefile: 16 -> 19 comment lines
+     [1;32m✓[0m elfutils + dwarves removed from the host tool list
+
+[1;36m[15] ==> Building (jobs=4) -- first run downloads ~3 GB of sources and takes 2-4 h[0m
