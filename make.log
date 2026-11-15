@@ -54,3 +54,7 @@ time: target/linux/prereq#0.07#0.06#0.13
  make[2] -C tools/bison compile
  make[2] -C tools/cmake compile
     ERROR: tools/elfutils failed to build.
+make -r tools/compile: build failed. Please re-run make with -j1 V=s or V=sc for a higher verbosity level to see what's going on
+make: *** [/home/runner/work/wr1204s/wr1204s/openwrt/include/toplevel.mk:231: tools/compile] Error 1
+
+========== VERBOSE RETRY: tools/elfutils ==========
