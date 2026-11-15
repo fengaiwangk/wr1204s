@@ -591,7 +591,40 @@ run_make() {
 
 	FAILED="$(grep -oE 'ERROR: [^ ]+ failed to build' "$MAKELOG" | tail -1 | awk '{print $2}')"
 	if [ -z "$FAILED" ]; then
-		warn "could not identify a failing package from the make output"
+		# The serial install phase (`make -C package install`) runs its children
+		# with -s, so a failure there leaves no package name and no message --
+		# run 22 died exactly like this after 85 minutes with every package
+		# already compiled. Everything is built, so a single-threaded verbose
+		# resume reaches the real failure in minutes; and if the failure was a
+		# parallel-order race, the resume simply finishes the build.
+		warn "make failed without naming a package (install phase?) -- resuming serially with V=s"
+		{ printf '\n  disk at failure:\n'; df -h "$SRC" 2>/dev/null | sed 's/^/    /'
+		  printf '  build tree: %s\n' "$(du -sh "$SRC" 2>/dev/null | cut -f1)"; } 2>&1 | tee -a "$MAKELOG"
+		RESUME_LOG="$HERE/resume.log"
+		: >"$RESUME_LOG"
+		RESUME_TIMEOUT="${RESUME_TIMEOUT:-60m}"
+		# V=s on a full tree prints hundreds of MB; GitHub rejects files over
+		# 100 MB, so keep the tail only. pipefail preserves make's exit code.
+		( cd "$SRC" && set -o pipefail && timeout --signal=INT --kill-after=3m "$RESUME_TIMEOUT" \
+				make -j1 V=s world 2>&1 | tail -c 4000000 ) >"$RESUME_LOG" 2>&1
+		RESUME_RC=$?
+		{
+			printf '\n========== SERIAL RESUME (make -j1 V=s world) rc=%s ==========\n' "$RESUME_RC"
+			printf '\n--- error lines ---\n'
+			grep -nE 'error[: ]|Error [0-9]|ERROR:|No space left|Killed|Permission denied|Collected errors|\*\*\*' \
+				"$RESUME_LOG" 2>/dev/null | tail -25
+			printf '\n--- tail ---\n'
+			tail -60 "$RESUME_LOG"
+			printf '\n========== END SERIAL RESUME ==========\n'
+		} 2>&1 | tee -a "$MAKELOG"
+		# keep make.log bounded: resume.log holds the full V=s transcript and is
+		# archived on its own
+		tail -2000 "$RESUME_LOG" >>"$MAKELOG" 2>/dev/null || true
+		if [ "$RESUME_RC" = 0 ]; then
+			ok "serial resume finished the build -- the parallel failure was an ordering race"
+			return 0
+		fi
+		warn "serial resume also failed (rc=$RESUME_RC) -- the reason is in resume.log above"
 		return 1
 	fi
 

@@ -140,14 +140,14 @@ jobs:
             git config user.name ci && git config user.email ci@local
             while :; do
               sleep 60
-              for f in build.log make.log prepare.log defconfig.log; do
+              for f in build.log make.log resume.log prepare.log defconfig.log; do
                 [ -f "$REPO/$f" ] && cp "$REPO/$f" . || true
               done
               {
                 echo "time  : $(date -u +%FT%TZ)"
                 echo "ref   : ${GITHUB_REF_NAME}  run ${GITHUB_RUN_NUMBER}"
                 echo "--- sizes (bytes) ---"
-                for f in build.log make.log prepare.log defconfig.log; do
+                for f in build.log make.log resume.log prepare.log defconfig.log; do
                   [ -f "$f" ] && echo "$f $(wc -c < "$f")"
                 done
                 echo "--- tail of build.log ---"
@@ -172,7 +172,7 @@ jobs:
       - name: Publish log tail
         if: always()
         run: |
-          for f in build.log prepare.log make.log; do
+          for f in build.log prepare.log make.log resume.log; do
             [ -f "$f" ] || continue
             {
               echo "### $f — last 120 lines"
@@ -186,7 +186,7 @@ jobs:
         if: always()
         run: |
           mkdir -p /tmp/ci
-          cp build.log prepare.log defconfig.log make.log /tmp/ci/ 2>/dev/null || true
+          cp build.log prepare.log defconfig.log make.log resume.log /tmp/ci/ 2>/dev/null || true
           cd /tmp/ci
           git init -q
           git config user.name  "ci"
