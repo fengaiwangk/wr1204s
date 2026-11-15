@@ -56,3 +56,13 @@ Cloning into '/home/runner/work/wr1204s/wr1204s/sf_wifi'...
      [1;32m✓[0m feeds ready
 
 [1;36m[16] ==> Writing .config[0m
+     [1;32m✓[0m profile tenbay_wr1204s active
+
+[1;36m[17] ==> Trimming the default package set[0m
+     ustream backend: libustream-mbedtls 
+     [1;32m✓[0m no file-clash package pairs selected
+     [1;32m✓[0m dropped 7 packages (proxy stack, KMS, FTP, benchmark, design theme)
+     tools/Makefile: 16 -> 19 comment lines
+     [1;32m✓[0m elfutils + dwarves removed from the host tool list
+
+[1;36m[18] ==> Building (jobs=4) -- first run downloads ~3 GB of sources and takes 2-4 h[0m
