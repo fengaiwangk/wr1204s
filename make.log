@@ -218,3 +218,8 @@ luci-theme-argon does not support CSS source minification
  make[3] -C feeds/luci/applications/luci-app-filetransfer compile
  make[3] -C package/lean/default-settings compile
  make[3] -C feeds/packages/net/xray-core compile
+    ERROR: package/feeds/packages/xray-core failed to build.
+make -r world: build failed. Please re-run make with -j1 V=s or V=sc for a higher verbosity level to see what's going on
+make: *** [/home/runner/work/wr1204s/wr1204s/openwrt/include/toplevel.mk:231: world] Error 1
+
+========== VERBOSE RETRY: package/feeds/packages/xray-core ==========
