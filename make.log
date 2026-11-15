@@ -44,3 +44,11 @@ time: target/linux/prereq#0.10#0.08#0.16
  make[2] -C tools/libressl compile
  make[2] -C tools/libtool compile
  make[2] -C tools/dosfstools compile
+ make[2] -C tools/flex compile
+ make[2] -C tools/fakeroot compile
+ make[2] -C tools/gengetopt compile
+ make[2] -C tools/mklibs compile
+ make[2] -C tools/patchelf compile
+ make[2] -C tools/gmp compile
+ make[2] -C tools/bison compile
+ make[2] -C tools/cmake compile
