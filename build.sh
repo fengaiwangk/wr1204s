@@ -390,6 +390,51 @@ if [ "$PROF_OK" = 0 ]; then
 fi
 ok "profile ${DEVICE} active"
 
+# ------------------------------------------------------------- trim packages --
+# Lean's DEFAULT_PACKAGES.router drags the whole proxy stack in, and xray-core
+# cannot link on this board at all:
+#
+#   ld.lld: error: .../cronet-go/lib/linux_mipsle_musl@.../libcronet.a(buffer.o):
+#     floating point ABI '-msoft-float' is incompatible with target
+#     floating point ABI '-mdouble-float'
+#
+# The prebuilt cronet static library is soft-float; 24kf targets link with
+# -mdouble-float, so the final cgo link aborts. No patch of ours can fix a
+# prebuilt blob, and the package is pointless here anyway: xray alone is larger
+# than this device's whole firmware partition. Same for the KMS emulator, the
+# FTP server, the benchmark and the design theme (Argon is what we ship).
+#
+# Dropping them up front costs one defconfig pass; leaving them costs a 90-minute
+# build that dies at link time, which is exactly what run #17 did.
+DROP_PKGS="luci-app-ssr-plus xray-core v2ray-core v2ray-geodata naiveproxy \
+luci-app-passwall luci-app-openclash luci-app-vsftpd luci-app-vlmcsd coremark \
+luci-theme-design luci-app-accesscontrol luci-app-turboacc"
+
+say "Trimming the default package set"
+for pkg in $DROP_PKGS; do
+	printf '# CONFIG_PACKAGE_%s is not set\n' "$pkg" >> "$SRC/.config"
+done
+( cd "$SRC" && make defconfig >>"$DEFLOG" 2>&1 ) || warn "second defconfig returned non-zero"
+
+# An exclusion is only real if no dependency pulled the symbol back in. A symbol
+# that never existed in the tree simply disappears from .config -- that is fine,
+# only "=y" or "=m" means the trim leaked.
+LEAKED=""
+for pkg in $DROP_PKGS; do
+	if grep -qE "^CONFIG_PACKAGE_${pkg}=[ym]" "$SRC/.config"; then
+		LEAKED="$LEAKED $pkg"
+	fi
+done
+if [ -n "$LEAKED" ]; then
+	printf '\n\033[1;31m--- still selected after defconfig ---\033[0m\n'
+	for pkg in $LEAKED; do
+		printf '  %-28s %s\n' "$pkg" \
+			"$(grep -E "^CONFIG_PACKAGE_${pkg}=" "$SRC/.config" | head -1)"
+	done
+	die "package trim did not stick:$LEAKED -- a dependency still selects them"
+fi
+ok "dropped $(printf '%s\n' $DROP_PKGS | wc -l) packages (proxy stack, KMS, FTP, benchmark, design theme)"
+
 # ---------------------------------------------------------------- preflight --
 # The 61 siflower patches-6.18 files were written against kernel 6.18.35, while
 # Lean's tree tracks 6.18.62. Same stable series, but hunks can still drift. A
@@ -559,8 +604,16 @@ for f in "$OUT"/*; do
 	printf '  %-58s %10d bytes\n' "$(basename "$f")" "$(wc -c < "$f")"
 	printf '     sha256 %s\n' "$(sha256sum "$f" | cut -d' ' -f1)"
 done
+
+# kernel / rootfs split and partition fit -- decided here, not at flash time
+printf '\n  image layout:\n'
+LAYOUT_RC=0
+python3 "$HERE/scripts/image_report.py" "$OUT" >"$HERE/layout.txt" 2>&1 || LAYOUT_RC=$?
+sed 's/^/  /' "$HERE/layout.txt"
+[ "$LAYOUT_RC" = 0 ] || warn "image does not fit the firmware partition -- see the layout above"
+
 printf '\n  flash on the router (no sysupgrade -- custom partition layout):\n'
-printf '    cat factory.bin | ssh root@192.168.100.1 "cat > /tmp/fw.bin"\n'
-printf '    ssh root@192.168.100.1 "wr1204s-upgrade -n /tmp/fw.bin && wr1204s-upgrade /tmp/fw.bin && reboot"\n\n'
+printf '    cat factory.bin | ssh root@192.168.99.1 "cat > /tmp/fw.bin"\n'
+printf '    ssh root@192.168.99.1 "wr1204s-upgrade -n /tmp/fw.bin && wr1204s-upgrade /tmp/fw.bin && reboot"\n\n'
 
 # 触发探测（2026-11-15 08:40）：验证 push 事件是否还能拉起工作流
