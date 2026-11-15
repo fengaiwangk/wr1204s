@@ -1,0 +1,237 @@
+WARNING: Makefile 'package/feeds/video/kmscon/Makefile' has a dependency on 'input-support', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-amdgpu', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-radeon', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-intel', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-tegra', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-etnaviv', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-nouveau', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-intel', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-intel', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-amdgpu', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-etnaviv', which does not exist
+make[2]: Entering directory '/home/runner/work/wr1204s/wr1204s/openwrt/scripts/config'
+make[2]: 'conf' is up to date.
+make[2]: Leaving directory '/home/runner/work/wr1204s/wr1204s/openwrt/scripts/config'
+time: target/linux/prereq#0.07#0.06#0.12
+ make[1] world
+ make[2] tools/compile
+ make[2] package/cleanup
+ make[3] -C tools/libdeflate compile
+ make[3] -C tools/flock compile
+ make[3] -C tools/zstd compile
+ make[3] -C tools/sed compile
+ make[3] -C tools/patch compile
+ make[3] -C tools/tar compile
+ make[3] -C tools/autoconf-archive compile
+ make[3] -C tools/m4 compile
+ make[3] -C tools/ninja compile
+ make[3] -C tools/xz compile
+ make[3] -C tools/gnulib compile
+ make[3] -C tools/expat compile
+ make[3] -C tools/zlib compile
+ make[3] -C tools/cpio compile
+ make[3] -C tools/lzma compile
+ make[3] -C tools/make-ext4fs compile
+ make[3] -C tools/mtools compile
+ make[3] -C tools/patch-image compile
+ make[3] -C tools/squashfs4 compile
+ make[3] -C tools/sstrip compile
+ make[3] -C tools/zip compile
+ make[3] -C tools/autoconf compile
+ make[3] -C tools/meson compile
+ make[3] -C tools/pkgconf compile
+ make[3] -C tools/lz4 compile
+ make[3] -C tools/missing-macros compile
+ make[3] -C tools/libressl compile
+ make[3] -C tools/automake compile
+ make[3] -C tools/libtool compile
+ make[3] -C tools/dosfstools compile
+ make[3] -C tools/flex compile
+ make[3] -C tools/fakeroot compile
+ make[3] -C tools/gengetopt compile
+ make[3] -C tools/mklibs compile
+ make[3] -C tools/patchelf compile
+ make[3] -C tools/gmp compile
+ make[3] -C tools/bison compile
+ make[3] -C tools/cmake compile
+ make[3] -C tools/bc compile
+ make[3] -C tools/util-linux compile
+ make[3] -C tools/findutils compile
+ make[3] -C tools/mkimage compile
+ make[3] -C tools/mpfr compile
+ make[3] -C tools/padjffs2 compile
+ make[3] -C tools/quilt compile
+ make[3] -C tools/mpc compile
+ make[3] -C tools/e2fsprogs compile
+ make[3] -C tools/erofs-utils compile
+ make[3] -C tools/firmware-utils compile
+ make[3] -C tools/mtd-utils compile
+ make[2] toolchain/compile
+ make[3] -C toolchain/fortify-headers compile
+ make[3] -C toolchain/gdb compile
+ make[3] -C toolchain/binutils compile
+ make[3] -C toolchain/gcc/initial compile
+ make[3] -C toolchain/kernel-headers compile
+ make[3] -C toolchain/musl compile
+ make[3] -C toolchain/gcc/final compile
+ make[2] target/compile
+ make[3] -C target/linux compile
+ make[2] buildinfo
+ make[2] package/compile
+ make[3] diffconfig buildversion feedsversion
+ make[3] -C package/libs/toolchain compile
+ make[3] -C package/libs/libjson-c host-compile
+ make[3] -C package/libs/ncurses host-compile
+ make[3] -C package/system/fwtool host-compile
+ make[4] scripts/config/conf
+ make[3] -C package/system/usign host-compile
+ make[3] -C package/libs/libsepol compile
+ make[3] -C package/libs/musl-fts compile
+ make[3] -C package/system/openwrt-keyring compile
+ make[3] -C feeds/luci/modules/luci-base host-compile
+ make[3] -C package/utils/lua host-compile
+ make[3] -C feeds/luci/contrib/package/csstidy host-compile
+ make[3] -C package/libs/mbedtls compile
+ make[3] -C package/utils/bzip2 compile
+ make[3] -C package/libs/argp-standalone compile
+ make[3] -C package/libs/libmnl compile
+ make[3] -C feeds/luci/applications/luci-app-autoreboot compile
+ make[3] -C feeds/packages/libs/liburcu compile
+ make[3] -C feeds/packages/libs/libuv compile
+ make[3] -C package/libs/libcap compile
+ make[3] -C package/system/ca-certificates compile
+ make[3] -C feeds/packages/libs/nghttp2 compile
+ make[3] -C feeds/packages/libs/giflib compile
+ make[3] -C feeds/packages/utils/attr compile
+ make[3] -C package/libs/gmp compile
+ make[3] -C feeds/luci/libs/luci-lib-chartjs compile
+ make[3] -C feeds/packages/libs/libcap-ng compile
+ make[3] -C package/libs/libnftnl compile
+ make[3] -C feeds/packages/net/etherwake compile
+ make[3] -C package/utils/px5g-mbedtls compile
+ make[3] -C feeds/packages/libs/libcbor compile
+ make[3] -C feeds/packages/libs/libevdev compile
+ make[3] -C feeds/packages/libs/libpam compile
+ make[3] -C package/libs/pcre compile
+ make[3] -C package/kernel/gpio-button-hotplug compile
+ make[3] -C package/libs/jansson compile
+ make[3] -C package/libs/libpcap compile
+ make[3] -C package/network/services/dropbear compile
+ make[3] -C package/network/utils/linux-atm compile
+ make[3] -C package/network/utils/resolveip compile
+ make[3] -C package/network/utils/tcpdump compile
+ make[3] -C package/libs/libubox host-compile
+ make[3] -C package/libs/libnl-tiny compile
+ make[3] -C package/libs/libjson-c compile
+ make[3] -C package/utils/lua compile
+ make[3] -C package/libs/libmd compile
+ make[3] -C package/libs/zlib compile
+ make[3] -C package/firmware/cypress-firmware compile
+ make[3] -C package/firmware/linux-firmware compile
+ make[3] -C package/system/fwtool compile
+ make[3] -C package/system/ucert host-compile
+ make[3] -C feeds/packages/libs/pcre2 compile
+ make[3] -C feeds/luci/libs/luci-lib-uqr compile
+ make[3] -C feeds/luci/protocols/luci-proto-ppp compile
+ make[3] -C feeds/luci/protocols/luci-proto-ipv6 compile
+ make[3] -C package/libs/elfutils compile
+ make[3] -C feeds/packages/utils/acl compile
+ make[3] -C feeds/luci/libs/luci-lib-ip compile
+ make[3] -C feeds/luci/libs/luci-lib-jsonc compile
+ make[3] -C feeds/luci/libs/luci-lib-nixio compile
+ make[3] -C feeds/packages/libs/libudev-zero compile
+ make[3] -C package/system/opkg host-compile
+ make[3] -C package/libs/libubox compile
+ make[3] -C package/kernel/linux compile
+ make[3] -C package/libs/ncurses compile
+ make[3] -C package/utils/jsonfilter compile
+ make[3] -C package/libs/libselinux compile
+ make[3] -C package/system/usign compile
+ make[3] -C package/libs/ustream-ssl compile
+ make[3] -C feeds/luci/themes/luci-theme-argon compile
+luci-theme-argon does not support CSS source minification
+luci-theme-argon does not support CSS source minification
+ make[3] -C package/network/utils/iptables compile
+ make[3] -C package/kernel/cryptodev-linux compile
+ make[3] -C feeds/packages/utils/coreutils compile
+ make[3] -C feeds/packages/net/nlbwmon compile
+ make[3] -C package/network/services/fullconenat-nft compile
+ make[3] -C package/network/ipv6/odhcp6c compile
+ make[3] -C package/network/services/shellsync compile
+ make[3] -C package/network/utils/ipset compile
+ make[3] -C package/system/mtd compile
+ make[3] -C package/system/urngd compile
+ make[3] -C package/system/ubus compile
+ make[3] -C package/system/uci compile
+ make[3] -C package/utils/util-linux compile
+ make[3] -C package/utils/busybox compile
+ make[3] -C package/network/utils/iwinfo compile
+ make[3] -C feeds/packages/net/cgi-io compile
+ make[3] -C feeds/luci/applications/luci-app-argon-config compile
+ make[3] -C package/libs/libbpf compile
+ make[3] -C package/libs/openssl compile
+ make[3] -C feeds/packages/admin/htop compile
+ make[3] -C feeds/packages/utils/nano compile
+ make[3] -C package/network/utils/nftables compile
+ make[3] -C package/network/services/odhcpd compile
+ make[3] -C package/network/services/ppp compile
+ make[3] -C package/utils/ucode compile
+ make[3] -C package/network/utils/iproute2 compile
+ make[3] -C feeds/packages/net/miniupnpd-nftables compile
+ make[3] -C package/libs/uclient compile
+ make[3] -C package/network/config/firewall4 compile
+ make[3] -C package/network/services/dnsmasq compile
+ make[3] -C package/system/opkg compile
+ make[3] -C package/libs/udebug compile
+ make[3] -C feeds/luci/contrib/package/lucihttp compile
+ make[3] -C package/system/rpcd compile
+ make[3] -C feeds/luci/contrib/package/ucode-mod-html compile
+ make[3] -C package/network/services/uhttpd compile
+ make[3] -C feeds/luci/applications/luci-app-arpbind compile
+ make[3] -C feeds/luci/libs/luci-lib-base compile
+ make[3] -C feeds/luci/contrib/package/ucode-mod-lua compile
+ make[3] -C package/network/config/netifd compile
+ make[3] -C package/system/ubox compile
+ make[3] -C feeds/luci/libs/rpcd-mod-luci compile
+ make[3] -C feeds/luci/libs/rpcd-mod-rrdns compile
+ make[3] -C package/system/urandom-seed compile
+ make[3] -C package/system/fstools compile
+ make[3] -C feeds/luci/modules/luci-base compile
+ make[3] -C feeds/luci/applications/luci-app-package-manager compile
+ make[3] -C feeds/luci/applications/luci-app-firewall compile
+ make[3] -C feeds/luci/applications/luci-app-oui compile
+ make[3] -C feeds/luci/modules/luci-mod-network compile
+ make[3] -C feeds/luci/modules/luci-mod-status compile
+ make[3] -C feeds/luci/modules/luci-mod-system compile
+ make[3] -C feeds/luci/themes/luci-theme-bootstrap compile
+ make[3] -C feeds/luci/modules/luci-lua-runtime compile
+ make[3] -C feeds/luci/applications/luci-app-nlbwmon compile
+ make[3] -C feeds/luci/applications/luci-app-upnp compile
+ make[3] -C feeds/luci/applications/luci-app-wol compile
+ make[3] -C package/system/procd compile
+ make[3] -C package/boot/uboot-envtools compile
+ make[3] -C feeds/luci/modules/luci-mod-admin-full compile
+ make[3] -C feeds/luci/modules/luci-compat compile
+ make[3] -C feeds/luci/collections/luci-light compile
+ make[3] -C feeds/luci/applications/luci-app-filetransfer compile
+ make[3] -C feeds/luci/collections/luci-ssl compile
+ make[3] -C package/lean/default-settings compile
+ make[3] -C feeds/luci/collections/luci compile
+ make[3] -C package/base-files compile
+ make[3] -C feeds/packages/net/bind compile
+ make[3] -C feeds/packages/net/curl compile
+ make[3] -C feeds/packages/net/iperf3 compile
+ make[3] -C feeds/packages/libs/libfido2 compile
+ make[3] -C feeds/packages/net/wget compile
+ make[3] -C feeds/packages/net/openssh compile
+ make[3] -C feeds/packages/net/ddns-scripts compile
+ make[3] -C feeds/luci/applications/luci-app-ddns compile
+ make[3] -C package/lean/ddns-scripts_aliyun compile
+ make[3] -C package/lean/ddns-scripts_dnspod compile
+ make[2] package/install
+ make[2] target/install
+ make[3] -C target/linux install
+ make[2] package/index
+WARNING: Applying padding in /home/runner/work/wr1204s/wr1204s/openwrt/bin/targets/siflower/sf19a2890/packages/Packages to workaround usign SHA-512 bug!
+ make[2] json_overview_image_info
+ make[2] checksum
