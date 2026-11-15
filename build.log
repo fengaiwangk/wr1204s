@@ -1,0 +1,253 @@
+
+[1;36m[01] ==> Checking host tools[0m
+     [1;32m✓[0m all host tools present
+     cpu cores: 4
+
+[1;36m[02] ==> Preparing source tree (bleach)[0m
+     cloning https://github.com/coolsnowwolf/lede.git (a0c958aee9d6dda2dc2241318b0c7507053ea21b) -- this is ~300 MB, be patient
+     [1;32m✓[0m source tree ready
+
+[1;36m[03] ==> Installing hardware-complete siflower target[0m
+     [1;32m✓[0m target/linux/siflower replaced (181 files)
+
+[1;36m[04] ==> Installing Airoha AN8855 driver[0m
+     [1;32m✓[0m 5 driver sources + 1 header in target/linux/generic/files-6.18
+
+[1;36m[05] ==> Patching AN8855 MAC5 sideband (CPU port)[0m
+     [1;32m✓[0m MAC5 sideband forced for port 5 in RGMII mode (target/linux/generic/files-6.18)
+
+[1;36m[06] ==> Adding Tenbay WR1204S board definition[0m
+     [1;32m✓[0m dts: sf19a2890_wr1204s.dts
+     [1;32m✓[0m device: tenbay_wr1204s (BOARD_NAME tenbay,wr1204s, IMAGE_SIZE 15616k)
+
+[1;36m[07] ==> Pinning the kernel to 6.18[0m
+     [1;32m✓[0m KERNEL_PATCHVER:=6.18 (testing left at 6.12)
+
+[1;36m[08] ==> Clearing the source-only flag[0m
+     [1;32m✓[0m sf19a2890 is buildable
+
+[1;36m[09] ==> Switching the subtarget to DEVICE_TYPE:=basic[0m
+     [1;32m✓[0m device package list now comes only from image/sf19a2890.mk
+
+[1;36m[10] ==> Installing default configuration (keeps the current settings)[0m
+     [1;32m✓[0m network/wireless/dhcp/system/firewall/dropbear + uci-defaults installed
+     LAN 192.168.99.1 | WAN 44.0.30.233 static | WiFi TENDAINF-D9DA + -5G
+     SSH admin/admin on port 12580 (also root/admin)
+
+[1;36m[11] ==> Assembling the WiFi driver package (sf_smac)[0m
+     cloning https://github.com/Siflower/sf_wifi.git
+Cloning into '/home/runner/work/wr1204s/wr1204s/sf_wifi'...
+     [1;32m✓[0m driver tree at da991fafab179a2ed495c2925a0bf219ef38e22e + linux-6.18 port
+
+[1;36m[12] ==> Installing LMAC firmware blobs[0m
+     [1;32m✓[0m sf1688_hb_fmac.bin (236768 bytes, md5 verified)
+     [1;32m✓[0m sf1688_lb_fmac.bin (236624 bytes, md5 verified)
+
+[1;36m[13] ==> Seeding kernel config (append-only)[0m
+     appended CONFIG_INPUT_EVDEV=y
+     appended CONFIG_KEYBOARD_GPIO=y
+     [1;32m✓[0m 2 key(s) appended; existing AN8855/DSA options left untouched
+     [1;32m✓[0m AN8855 driver options confirmed present
+
+[1;36m[14] ==> Dropping the helloworld feed[0m
+     [1;32m✓[0m helloworld commented out of feeds.conf.default
+
+[1;36m[15] ==> Updating feeds[0m
+     [1;32m✓[0m feeds ready
+
+[1;36m[16] ==> Writing .config[0m
+     [1;32m✓[0m profile tenbay_wr1204s active
+
+[1;36m[17] ==> Trimming the default package set[0m
+     ustream backend: libustream-mbedtls 
+     [1;32m✓[0m no file-clash package pairs selected
+     [1;32m✓[0m dropped 7 packages (proxy stack, KMS, FTP, benchmark, design theme)
+     tools/Makefile: 16 -> 19 comment lines
+     [1;32m✓[0m elfutils + dwarves removed from the host tool list
+
+[1;36m[18] ==> Building (jobs=4) -- first run downloads ~3 GB of sources and takes 2-4 h[0m
+ make[3] -C tools/zlib compile
+ make[3] -C tools/cpio compile
+ make[3] -C tools/lzma compile
+ make[3] -C tools/make-ext4fs compile
+ make[3] -C tools/mtools compile
+ make[3] -C tools/patch-image compile
+ make[3] -C tools/squashfs4 compile
+ make[3] -C tools/sstrip compile
+ make[3] -C tools/zip compile
+ make[3] -C tools/autoconf compile
+ make[3] -C tools/meson compile
+ make[3] -C tools/pkgconf compile
+ make[3] -C tools/lz4 compile
+ make[3] -C tools/missing-macros compile
+ make[3] -C tools/automake compile
+ make[3] -C tools/libressl compile
+ make[3] -C tools/libtool compile
+ make[3] -C tools/dosfstools compile
+ make[3] -C tools/cmake compile
+ make[3] -C tools/flex compile
+ make[3] -C tools/fakeroot compile
+ make[3] -C tools/gengetopt compile
+ make[3] -C tools/mklibs compile
+ make[3] -C tools/patchelf compile
+ make[3] -C tools/gmp compile
+ make[3] -C tools/bison compile
+ make[3] -C tools/bc compile
+ make[3] -C tools/util-linux compile
+ make[3] -C tools/findutils compile
+ make[3] -C tools/mkimage compile
+ make[3] -C tools/mpfr compile
+ make[3] -C tools/e2fsprogs compile
+ make[3] -C tools/erofs-utils compile
+ make[3] -C tools/mtd-utils compile
+ make[3] -C tools/padjffs2 compile
+ make[3] -C tools/quilt compile
+ make[3] -C tools/mpc compile
+    ERROR: tools/erofs-utils failed to build.
+make -r world: build failed. Please re-run make with -j1 V=s or V=sc for a higher verbosity level to see what's going on
+make: *** [/home/runner/work/wr1204s/wr1204s/openwrt/include/toplevel.mk:231: world] Error 1
+     [1;33m![0m make failed at tools/erofs-utils -- rebuilding it alone with V=s to surface the reason
+
+========== VERBOSE RETRY: tools/erofs-utils ==========
+WARNING: Makefile 'package/feeds/video/kmscon/Makefile' has a dependency on 'input-support', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-amdgpu', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-radeon', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-intel', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-tegra', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-etnaviv', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-nouveau', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-intel', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-intel', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-amdgpu', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-etnaviv', which does not exist
+make[2]: Entering directory '/home/runner/work/wr1204s/wr1204s/openwrt/scripts/config'
+make[2]: 'conf' is up to date.
+make[2]: Leaving directory '/home/runner/work/wr1204s/wr1204s/openwrt/scripts/config'
+make[1]: Entering directory '/home/runner/work/wr1204s/wr1204s/openwrt'
++ mkdir -p /home/runner/work/wr1204s/wr1204s/openwrt/staging_dir/target-mipsel_24kc+24kf_musl
++ cd /home/runner/work/wr1204s/wr1204s/openwrt/staging_dir/target-mipsel_24kc+24kf_musl
++ mkdir -p bin lib stamp usr/include usr/lib
+mkdir -p /home/runner/work/wr1204s/wr1204s/openwrt/build_dir/target-mipsel_24kc+24kf_musl/stamp
+touch /home/runner/work/wr1204s/wr1204s/openwrt/staging_dir/target-mipsel_24kc+24kf_musl/.prepared
++ mkdir -p /home/runner/work/wr1204s/wr1204s/openwrt/staging_dir/host
++ cd /home/runner/work/wr1204s/wr1204s/openwrt/staging_dir/host
++ mkdir -p bin lib stamp usr/include usr/lib
+mkdir -p /home/runner/work/wr1204s/wr1204s/openwrt/build_dir/host/stamp /home/runner/work/wr1204s/wr1204s/openwrt/staging_dir/host/include/sys
+install -m0644 /home/runner/work/wr1204s/wr1204s/openwrt/tools/include/*.h /home/runner/work/wr1204s/wr1204s/openwrt/staging_dir/host/include/
+install -m0644 /home/runner/work/wr1204s/wr1204s/openwrt/tools/include/sys/*.h /home/runner/work/wr1204s/wr1204s/openwrt/staging_dir/host/include/sys/
+ln -snf lib /home/runner/work/wr1204s/wr1204s/openwrt/staging_dir/host/lib64
+touch /home/runner/work/wr1204s/wr1204s/openwrt/staging_dir/host/.prepared
+make[2]: Entering directory '/home/runner/work/wr1204s/wr1204s/openwrt/tools/libdeflate'
+make[2]: Leaving directory '/home/runner/work/wr1204s/wr1204s/openwrt/tools/libdeflate'
+time: tools/libdeflate/compile#0.02#0.01#0.03
+make[2]: Entering directory '/home/runner/work/wr1204s/wr1204s/openwrt/tools/zstd'
+make[2]: Leaving directory '/home/runner/work/wr1204s/wr1204s/openwrt/tools/zstd'
+time: tools/zstd/compile#0.02#0.02#0.03
+make[2]: Entering directory '/home/runner/work/wr1204s/wr1204s/openwrt/tools/flock'
+make[2]: Leaving directory '/home/runner/work/wr1204s/wr1204s/openwrt/tools/flock'
+time: tools/flock/compile#0.02#0.01#0.03
+make[2]: Entering directory '/home/runner/work/wr1204s/wr1204s/openwrt/tools/sed'
+make[2]: Leaving directory '/home/runner/work/wr1204s/wr1204s/openwrt/tools/sed'
+time: tools/sed/compile#0.02#0.02#0.04
+make[2]: Entering directory '/home/runner/work/wr1204s/wr1204s/openwrt/tools/patch'
+make[2]: Leaving directory '/home/runner/work/wr1204s/wr1204s/openwrt/tools/patch'
+time: tools/patch/compile#0.02#0.01#0.03
+make[2]: Entering directory '/home/runner/work/wr1204s/wr1204s/openwrt/tools/tar'
+make[2]: Leaving directory '/home/runner/work/wr1204s/wr1204s/openwrt/tools/tar'
+time: tools/tar/compile#0.02#0.02#0.04
+make[2]: Entering directory '/home/runner/work/wr1204s/wr1204s/openwrt/tools/m4'
+make[2]: Leaving directory '/home/runner/work/wr1204s/wr1204s/openwrt/tools/m4'
+time: tools/m4/compile#0.02#0.02#0.04
+make[2]: Entering directory '/home/runner/work/wr1204s/wr1204s/openwrt/tools/autoconf'
+make[2]: Leaving directory '/home/runner/work/wr1204s/wr1204s/openwrt/tools/autoconf'
+time: tools/autoconf/compile#0.01#0.02#0.03
+make[2]: Entering directory '/home/runner/work/wr1204s/wr1204s/openwrt/tools/ninja'
+make[2]: Leaving directory '/home/runner/work/wr1204s/wr1204s/openwrt/tools/ninja'
+time: tools/ninja/compile#0.02#0.02#0.04
+make[2]: Entering directory '/home/runner/work/wr1204s/wr1204s/openwrt/tools/meson'
+make[2]: Leaving directory '/home/runner/work/wr1204s/wr1204s/openwrt/tools/meson'
+time: tools/meson/compile#0.01#0.01#0.03
+make[2]: Entering directory '/home/runner/work/wr1204s/wr1204s/openwrt/tools/pkgconf'
+make[2]: Leaving directory '/home/runner/work/wr1204s/wr1204s/openwrt/tools/pkgconf'
+time: tools/pkgconf/compile#0.02#0.02#0.04
+make[2]: Entering directory '/home/runner/work/wr1204s/wr1204s/openwrt/tools/xz'
+make[2]: Leaving directory '/home/runner/work/wr1204s/wr1204s/openwrt/tools/xz'
+time: tools/xz/compile#0.02#0.02#0.04
+make[2]: Entering directory '/home/runner/work/wr1204s/wr1204s/openwrt/tools/automake'
+make[2]: Leaving directory '/home/runner/work/wr1204s/wr1204s/openwrt/tools/automake'
+time: tools/automake/compile#0.02#0.02#0.04
+make[2]: Entering directory '/home/runner/work/wr1204s/wr1204s/openwrt/tools/gnulib'
+make[2]: Leaving directory '/home/runner/work/wr1204s/wr1204s/openwrt/tools/gnulib'
+time: tools/gnulib/compile#0.04#0.05#0.07
+make[2]: Entering directory '/home/runner/work/wr1204s/wr1204s/openwrt/tools/missing-macros'
+make[2]: Leaving directory '/home/runner/work/wr1204s/wr1204s/openwrt/tools/missing-macros'
+time: tools/missing-macros/compile#0.01#0.01#0.03
+make[2]: Entering directory '/home/runner/work/wr1204s/wr1204s/openwrt/tools/libtool'
+make[2]: Leaving directory '/home/runner/work/wr1204s/wr1204s/openwrt/tools/libtool'
+time: tools/libtool/compile#0.02#0.02#0.04
+make[2]: Entering directory '/home/runner/work/wr1204s/wr1204s/openwrt/tools/lz4'
+make[2]: Leaving directory '/home/runner/work/wr1204s/wr1204s/openwrt/tools/lz4'
+time: tools/lz4/compile#0.02#0.02#0.04
+make[2]: Entering directory '/home/runner/work/wr1204s/wr1204s/openwrt/tools/flex'
+make[2]: Leaving directory '/home/runner/work/wr1204s/wr1204s/openwrt/tools/flex'
+time: tools/flex/compile#0.02#0.02#0.04
+make[2]: Entering directory '/home/runner/work/wr1204s/wr1204s/openwrt/tools/bison'
+make[2]: Leaving directory '/home/runner/work/wr1204s/wr1204s/openwrt/tools/bison'
+time: tools/bison/compile#0.02#0.02#0.04
+make[2]: Entering directory '/home/runner/work/wr1204s/wr1204s/openwrt/tools/util-linux'
+make[2]: Leaving directory '/home/runner/work/wr1204s/wr1204s/openwrt/tools/util-linux'
+time: tools/util-linux/compile#0.02#0.03#0.05
+make[2]: Entering directory '/home/runner/work/wr1204s/wr1204s/openwrt/tools/erofs-utils'
+mkdir -p /home/runner/work/wr1204s/wr1204s/openwrt/dl
+SHELL= flock /home/runner/work/wr1204s/wr1204s/openwrt/tmp/.erofs-utils-1.8.10.tar.gz.flock -c '  	/home/runner/work/wr1204s/wr1204s/openwrt/scripts/download.pl "/home/runner/work/wr1204s/wr1204s/openwrt/dl" "erofs-utils-1.8.10.tar.gz" "05eb4edebe11decce6ecb34e98d2f80c8cd283c2f2967d8ba7efd58418570514" "" "https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs-utils.git/snapshot/"    '
++ curl -f --connect-timeout 20 --retry 5 --location https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs-utils.git/snapshot/erofs-utils-1.8.10.tar.gz
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:02 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:03 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:04 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:05 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:06 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:07 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:08 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:09 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:10 --:--:--     0
+curl: (28) Failed to connect to git.kernel.org port 443 after 10215 ms: Connection timed out
+Warning: Problem : timeout. Will retry in 1 seconds. 5 retries left.
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:02 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:03 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:04 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:05 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:06 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:07 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:08 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:09 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:10 --:--:--     0
+curl: (28) Failed to connect to git.kernel.org port 443 after 10201 ms: Connection timed out
+Warning: Problem : timeout. Will retry in 2 seconds. 4 retries left.
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:02 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:03 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:04 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:05 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:06 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:07 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:08 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:09 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:10 --:--:--     0
+curl: (28) Failed to connect to git.kernel.org port 443 after 10202 ms: Connection timed out
+Warning: Problem : timeout. Will retry in 4 seconds. 3 retries left.
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:02 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:03 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:04 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:05 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:06 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:07 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:08 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:09 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:10 --:--:--     0
+curl: (28) Failed to connect to git.kernel.org port 443 after 10201 ms: Connection timed out
+Warning: Problem : timeout. Will retry in 8 seconds. 2 retries left.
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:02 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:03 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:04 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:05 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:06 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:07 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:08 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:09 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:10 --:--:--     0
+curl: (28) Failed to connect to git.kernel.org port 443 after 10203 ms: Connection timed out
+Warning: Problem : timeout. Will retry in 16 seconds. 1 retries left.
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:02 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:03 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:04 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:05 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:06 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:07 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:08 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:09 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:10 --:--:--     0
+curl: (28) Failed to connect to git.kernel.org port 443 after 10217 ms: Connection timed out
+Download failed.
++ curl -f --connect-timeout 20 --retry 5 --location https://sources.cdn.openwrt.org/erofs-utils-1.8.10.tar.gz
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0   146    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+curl: (22) The requested URL returned error: 404
+Download failed.
++ curl -f --connect-timeout 20 --retry 5 --location https://sources.openwrt.org/erofs-utils-1.8.10.tar.gz
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0   146    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+curl: (22) The requested URL returned error: 404
+Download failed.
++ curl -f --connect-timeout 20 --retry 5 --location https://mirror2.openwrt.org/sources/erofs-utils-1.8.10.tar.gz
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0   153    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+curl: (22) The requested URL returned error: 404
+Download failed.
+No more mirrors to try - giving up.
+make[2]: *** [Makefile:39: /home/runner/work/wr1204s/wr1204s/openwrt/dl/erofs-utils-1.8.10.tar.gz] Error 2
+make[2]: Leaving directory '/home/runner/work/wr1204s/wr1204s/openwrt/tools/erofs-utils'
+time: tools/erofs-utils/compile#0.13#0.04#93.83
+    ERROR: tools/erofs-utils failed to build.
+make[1]: *** [tools/Makefile:235: tools/erofs-utils/compile] Error 1
+make[1]: Leaving directory '/home/runner/work/wr1204s/wr1204s/openwrt'
+make: *** [/home/runner/work/wr1204s/wr1204s/openwrt/include/toplevel.mk:231: tools/erofs-utils/compile] Error 2
+
+========== END VERBOSE RETRY ==========
+
+[1;31m!!! build failed -- full output in /home/runner/work/wr1204s/wr1204s/make.log[0m
