@@ -139,3 +139,12 @@ time: target/linux/prereq#0.08#0.05#0.13
  make[3] -C feeds/luci/libs/luci-lib-ip compile
  make[3] -C feeds/luci/libs/luci-lib-jsonc compile
  make[3] -C feeds/luci/libs/luci-lib-nixio compile
+ make[3] -C feeds/packages/libs/libudev-zero compile
+ make[3] -C package/system/opkg host-compile
+ make[3] -C package/libs/libubox compile
+ make[3] -C package/kernel/linux compile
+ make[3] -C package/libs/ncurses compile
+ make[3] -C package/utils/jsonfilter compile
+ make[3] -C package/libs/libselinux compile
+ make[3] -C package/system/usign compile
+ make[3] -C package/kernel/cryptodev-linux compile
