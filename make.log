@@ -42,3 +42,7 @@ time: target/linux/prereq#0.09#0.06#0.15
  make[3] -C tools/missing-macros compile
  make[3] -C tools/pkgconf compile
  make[3] -C tools/lz4 compile
+ make[3] -C tools/automake compile
+ make[3] -C tools/libressl compile
+ make[3] -C tools/libtool compile
+ make[3] -C tools/dosfstools compile
