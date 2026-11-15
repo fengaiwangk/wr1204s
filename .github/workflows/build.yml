@@ -211,6 +211,24 @@ jobs:
           if-no-files-found: error
           retention-days: 30
 
+      # Artifact download requires authentication even on a public repo
+      # (anonymous GET .../artifacts/<id>/zip returns 401), which makes a
+      # finished build unreachable without a token. Push the images to their
+      # own branch as well so they can be fetched with a plain anonymous
+      # curl from raw.githubusercontent.com.
+      - name: Publish firmware to a branch
+        if: success() && steps.build.outputs.prepare_only != 'true'
+        run: |
+          mkdir -p /tmp/fw && cp out/* /tmp/fw/ 2>/dev/null || true
+          cd /tmp/fw
+          ls -la
+          git init -q
+          git config user.name  "ci"
+          git config user.email "ci@local"
+          git add -A
+          git commit -qm "firmware run ${GITHUB_RUN_NUMBER} ${GITHUB_REF_NAME}"
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" HEAD:"firmware-${GITHUB_RUN_NUMBER}"
+
       - name: Upload build log
         if: always()
         uses: actions/upload-artifact@v4
