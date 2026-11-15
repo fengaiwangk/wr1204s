@@ -38,3 +38,12 @@ time: target/linux/prereq#0.07#0.06#0.13
  make[2] -C tools/meson compile
  make[2] -C tools/autoconf compile
  make[2] -C tools/pkgconf compile
+ make[2] -C tools/lz4 compile
+ make[2] -C tools/missing-macros compile
+ make[2] -C tools/automake compile
+ make[2] -C tools/libressl compile
+ make[2] -C tools/dosfstools compile
+ make[2] -C tools/libtool compile
+ make[2] -C tools/elfutils compile
+ make[2] -C tools/flex compile
+ make[2] -C tools/fakeroot compile
