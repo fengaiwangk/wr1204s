@@ -41,7 +41,10 @@ on:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: false
+  # A newer push supersedes the older run in the same group. Without this the
+  # delivery run sits in `pending` behind a stale validation run for hours, and
+  # the stale run's image is unreachable anyway (it predates the branch push).
+  cancel-in-progress: true
 
 permissions:
   contents: write
