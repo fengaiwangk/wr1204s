@@ -144,3 +144,14 @@ time: target/linux/prereq#0.09#0.06#0.15
  make[3] -C package/libs/libubox compile
  make[3] -C package/kernel/linux compile
  make[3] -C package/libs/ncurses compile
+ make[3] -C package/utils/jsonfilter compile
+ make[3] -C package/libs/libselinux compile
+ make[3] -C package/system/usign compile
+ make[3] -C package/libs/ustream-ssl compile
+ make[3] -C feeds/luci/themes/luci-theme-argon compile
+luci-theme-argon does not support CSS source minification
+luci-theme-argon does not support CSS source minification
+ make[3] -C package/network/utils/iptables compile
+ make[3] -C package/kernel/cryptodev-linux compile
+ make[3] -C feeds/packages/net/nlbwmon compile
+ make[3] -C feeds/packages/admin/htop compile
