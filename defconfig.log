@@ -25,3 +25,6 @@ WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdr
 WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-intel', which does not exist
 WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-amdgpu', which does not exist
 WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-etnaviv', which does not exist
+#
+# configuration written to .config
+#
