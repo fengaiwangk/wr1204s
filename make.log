@@ -72,3 +72,4 @@ time: target/linux/prereq#0.08#0.05#0.13
  make[3] -C toolchain/fortify-headers compile
  make[3] -C toolchain/gcc/initial compile
  make[3] -C toolchain/kernel-headers compile
+ make[3] -C toolchain/musl compile
