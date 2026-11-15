@@ -1,0 +1,377 @@
+WARNING: Makefile 'package/feeds/video/kmscon/Makefile' has a dependency on 'input-support', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-amdgpu', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-radeon', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-intel', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-tegra', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-etnaviv', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-nouveau', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-intel', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-intel', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-amdgpu', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-etnaviv', which does not exist
+make[2]: Entering directory '/home/runner/work/wr1204s/wr1204s/openwrt/scripts/config'
+make[2]: 'conf' is up to date.
+make[2]: Leaving directory '/home/runner/work/wr1204s/wr1204s/openwrt/scripts/config'
+time: target/linux/prereq#0.07#0.05#0.11
+ make[1] world
+ make[2] tools/compile
+ make[2] package/cleanup
+ make[3] -C tools/flock compile
+ make[3] -C tools/libdeflate compile
+ make[3] -C tools/zstd compile
+ make[3] -C tools/sed compile
+ make[3] -C tools/patch compile
+ make[3] -C tools/tar compile
+ make[3] -C tools/m4 compile
+ make[3] -C tools/autoconf-archive compile
+ make[3] -C tools/ninja compile
+ make[3] -C tools/xz compile
+ make[3] -C tools/gnulib compile
+ make[3] -C tools/expat compile
+ make[3] -C tools/zlib compile
+ make[3] -C tools/cpio compile
+ make[3] -C tools/lzma compile
+ make[3] -C tools/make-ext4fs compile
+ make[3] -C tools/mtools compile
+ make[3] -C tools/patch-image compile
+ make[3] -C tools/squashfs4 compile
+ make[3] -C tools/sstrip compile
+ make[3] -C tools/zip compile
+ make[3] -C tools/autoconf compile
+ make[3] -C tools/meson compile
+ make[3] -C tools/pkgconf compile
+ make[3] -C tools/lz4 compile
+ make[3] -C tools/missing-macros compile
+ make[3] -C tools/automake compile
+ make[3] -C tools/libressl compile
+ make[3] -C tools/libtool compile
+ make[3] -C tools/dosfstools compile
+ make[3] -C tools/flex compile
+ make[3] -C tools/fakeroot compile
+ make[3] -C tools/gengetopt compile
+ make[3] -C tools/mklibs compile
+ make[3] -C tools/patchelf compile
+ make[3] -C tools/gmp compile
+ make[3] -C tools/cmake compile
+ make[3] -C tools/bison compile
+ make[3] -C tools/bc compile
+ make[3] -C tools/util-linux compile
+ make[3] -C tools/findutils compile
+ make[3] -C tools/mkimage compile
+ make[3] -C tools/mpfr compile
+ make[3] -C tools/padjffs2 compile
+ make[3] -C tools/quilt compile
+ make[3] -C tools/mpc compile
+ make[3] -C tools/e2fsprogs compile
+ make[3] -C tools/erofs-utils compile
+ make[3] -C tools/firmware-utils compile
+ make[3] -C tools/mtd-utils compile
+ make[2] toolchain/compile
+ make[3] -C toolchain/fortify-headers compile
+ make[3] -C toolchain/gdb compile
+ make[3] -C toolchain/binutils compile
+ make[3] -C toolchain/gcc/initial compile
+ make[3] -C toolchain/kernel-headers compile
+ make[3] -C toolchain/musl compile
+ make[3] -C toolchain/gcc/final compile
+ make[2] target/compile
+ make[3] -C target/linux compile
+ make[2] buildinfo
+ make[2] package/compile
+ make[3] -C package/libs/libjson-c host-compile
+ make[3] -C package/libs/toolchain compile
+ make[3] -C package/libs/ncurses host-compile
+ make[3] diffconfig buildversion feedsversion
+ make[3] -C package/system/fwtool host-compile
+ make[4] scripts/config/conf
+ make[3] -C package/system/usign host-compile
+ make[3] -C package/libs/libsepol compile
+ make[3] -C package/libs/musl-fts compile
+ make[3] -C package/system/openwrt-keyring compile
+ make[3] -C feeds/luci/modules/luci-base host-compile
+ make[3] -C package/utils/lua host-compile
+ make[3] -C feeds/luci/contrib/package/csstidy host-compile
+ make[3] -C package/libs/mbedtls compile
+ make[3] -C package/utils/bzip2 compile
+ make[3] -C package/libs/argp-standalone compile
+ make[3] -C package/libs/libmnl compile
+ make[3] -C feeds/luci/applications/luci-app-autoreboot compile
+ make[3] -C feeds/packages/libs/liburcu compile
+ make[3] -C feeds/packages/libs/libuv compile
+ make[3] -C package/libs/libcap compile
+ make[3] -C package/system/ca-certificates compile
+ make[3] -C feeds/packages/libs/nghttp2 compile
+ make[3] -C feeds/packages/libs/giflib compile
+ make[3] -C feeds/packages/utils/attr compile
+ make[3] -C package/libs/gmp compile
+ make[3] -C feeds/luci/libs/luci-lib-chartjs compile
+ make[3] -C feeds/packages/libs/libcap-ng compile
+ make[3] -C package/libs/libnftnl compile
+ make[3] -C feeds/packages/net/vlmcsd compile
+ make[3] -C feeds/packages/net/etherwake compile
+ make[3] -C package/utils/px5g-mbedtls compile
+ make[3] -C feeds/luci/themes/luci-theme-design compile
+ make[3] -C feeds/packages/utils/coremark compile
+ make[3] -C feeds/packages/libs/libcbor compile
+ make[3] -C feeds/packages/libs/libevdev compile
+ make[3] -C feeds/packages/libs/libpam compile
+ make[3] -C package/libs/pcre compile
+ make[3] -C feeds/packages/lang/golang/golang host-compile
+ make[3] -C package/lean/upx host-compile
+ make[3] -C package/kernel/gpio-button-hotplug compile
+ make[3] -C package/libs/jansson compile
+ make[3] -C package/libs/libpcap compile
+ make[3] -C package/network/services/dropbear compile
+ make[3] -C package/network/utils/linux-atm compile
+ make[3] -C package/network/utils/resolveip compile
+ make[3] -C package/network/utils/tcpdump compile
+ make[3] -C package/libs/libubox host-compile
+ make[3] -C package/libs/libnl-tiny compile
+ make[3] -C package/libs/libjson-c compile
+ make[3] -C package/utils/lua compile
+ make[3] -C package/libs/libmd compile
+ make[3] -C package/libs/zlib compile
+ make[3] -C package/firmware/cypress-firmware compile
+ make[3] -C package/firmware/linux-firmware compile
+ make[3] -C package/libs/ncurses compile
+ make[3] -C package/system/fwtool compile
+ make[3] -C package/system/ucert host-compile
+ make[3] -C feeds/packages/libs/pcre2 compile
+ make[3] -C feeds/luci/libs/luci-lib-uqr compile
+ make[3] -C feeds/luci/protocols/luci-proto-ppp compile
+ make[3] -C feeds/luci/protocols/luci-proto-ipv6 compile
+ make[3] -C package/libs/elfutils compile
+ make[3] -C feeds/packages/utils/acl compile
+ make[3] -C feeds/luci/libs/luci-lib-ip compile
+ make[3] -C feeds/luci/libs/luci-lib-jsonc compile
+ make[3] -C feeds/luci/libs/luci-lib-nixio compile
+ make[3] -C feeds/luci/applications/luci-app-vlmcsd compile
+ make[3] -C feeds/packages/admin/htop compile
+ make[3] -C feeds/packages/utils/nano compile
+ make[3] -C feeds/packages/libs/libudev-zero compile
+ make[3] -C package/system/opkg host-compile
+ make[3] -C package/libs/libubox compile
+ make[3] -C package/kernel/linux compile
+ make[3] -C package/utils/util-linux compile
+ make[3] -C package/utils/jsonfilter compile
+ make[3] -C package/libs/libselinux compile
+ make[3] -C package/system/usign compile
+ make[3] -C package/kernel/cryptodev-linux compile
+ make[3] -C feeds/luci/themes/luci-theme-argon compile
+luci-theme-argon does not support CSS source minification
+luci-theme-argon does not support CSS source minification
+ make[3] -C package/libs/libbpf compile
+ make[3] -C package/network/utils/iptables compile
+ make[3] -C feeds/packages/utils/coreutils compile
+ make[3] -C feeds/packages/net/nlbwmon compile
+ make[3] -C package/network/services/fullconenat-nft compile
+ make[3] -C package/network/ipv6/odhcp6c compile
+ make[3] -C package/network/services/shellsync compile
+ make[3] -C package/network/utils/ipset compile
+ make[3] -C package/system/mtd compile
+ make[3] -C package/system/urngd compile
+ make[3] -C package/system/ubus compile
+ make[3] -C package/system/uci compile
+ make[3] -C package/utils/busybox compile
+ make[3] -C feeds/packages/net/cgi-io compile
+ make[3] -C package/libs/openssl compile
+ make[3] -C feeds/luci/applications/luci-app-argon-config compile
+ make[3] -C package/network/utils/iproute2 compile
+ make[3] -C feeds/packages/net/miniupnpd-nftables compile
+ make[3] -C package/network/utils/nftables compile
+ make[3] -C package/network/services/odhcpd compile
+ make[3] -C package/network/services/ppp compile
+ make[3] -C package/utils/ucode compile
+ make[3] -C package/network/utils/iwinfo compile
+ make[3] -C feeds/luci/applications/luci-app-arpbind compile
+ make[3] -C feeds/luci/contrib/package/ucode-mod-lua compile
+ make[3] -C package/network/config/firewall4 compile
+ make[3] -C package/network/services/dnsmasq compile
+ make[3] -C package/libs/udebug compile
+ make[3] -C feeds/luci/contrib/package/lucihttp compile
+ make[3] -C package/system/rpcd compile
+ make[3] -C feeds/luci/contrib/package/ucode-mod-html compile
+ make[3] -C feeds/luci/libs/luci-lib-base compile
+ make[3] -C package/network/config/netifd compile
+ make[3] -C package/system/ubox compile
+ make[3] -C feeds/luci/libs/rpcd-mod-luci compile
+ make[3] -C feeds/luci/libs/rpcd-mod-rrdns compile
+ make[3] -C package/system/urandom-seed compile
+ make[3] -C package/system/fstools compile
+ make[3] -C feeds/luci/modules/luci-base compile
+ make[3] -C feeds/luci/applications/luci-app-package-manager compile
+ make[3] -C feeds/luci/applications/luci-app-firewall compile
+ make[3] -C feeds/luci/applications/luci-app-oui compile
+ make[3] -C feeds/luci/modules/luci-mod-network compile
+ make[3] -C feeds/luci/modules/luci-mod-status compile
+ make[3] -C feeds/luci/modules/luci-mod-system compile
+ make[3] -C feeds/luci/themes/luci-theme-bootstrap compile
+ make[3] -C feeds/luci/modules/luci-lua-runtime compile
+ make[3] -C feeds/luci/applications/luci-app-nlbwmon compile
+ make[3] -C feeds/luci/applications/luci-app-upnp compile
+ make[3] -C feeds/luci/applications/luci-app-wol compile
+ make[3] -C package/system/procd compile
+ make[3] -C package/boot/uboot-envtools compile
+ make[3] -C feeds/luci/modules/luci-mod-admin-full compile
+ make[3] -C feeds/luci/modules/luci-compat compile
+ make[3] -C package/base-files compile
+ make[3] -C feeds/luci/applications/luci-app-filetransfer compile
+ make[3] -C package/lean/default-settings compile
+ make[3] -C feeds/packages/net/xray-core compile
+    ERROR: package/feeds/packages/xray-core failed to build.
+make -r world: build failed. Please re-run make with -j1 V=s or V=sc for a higher verbosity level to see what's going on
+make: *** [/home/runner/work/wr1204s/wr1204s/openwrt/include/toplevel.mk:231: world] Error 1
+
+========== VERBOSE RETRY: package/feeds/packages/xray-core ==========
+transport/internet/splithttp/dialer.go
+transport/internet/splithttp/h1_conn.go
+transport/internet/splithttp/hub.go
+transport/internet/splithttp/mux.go
+transport/internet/splithttp/mux_test.go
+transport/internet/splithttp/splithttp.go
+transport/internet/splithttp/splithttp_test.go
+transport/internet/splithttp/upload_queue.go
+transport/internet/splithttp/upload_queue_test.go
+transport/internet/splithttp/xpadding.go
+transport/internet/stat/connection.go
+transport/internet/system_dialer.go
+transport/internet/system_dialer_windows_test.go
+transport/internet/system_listener.go
+transport/internet/system_listener_test.go
+transport/internet/tagged/tagged.go
+transport/internet/tagged/taggedimpl/impl.go
+transport/internet/tagged/taggedimpl/taggedimpl.go
+transport/internet/tcp/config.go
+transport/internet/tcp/config.pb.go
+transport/internet/tcp/config.proto
+transport/internet/tcp/dialer.go
+transport/internet/tcp/hub.go
+transport/internet/tcp/sockopt_darwin.go
+transport/internet/tcp/sockopt_freebsd.go
+transport/internet/tcp/sockopt_linux.go
+transport/internet/tcp/sockopt_linux_test.go
+transport/internet/tcp/sockopt_other.go
+transport/internet/tcp/tcp.go
+transport/internet/tcp_hub.go
+transport/internet/tls/config.go
+transport/internet/tls/config.pb.go
+transport/internet/tls/config.proto
+transport/internet/tls/config_other.go
+transport/internet/tls/config_test.go
+transport/internet/tls/config_windows.go
+transport/internet/tls/ech.go
+transport/internet/tls/ech_test.go
+transport/internet/tls/grpc.go
+transport/internet/tls/pin.go
+transport/internet/tls/pin_test.go
+transport/internet/tls/tls.go
+transport/internet/tls/unsafe.go
+transport/internet/transport_clients.go
+transport/internet/tuic/config.pb.go
+transport/internet/tuic/config.proto
+transport/internet/tuic/hub.go
+transport/internet/udp/config.go
+transport/internet/udp/config.pb.go
+transport/internet/udp/config.proto
+transport/internet/udp/dialer.go
+transport/internet/udp/dispatcher.go
+transport/internet/udp/dispatcher_test.go
+transport/internet/udp/hub.go
+transport/internet/udp/hub_darwin.go
+transport/internet/udp/hub_freebsd.go
+transport/internet/udp/hub_linux.go
+transport/internet/udp/hub_openbsd.go
+transport/internet/udp/hub_openbsd_test.go
+transport/internet/udp/hub_other.go
+transport/internet/udp/udp.go
+transport/internet/websocket/config.go
+transport/internet/websocket/config.pb.go
+transport/internet/websocket/config.proto
+transport/internet/websocket/connection.go
+transport/internet/websocket/dialer.go
+transport/internet/websocket/hub.go
+transport/internet/websocket/ws.go
+transport/internet/websocket/ws_test.go
+transport/internet/xdrive/client.go
+transport/internet/xdrive/client_test.go
+transport/internet/xdrive/config.pb.go
+transport/internet/xdrive/config.proto
+transport/internet/xdrive/conn.go
+transport/internet/xdrive/drive.go
+transport/internet/xdrive/drive_caps_test.go
+transport/internet/xdrive/drive_live_latency_test.go
+transport/internet/xdrive/drive_live_test.go
+transport/internet/xdrive/drive_live_write_test.go
+transport/internet/xdrive/drive_test.go
+transport/internet/xdrive/drive_token_test.go
+transport/internet/xdrive/jsonpath.go
+transport/internet/xdrive/local.go
+transport/internet/xdrive/local_other.go
+transport/internet/xdrive/local_windows.go
+transport/internet/xdrive/local_windows_test.go
+transport/internet/xdrive/params.go
+transport/internet/xdrive/s3.go
+transport/internet/xdrive/slots.go
+transport/internet/xdrive/slots_stall_test.go
+transport/internet/xdrive/slots_test.go
+transport/internet/xdrive/storage.go
+transport/internet/xdrive/template.go
+transport/internet/xdrive/template_test.go
+transport/internet/xdrive/wal.go
+transport/internet/xdrive/xdrive.go
+transport/internet/xdrive/xdrive_announce_err_test.go
+transport/internet/xdrive/xdrive_staleness_test.go
+transport/internet/xdrive/xdrive_test.go
+transport/internet/xdrive/yandex_live_test.go
+transport/link.go
+transport/pipe/impl.go
+transport/pipe/pipe.go
+transport/pipe/pipe_test.go
+transport/pipe/reader.go
+transport/pipe/writer.go
+
+/home/runner/work/wr1204s/wr1204s/openwrt/staging_dir/target-mipsel_24kc+24kf_musl/usr/share/gocode/src does not exist, skipping symlinks
+
+touch /home/runner/work/wr1204s/wr1204s/openwrt/build_dir/target-mipsel_24kc+24kf_musl/Xray-core-26.11.9/.configured_ddfb129f3713017fc97c2b3954adce2b
+rm -f /home/runner/work/wr1204s/wr1204s/openwrt/build_dir/target-mipsel_24kc+24kf_musl/Xray-core-26.11.9/.built
+touch /home/runner/work/wr1204s/wr1204s/openwrt/build_dir/target-mipsel_24kc+24kf_musl/Xray-core-26.11.9/.built_check
+CONFIG_GOLANG_MOD_CACHE_WORLD_READABLE="" GO_BUILD_CACHE_DIR="/home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-build" GO_MOD_CACHE_DIR="/home/runner/work/wr1204s/wr1204s/openwrt/dl/go-mod-cache" GO_MOD_ARGS="-modcacherw" GO_PKG="github.com/xtls/xray-core" GO_INSTALL_EXTRA="" GO_INSTALL_ALL="" GO_SOURCE_ONLY="" GO_BUILD_PKG="github.com/xtls/xray-core/main" GO_EXCLUDES="" GO_GO_GENERATE="" GO_INSTALL_BIN_PATH="/usr/bin" BUILD_DIR="/home/runner/work/wr1204s/wr1204s/openwrt/build_dir/target-mipsel_24kc+24kf_musl/Xray-core-26.11.9" GO_BUILD_DIR="/home/runner/work/wr1204s/wr1204s/openwrt/build_dir/target-mipsel_24kc+24kf_musl/Xray-core-26.11.9/.go_work/build" GO_BUILD_BIN_DIR="/home/runner/work/wr1204s/wr1204s/openwrt/build_dir/target-mipsel_24kc+24kf_musl/Xray-core-26.11.9/.go_work/build/bin/linux_mipsle" GO_BUILD_DEPENDS_PATH="/usr/share/gocode" GO_BUILD_DEPENDS_SRC="/home/runner/work/wr1204s/wr1204s/openwrt/staging_dir/target-mipsel_24kc+24kf_musl/usr/share/gocode/src" GOOS="linux" GOARCH="mipsle" GO386="" GOAMD64="" GOARM="" GOARM64="" GOMIPS="hardfloat" GOMIPS64="" GOPPC64="" CGO_ENABLED=1 CC="mipsel-openwrt-linux-musl-gcc" CXX="mipsel-openwrt-linux-musl-g++" CGO_CFLAGS="-Os -pipe -mno-branch-likely -mtune=24kc -fno-caller-saves -fno-plt -fhonour-copts -fmacro-prefix-map=/home/runner/work/wr1204s/wr1204s/openwrt/build_dir/target-mipsel_24kc+24kf_musl/Xray-core-26.11.9=Xray-core-26.11.9 -Wformat -Werror=format-security -fstack-protector -D_FORTIFY_SOURCE=1 -Wl,-z,now -Wl,-z,relro" CGO_CPPFLAGS="-I/home/runner/work/wr1204s/wr1204s/openwrt/staging_dir/toolchain-mipsel_24kc+24kf_gcc-13.3.0_musl/usr/include -I/home/runner/work/wr1204s/wr1204s/openwrt/staging_dir/toolchain-mipsel_24kc+24kf_gcc-13.3.0_musl/include -I/home/runner/work/wr1204s/wr1204s/openwrt/staging_dir/toolchain-mipsel_24kc+24kf_gcc-13.3.0_musl/include/fortify" CGO_CXXFLAGS="-Os -pipe -mno-branch-likely -mtune=24kc -fno-caller-saves -fno-plt -fhonour-copts -fmacro-prefix-map=/home/runner/work/wr1204s/wr1204s/openwrt/build_dir/target-mipsel_24kc+24kf_musl/Xray-core-26.11.9=Xray-core-26.11.9 -Wformat -Werror=format-security -fstack-protector -D_FORTIFY_SOURCE=1 -Wl,-z,now -Wl,-z,relro" CGO_LDFLAGS="-L/home/runner/work/wr1204s/wr1204s/openwrt/staging_dir/toolchain-mipsel_24kc+24kf_gcc-13.3.0_musl/usr/lib -L/home/runner/work/wr1204s/wr1204s/openwrt/staging_dir/toolchain-mipsel_24kc+24kf_gcc-13.3.0_musl/lib -znow -zrelro -B/home/runner/work/wr1204s/wr1204s/openwrt/build_dir/target-mipsel_24kc+24kf_musl/Xray-core-26.11.9/.cronet-clang/bin -fuse-ld=lld -Wl,-no-pie " GOPATH="/home/runner/work/wr1204s/wr1204s/openwrt/build_dir/target-mipsel_24kc+24kf_musl/Xray-core-26.11.9/.go_work/build" GOCACHE="/home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-build" GOMODCACHE="/home/runner/work/wr1204s/wr1204s/openwrt/dl/go-mod-cache" GOENV=off GOTOOLCHAIN=local /usr/bin/env bash /home/runner/work/wr1204s/wr1204s/openwrt/feeds/packages/lang/golang/golang-build.sh build -v -buildvcs=false -trimpath -ldflags "all=-linkmode external -extldflags '-L/home/runner/work/wr1204s/wr1204s/openwrt/staging_dir/toolchain-mipsel_24kc+24kf_gcc-13.3.0_musl/usr/lib -L/home/runner/work/wr1204s/wr1204s/openwrt/staging_dir/toolchain-mipsel_24kc+24kf_gcc-13.3.0_musl/lib -Wl,-z,now -Wl,-z,relro -B/home/runner/work/wr1204s/wr1204s/openwrt/build_dir/target-mipsel_24kc+24kf_musl/Xray-core-26.11.9/.cronet-clang/bin -fuse-ld=lld -Wl,-no-pie'"       -installsuffix "hardfloat"   -ldflags "-s -w -X github.com/xtls/xray-core/core.build=OpenWrt -X github.com/xtls/xray-core/core.version=26.11.9 -linkmode external -extldflags '-L/home/runner/work/wr1204s/wr1204s/openwrt/staging_dir/toolchain-mipsel_24kc+24kf_gcc-13.3.0_musl/usr/lib -L/home/runner/work/wr1204s/wr1204s/openwrt/staging_dir/toolchain-mipsel_24kc+24kf_gcc-13.3.0_musl/lib -Wl,-z,now -Wl,-z,relro -B/home/runner/work/wr1204s/wr1204s/openwrt/build_dir/target-mipsel_24kc+24kf_musl/Xray-core-26.11.9/.cronet-clang/bin -fuse-ld=lld -Wl,-no-pie'" -tags "with_naive_outbound with_musl" 
+Finding targets
+
+Building targets
+# github.com/xtls/xray-core/main
+/home/runner/work/wr1204s/wr1204s/openwrt/staging_dir/hostpkg/lib/go-cross/pkg/tool/linux_amd64/link: running mipsel-openwrt-linux-musl-gcc failed: exit status 1
+/home/runner/work/wr1204s/wr1204s/openwrt/staging_dir/toolchain-mipsel_24kc+24kf_gcc-13.3.0_musl/bin/mipsel-openwrt-linux-musl-gcc -mabi=32 -s -Wl,--build-id=0xadc04db5703fa0a2d77a5afcab9a91d409575776 -o $WORK/b001/exe/a.out -Wl,--export-dynamic-symbol=_cgo_panic -Wl,--export-dynamic-symbol=_cgo_topofstack -Wl,--export-dynamic-symbol=cronetBidirectionalStreamOnCanceled -Wl,--export-dynamic-symbol=cronetBidirectionalStreamOnFailed -Wl,--export-dynamic-symbol=cronetBidirectionalStreamOnReadCompleted -Wl,--export-dynamic-symbol=cronetBidirectionalStreamOnResponseHeadersReceived -Wl,--export-dynamic-symbol=cronetBidirectionalStreamOnResponseTrailersReceived -Wl,--export-dynamic-symbol=cronetBidirectionalStreamOnStreamReady -Wl,--export-dynamic-symbol=cronetBidirectionalStreamOnSucceed -Wl,--export-dynamic-symbol=cronetBidirectionalStreamOnWriteCompleted -Wl,--export-dynamic-symbol=cronetBufferCallbackOnDestroy -Wl,--export-dynamic-symbol=cronetBufferGetData -Wl,--export-dynamic-symbol=cronetBufferGetSize -Wl,--export-dynamic-symbol=cronetBufferInitWithAlloc -Wl,--export-dynamic-symbol=cronetBufferInitWithDataAndCallback -Wl,--export-dynamic-symbol=cronetDialerCallback -Wl,--export-dynamic-symbol=cronetEngineAddRequestFinishedListener -Wl,--export-dynamic-symbol=cronetEngineGetDefaultUserAgent -Wl,--export-dynamic-symbol=cronetEngineGetVersionString -Wl,--export-dynamic-symbol=cronetEngineRemoveRequestFinishedListener -Wl,--export-dynamic-symbol=cronetEngineShutdown -Wl,--export-dynamic-symbol=cronetEngineStartNetLogToFile -Wl,--export-dynamic-symbol=cronetEngineStartWithParams -Wl,--export-dynamic-symbol=cronetEngineStopNetLog -Wl,--export-dynamic-symbol=cronetExecutorExecute -Wl,--export-dynamic-symbol=cronetRunnableRun -Wl,--export-dynamic-symbol=cronetSocketCloseCallback -Wl,--export-dynamic-symbol=cronetURLRequestCallbackOnCanceled -Wl,--export-dynamic-symbol=cronetURLRequestCallbackOnFailed -Wl,--export-dynamic-symbol=cronetURLRequestCallbackOnReadCompleted -Wl,--export-dynamic-symbol=cronetURLRequestCallbackOnRedirectReceived -Wl,--export-dynamic-symbol=cronetURLRequestCallbackOnResponseStarted -Wl,--export-dynamic-symbol=cronetURLRequestCallbackOnSucceeded -Wl,--export-dynamic-symbol=cronetURLRequestFinishedInfoListenerOnRequestFinished -Wl,--export-dynamic-symbol=cronetURLRequestStatusListenerOnStatus -Wl,--export-dynamic-symbol=cronetUdpDialerCallback -Wl,--export-dynamic-symbol=cronetUploadDataProviderClose -Wl,--export-dynamic-symbol=cronetUploadDataProviderGetLength -Wl,--export-dynamic-symbol=cronetUploadDataProviderRead -Wl,--export-dynamic-symbol=cronetUploadDataProviderRewind -Wl,--export-dynamic-symbol=cronetUploadDataSinkOnReadError -Wl,--export-dynamic-symbol=cronetUploadDataSinkOnReadSucceeded -Wl,--export-dynamic-symbol=cronetUploadDataSinkOnRewindError -Wl,--export-dynamic-symbol=cronetUploadDataSinkOnRewindSucceeded -Wl,--export-dynamic-symbol=cronetUrlRequestCancel -Wl,--export-dynamic-symbol=cronetUrlRequestFollowRedirect -Wl,--export-dynamic-symbol=cronetUrlRequestGetStatus -Wl,--export-dynamic-symbol=cronetUrlRequestInitWithParams -Wl,--export-dynamic-symbol=cronetUrlRequestIsDone -Wl,--export-dynamic-symbol=cronetUrlRequestRead -Wl,--export-dynamic-symbol=cronetUrlRequestStart -Wl,--export-dynamic-symbol=crosscall2 -Wl,--compress-debug-sections=zlib /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/go.o /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/000000.o /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/000001.o /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/000002.o /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/000003.o /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/000004.o /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/000005.o /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/000006.o /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/000007.o /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/000008.o /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/000009.o /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/000010.o /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/000011.o /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/000012.o /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/000013.o /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/000014.o /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/000015.o /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/000016.o /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/000017.o /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/000018.o /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/000019.o /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/000020.o /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/000021.o /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/000022.o /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/000023.o /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/000024.o /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/000025.o /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/000026.o /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/000027.o /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/000028.o /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/000029.o /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/000030.o /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/000031.o /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/000032.o /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/000033.o /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/000034.o /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/000035.o /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/000036.o /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/000037.o /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/000038.o /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/000039.o /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/000040.o /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/000041.o /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/000042.o /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/000043.o /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/000044.o /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/000045.o /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/000046.o /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/000047.o /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/000048.o /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/000049.o /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/000050.o /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/000051.o /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/000052.o /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/000053.o /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/000054.o /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/000055.o /home/runner/work/wr1204s/wr1204s/openwrt/tmp/go-link-724751137/000056.o -L/home/runner/work/wr1204s/wr1204s/openwrt/staging_dir/toolchain-mipsel_24kc+24kf_gcc-13.3.0_musl/usr/lib -L/home/runner/work/wr1204s/wr1204s/openwrt/staging_dir/toolchain-mipsel_24kc+24kf_gcc-13.3.0_musl/lib -znow -zrelro -B/home/runner/work/wr1204s/wr1204s/openwrt/build_dir/target-mipsel_24kc+24kf_musl/Xray-core-26.11.9/.cronet-clang/bin -fuse-ld=lld -Wl,-no-pie -lresolv -L/home/runner/work/wr1204s/wr1204s/openwrt/staging_dir/toolchain-mipsel_24kc+24kf_gcc-13.3.0_musl/usr/lib -L/home/runner/work/wr1204s/wr1204s/openwrt/staging_dir/toolchain-mipsel_24kc+24kf_gcc-13.3.0_musl/lib -znow -zrelro -B/home/runner/work/wr1204s/wr1204s/openwrt/build_dir/target-mipsel_24kc+24kf_musl/Xray-core-26.11.9/.cronet-clang/bin -fuse-ld=lld -Wl,-no-pie -L/home/runner/work/wr1204s/wr1204s/openwrt/staging_dir/toolchain-mipsel_24kc+24kf_gcc-13.3.0_musl/usr/lib -L/home/runner/work/wr1204s/wr1204s/openwrt/staging_dir/toolchain-mipsel_24kc+24kf_gcc-13.3.0_musl/lib -znow -zrelro -B/home/runner/work/wr1204s/wr1204s/openwrt/build_dir/target-mipsel_24kc+24kf_musl/Xray-core-26.11.9/.cronet-clang/bin -fuse-ld=lld -Wl,-no-pie -L/home/runner/work/wr1204s/wr1204s/openwrt/dl/go-mod-cache/github.com/sagernet/cronet-go/lib/linux_mipsle_musl@v0.0.0-20260929213014-a1cafd93eb1f -l:libcronet.a -latomic -ldl -lpthread -lrt -lresolv -static -L/home/runner/work/wr1204s/wr1204s/openwrt/staging_dir/toolchain-mipsel_24kc+24kf_gcc-13.3.0_musl/usr/lib -L/home/runner/work/wr1204s/wr1204s/openwrt/staging_dir/toolchain-mipsel_24kc+24kf_gcc-13.3.0_musl/lib -znow -zrelro -B/home/runner/work/wr1204s/wr1204s/openwrt/build_dir/target-mipsel_24kc+24kf_musl/Xray-core-26.11.9/.cronet-clang/bin -fuse-ld=lld -Wl,-no-pie -lpthread -no-pie -L/home/runner/work/wr1204s/wr1204s/openwrt/staging_dir/toolchain-mipsel_24kc+24kf_gcc-13.3.0_musl/usr/lib -L/home/runner/work/wr1204s/wr1204s/openwrt/staging_dir/toolchain-mipsel_24kc+24kf_gcc-13.3.0_musl/lib -Wl,-z,now -Wl,-z,relro -B/home/runner/work/wr1204s/wr1204s/openwrt/build_dir/target-mipsel_24kc+24kf_musl/Xray-core-26.11.9/.cronet-clang/bin -fuse-ld=lld -Wl,-no-pie
+ld.lld: error: /home/runner/work/wr1204s/wr1204s/openwrt/dl/go-mod-cache/github.com/sagernet/cronet-go/lib/linux_mipsle_musl@v0.0.0-20260929213014-a1cafd93eb1f/libcronet.a(buffer.o): floating point ABI '-msoft-float' is incompatible with target floating point ABI '-mdouble-float'
+ld.lld: error: /home/runner/work/wr1204s/wr1204s/openwrt/dl/go-mod-cache/github.com/sagernet/cronet-go/lib/linux_mipsle_musl@v0.0.0-20260929213014-a1cafd93eb1f/libcronet.a(engine.o): floating point ABI '-msoft-float' is incompatible with target floating point ABI '-mdouble-float'
+ld.lld: error: /home/runner/work/wr1204s/wr1204s/openwrt/dl/go-mod-cache/github.com/sagernet/cronet-go/lib/linux_mipsle_musl@v0.0.0-20260929213014-a1cafd93eb1f/libcronet.a(field_trial_params.o): floating point ABI '-msoft-float' is incompatible with target floating point ABI '-mdouble-float'
+ld.lld: error: /home/runner/work/wr1204s/wr1204s/openwrt/dl/go-mod-cache/github.com/sagernet/cronet-go/lib/linux_mipsle_musl@v0.0.0-20260929213014-a1cafd93eb1f/libcronet.a(features.o): floating point ABI '-msoft-float' is incompatible with target floating point ABI '-mdouble-float'
+ld.lld: error: /home/runner/work/wr1204s/wr1204s/openwrt/dl/go-mod-cache/github.com/sagernet/cronet-go/lib/linux_mipsle_musl@v0.0.0-20260929213014-a1cafd93eb1f/libcronet.a(feature_list.o): floating point ABI '-msoft-float' is incompatible with target floating point ABI '-mdouble-float'
+ld.lld: error: /home/runner/work/wr1204s/wr1204s/openwrt/dl/go-mod-cache/github.com/sagernet/cronet-go/lib/linux_mipsle_musl@v0.0.0-20260929213014-a1cafd93eb1f/libcronet.a(lock_impl_posix.o): floating point ABI '-msoft-float' is incompatible with target floating point ABI '-mdouble-float'
+ld.lld: error: /home/runner/work/wr1204s/wr1204s/openwrt/dl/go-mod-cache/github.com/sagernet/cronet-go/lib/linux_mipsle_musl@v0.0.0-20260929213014-a1cafd93eb1f/libcronet.a(lock_metrics_recorder.o): floating point ABI '-msoft-float' is incompatible with target floating point ABI '-mdouble-float'
+ld.lld: error: /home/runner/work/wr1204s/wr1204s/openwrt/dl/go-mod-cache/github.com/sagernet/cronet-go/lib/linux_mipsle_musl@v0.0.0-20260929213014-a1cafd93eb1f/libcronet.a(thread_local_storage.o): floating point ABI '-msoft-float' is incompatible with target floating point ABI '-mdouble-float'
+ld.lld: error: /home/runner/work/wr1204s/wr1204s/openwrt/dl/go-mod-cache/github.com/sagernet/cronet-go/lib/linux_mipsle_musl@v0.0.0-20260929213014-a1cafd93eb1f/libcronet.a(thread_local_storage_posix.o): floating point ABI '-msoft-float' is incompatible with target floating point ABI '-mdouble-float'
+ld.lld: error: /home/runner/work/wr1204s/wr1204s/openwrt/dl/go-mod-cache/github.com/sagernet/cronet-go/lib/linux_mipsle_musl@v0.0.0-20260929213014-a1cafd93eb1f/libcronet.a(lock.o): floating point ABI '-msoft-float' is incompatible with target floating point ABI '-mdouble-float'
+ld.lld: error: /home/runner/work/wr1204s/wr1204s/openwrt/dl/go-mod-cache/github.com/sagernet/cronet-go/lib/linux_mipsle_musl@v0.0.0-20260929213014-a1cafd93eb1f/libcronet.a(poisson_allocation_sampler.o): floating point ABI '-msoft-float' is incompatible with target floating point ABI '-mdouble-float'
+ld.lld: error: /home/runner/work/wr1204s/wr1204s/openwrt/dl/go-mod-cache/github.com/sagernet/cronet-go/lib/linux_mipsle_musl@v0.0.0-20260929213014-a1cafd93eb1f/libcronet.a(tls.o): floating point ABI '-msoft-float' is incompatible with target floating point ABI '-mdouble-float'
+ld.lld: error: /home/runner/work/wr1204s/wr1204s/openwrt/dl/go-mod-cache/github.com/sagernet/cronet-go/lib/linux_mipsle_musl@v0.0.0-20260929213014-a1cafd93eb1f/libcronet.a(crash_logging.o): floating point ABI '-msoft-float' is incompatible with target floating point ABI '-mdouble-float'
+ld.lld: error: /home/runner/work/wr1204s/wr1204s/openwrt/dl/go-mod-cache/github.com/sagernet/cronet-go/lib/linux_mipsle_musl@v0.0.0-20260929213014-a1cafd93eb1f/libcronet.a(string_number_conversions.o): floating point ABI '-msoft-float' is incompatible with target floating point ABI '-mdouble-float'
+ld.lld: error: /home/runner/work/wr1204s/wr1204s/openwrt/dl/go-mod-cache/github.com/sagernet/cronet-go/lib/linux_mipsle_musl@v0.0.0-20260929213014-a1cafd93eb1f/libcronet.a(check.o): floating point ABI '-msoft-float' is incompatible with target floating point ABI '-mdouble-float'
+ld.lld: error: /home/runner/work/wr1204s/wr1204s/openwrt/dl/go-mod-cache/github.com/sagernet/cronet-go/lib/linux_mipsle_musl@v0.0.0-20260929213014-a1cafd93eb1f/libcronet.a(logging.o): floating point ABI '-msoft-float' is incompatible with target floating point ABI '-mdouble-float'
+ld.lld: error: /home/runner/work/wr1204s/wr1204s/openwrt/dl/go-mod-cache/github.com/sagernet/cronet-go/lib/linux_mipsle_musl@v0.0.0-20260929213014-a1cafd93eb1f/libcronet.a(command_line.o): floating point ABI '-msoft-float' is incompatible with target floating point ABI '-mdouble-float'
+ld.lld: error: /home/runner/work/wr1204s/wr1204s/openwrt/dl/go-mod-cache/github.com/sagernet/cronet-go/lib/linux_mipsle_musl@v0.0.0-20260929213014-a1cafd93eb1f/libcronet.a(string_util.o): floating point ABI '-msoft-float' is incompatible with target floating point ABI '-mdouble-float'
+ld.lld: error: /home/runner/work/wr1204s/wr1204s/openwrt/dl/go-mod-cache/github.com/sagernet/cronet-go/lib/linux_mipsle_musl@v0.0.0-20260929213014-a1cafd93eb1f/libcronet.a(file_path.o): floating point ABI '-msoft-float' is incompatible with target floating point ABI '-mdouble-float'
+ld.lld: error: /home/runner/work/wr1204s/wr1204s/openwrt/dl/go-mod-cache/github.com/sagernet/cronet-go/lib/linux_mipsle_musl@v0.0.0-20260929213014-a1cafd93eb1f/libcronet.a(strcat.o): floating point ABI '-msoft-float' is incompatible with target floating point ABI '-mdouble-float'
+ld.lld: error: too many errors emitted, stopping now (use --error-limit=0 to see all errors)
+collect2: error: ld returned 1 exit status
+
+
+make[2]: *** [Makefile:124: /home/runner/work/wr1204s/wr1204s/openwrt/build_dir/target-mipsel_24kc+24kf_musl/Xray-core-26.11.9/.built] Error 1
+make[2]: Leaving directory '/home/runner/work/wr1204s/wr1204s/openwrt/feeds/packages/net/xray-core'
+time: package/feeds/packages/xray-core/compile#6.40#2.31#7.32
+    ERROR: package/feeds/packages/xray-core failed to build.
+make[1]: *** [package/Makefile:171: package/feeds/packages/xray-core/compile] Error 1
+make[1]: Leaving directory '/home/runner/work/wr1204s/wr1204s/openwrt'
+make: *** [/home/runner/work/wr1204s/wr1204s/openwrt/include/toplevel.mk:231: package/feeds/packages/xray-core/compile] Error 2
+
+========== END VERBOSE RETRY ==========
