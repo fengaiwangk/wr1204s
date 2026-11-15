@@ -218,6 +218,28 @@ if grep -q "source-only" "$TMK"; then
 fi
 grep -q "source-only" "$TMK" && die "could not clear source-only" || ok "sf19a2890 is buildable"
 
+# ------------------------------------------------------------ device type --
+# DEVICE_TYPE drives `DEFAULT_PACKAGES += $(DEFAULT_PACKAGES.$(DEVICE_TYPE))`,
+# and those entries are emitted as `select PACKAGE_...` under the device symbol
+# in tmp/.config-package.in. A select beats any "# ... is not set" line in
+# .config, which is why run #19 still had CONFIG_PACKAGE_xray-core=y after the
+# exclusion was written: `luci-app-ssr-plus` is in DEFAULT_PACKAGES.router, it
+# selects xray-core, and xray-core with CONFIG_XRAY_CORE_NAIVE pulls the
+# soft-float cronet blob that cannot link against -mdouble-float.
+#
+# `basic` has an empty package list, so the device selects only what
+# DEVICE_PACKAGES in image/sf19a2890.mk names -- an explicit, auditable set.
+# include/target.mk appends DEFAULT_PACKAGES.$(DEVICE_TYPE) *after* this file is
+# included, so the assignment here is picked up.
+say "Switching the subtarget to DEVICE_TYPE:=basic"
+if grep -q '^DEVICE_TYPE' "$TMK"; then
+	sed -i 's/^DEVICE_TYPE.*/DEVICE_TYPE:=basic/' "$TMK"
+else
+	printf '\nDEVICE_TYPE:=basic\n' >> "$TMK"
+fi
+grep -q '^DEVICE_TYPE:=basic' "$TMK" || die "could not set DEVICE_TYPE:=basic"
+ok "device package list now comes only from image/sf19a2890.mk"
+
 # ---------------------------------------------------------- default config --
 # OpenWrt merges the tree-root `files/` directory into the rootfs, so this is
 # where the device's existing settings are preserved: LAN 192.168.100.1, the
@@ -409,8 +431,7 @@ ok "profile ${DEVICE} active"
 # Dropping them up front costs one defconfig pass; leaving them costs a 90-minute
 # build that dies at link time, which is exactly what run #17 did.
 DROP_PKGS="luci-app-ssr-plus xray-core v2ray-core v2ray-geodata naiveproxy \
-luci-app-passwall luci-app-openclash luci-app-vsftpd luci-app-vlmcsd coremark \
-luci-theme-design luci-app-accesscontrol luci-app-turboacc"
+luci-app-passwall luci-app-openclash"
 
 say "Trimming the default package set"
 for pkg in $DROP_PKGS; do
@@ -421,6 +442,12 @@ for pkg in $DROP_PKGS; do
 	       -e "/^# CONFIG_PACKAGE_${pkg} is not set\$/d" "$SRC/.config"
 	printf '# CONFIG_PACKAGE_%s is not set\n' "$pkg" >> "$SRC/.config"
 done
+# Belt and braces: even if some other package re-selects xray-core, without
+# XRAY_CORE_NAIVE there is no cronet and the link succeeds (it just wastes
+# flash, which check-size then reports).
+sed -i -e '/^CONFIG_XRAY_CORE_NAIVE=/d' \
+       -e '/^# CONFIG_XRAY_CORE_NAIVE is not set$/d' "$SRC/.config"
+printf '# CONFIG_XRAY_CORE_NAIVE is not set\n' >> "$SRC/.config"
 ( cd "$SRC" && make defconfig >>"$DEFLOG" 2>&1 ) || warn "second defconfig returned non-zero"
 
 # An exclusion is only real if no dependency pulled the symbol back in. A symbol
@@ -438,8 +465,15 @@ if [ -n "$LEAKED" ]; then
 		printf '  %-28s %s\n' "$pkg" \
 			"$(grep -E "^CONFIG_PACKAGE_${pkg}=" "$SRC/.config" | head -1)"
 	done
+	printf '\n  who still pulls them in:\n'
+	for pkg in $LEAKED; do
+		grep -rn --include=Makefile --include=*.mk --include=Config.in \
+			-e "+PACKAGE_${pkg}" -e "select PACKAGE_${pkg}" \
+			"$SRC/feeds" "$SRC/package" 2>/dev/null | head -4 | sed 's/^/    /'
+	done
 	die "package trim did not stick:$LEAKED -- a dependency still selects them"
 fi
+
 ok "dropped $(printf '%s\n' $DROP_PKGS | wc -l) packages (proxy stack, KMS, FTP, benchmark, design theme)"
 
 # Fast loop for package-selection work: stop here instead of burning 90 minutes

@@ -51,7 +51,23 @@ define Device/tenbay_wr1204s
   SUPPORTED_DEVICES += tenbay,wr1204s twifi,wr1204s
   # firmware partition is 0xf40000 = 15616 KiB
   IMAGE_SIZE := 15616k
+  # With DEVICE_TYPE:=basic (see build.sh) this list is the whole package set:
+  # it is DEFAULT_PACKAGES.router minus the parts that cannot work here --
+  # luci-app-ssr-plus and its xray-core (cronet's prebuilt libcronet.a is
+  # soft-float, 24kf links -mdouble-float, so it never links), the FTP server,
+  # the KMS emulator, the benchmark, the design theme (Argon is shipped) and the
+  # two offload/parental-control apps. Everything else is kept verbatim so the
+  # image behaves like a normal Lean router build.
   DEVICE_PACKAGES := \
+	dnsmasq-full firewall4 nftables-json iptables ppp ppp-mod-pppoe \
+	odhcp6c odhcpd-ipv6only ip6tables libip6tc kmod-ipt-nat6 \
+	block-mount kmod-nf-nathelper kmod-nf-nathelper-extra kmod-ipt-raw \
+	kmod-tun iptables-mod-tproxy iptables-mod-extra ipset ip-full \
+	default-settings luci luci-proto-ipv6 \
+	ddns-scripts_aliyun ddns-scripts_dnspod luci-app-ddns luci-app-upnp \
+	luci-app-autoreboot luci-app-arpbind luci-app-filetransfer \
+	luci-app-nlbwmon luci-app-wol curl ca-certificates \
+	kmod-sched-core kmod-sched-bpf kmod-xdp-sockets-diag kmod-veth \
 	kmod-input-gpio-keys \
 	kmod-usb-dwc2 \
 	kmod-usb-storage \
