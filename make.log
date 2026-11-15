@@ -224,3 +224,8 @@ luci-theme-argon does not support CSS source minification
  make[3] -C feeds/packages/libs/libfido2 compile
  make[3] -C feeds/packages/net/wget compile
  make[3] -C feeds/packages/net/openssh compile
+ make[3] -C feeds/packages/net/ddns-scripts compile
+ make[3] -C feeds/luci/applications/luci-app-ddns compile
+ make[3] -C package/lean/ddns-scripts_aliyun compile
+ make[3] -C package/lean/ddns-scripts_dnspod compile
+ make[2] package/install
