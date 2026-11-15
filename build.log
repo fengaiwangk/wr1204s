@@ -1,0 +1,100 @@
+
+[1;36m[01] ==> Checking host tools[0m
+     [1;32m✓[0m all host tools present
+     cpu cores: 4
+
+[1;36m[02] ==> Preparing source tree (bleach)[0m
+     cloning https://github.com/coolsnowwolf/lede.git (a0c958aee9d6dda2dc2241318b0c7507053ea21b) -- this is ~300 MB, be patient
+     [1;32m✓[0m source tree ready
+
+[1;36m[03] ==> Installing hardware-complete siflower target[0m
+     [1;32m✓[0m target/linux/siflower replaced (181 files)
+
+[1;36m[04] ==> Installing Airoha AN8855 driver[0m
+     [1;32m✓[0m 5 driver sources + 1 header in target/linux/generic/files-6.18
+
+[1;36m[05] ==> Patching AN8855 MAC5 sideband (CPU port)[0m
+     [1;32m✓[0m MAC5 sideband forced for port 5 in RGMII mode (target/linux/generic/files-6.18)
+
+[1;36m[06] ==> Adding Tenbay WR1204S board definition[0m
+     [1;32m✓[0m dts: sf19a2890_wr1204s.dts
+     [1;32m✓[0m device: tenbay_wr1204s (BOARD_NAME tenbay,wr1204s, IMAGE_SIZE 15616k)
+
+[1;36m[07] ==> Pinning the kernel to 6.18[0m
+     [1;32m✓[0m KERNEL_PATCHVER:=6.18 (testing left at 6.12)
+
+[1;36m[08] ==> Clearing the source-only flag[0m
+     [1;32m✓[0m sf19a2890 is buildable
+
+[1;36m[09] ==> Installing default configuration (keeps the current settings)[0m
+     [1;32m✓[0m network/wireless/dhcp/system/firewall/dropbear + uci-defaults installed
+     LAN 192.168.100.1 | WAN 44.0.30.233 static | WiFi TENDAINF-D9DA + -5G
+     SSH admin/admin on port 12580 (also root/admin)
+
+[1;36m[10] ==> Assembling the WiFi driver package (sf_smac)[0m
+     cloning https://github.com/Siflower/sf_wifi.git
+Cloning into '/home/runner/work/wr1204s/wr1204s/sf_wifi'...
+     [1;32m✓[0m driver tree at da991fafab179a2ed495c2925a0bf219ef38e22e + linux-6.18 port
+
+[1;36m[11] ==> Installing LMAC firmware blobs[0m
+     [1;32m✓[0m sf1688_hb_fmac.bin (236768 bytes, md5 verified)
+     [1;32m✓[0m sf1688_lb_fmac.bin (236624 bytes, md5 verified)
+
+[1;36m[12] ==> Seeding kernel config (append-only)[0m
+     appended CONFIG_INPUT_EVDEV=y
+     appended CONFIG_KEYBOARD_GPIO=y
+     [1;32m✓[0m 2 key(s) appended; existing AN8855/DSA options left untouched
+     [1;32m✓[0m AN8855 driver options confirmed present
+
+[1;36m[13] ==> Updating feeds[0m
+     [1;32m✓[0m feeds ready
+
+[1;36m[14] ==> Writing .config[0m
+     [1;32m✓[0m profile tenbay_wr1204s active
+
+[1;36m[15] ==> Preflight: extracting the kernel and applying every target patch[0m
+Applying /home/runner/work/wr1204s/wr1204s/openwrt/target/linux/siflower/patches-6.18/750-0033-net-dsa-mxl-gsw1xx-Support-R-G-MII-slew-rate-configu.patch using plaintext: 
+patching file drivers/net/dsa/lantiq/lantiq_gswip.h
+patching file drivers/net/dsa/lantiq/lantiq_gswip_common.c
+patching file drivers/net/dsa/lantiq/mxl-gsw1xx.c
+patching file drivers/net/dsa/lantiq/mxl-gsw1xx.h
+
+Applying /home/runner/work/wr1204s/wr1204s/openwrt/target/linux/siflower/patches-6.18/750-0034-net-dsa-lantiq-allow-arbitrary-MII-registers.patch using plaintext: 
+patching file drivers/net/dsa/lantiq/lantiq_gswip.c
+patching file drivers/net/dsa/lantiq/lantiq_gswip.h
+patching file drivers/net/dsa/lantiq/lantiq_gswip_common.c
+patching file drivers/net/dsa/lantiq/mxl-gsw1xx.c
+
+Applying /home/runner/work/wr1204s/wr1204s/openwrt/target/linux/siflower/patches-6.18/750-0035-net-dsa-lantiq-clean-up-phylink_get_caps-switch-stat.patch using plaintext: 
+patching file drivers/net/dsa/lantiq/lantiq_gswip.c
+patching file drivers/net/dsa/lantiq/mxl-gsw1xx.c
+
+Applying /home/runner/work/wr1204s/wr1204s/openwrt/target/linux/siflower/patches-6.18/750-0036-net-dsa-mxl-gsw1xx-only-setup-SerDes-PCS-if-it-exist.patch using plaintext: 
+patching file drivers/net/dsa/lantiq/mxl-gsw1xx.c
+
+Applying /home/runner/work/wr1204s/wr1204s/openwrt/target/linux/siflower/patches-6.18/750-0037-net-dsa-mxl-gsw1xx-add-support-for-Intel-GSW150.patch using plaintext: 
+patching file drivers/net/dsa/lantiq/Kconfig
+patching file drivers/net/dsa/lantiq/mxl-gsw1xx.c
+patching file drivers/net/dsa/lantiq/mxl-gsw1xx.h
+
+Applying /home/runner/work/wr1204s/wr1204s/openwrt/target/linux/siflower/patches-6.18/750-0038-net-dsa-mxl-gsw1xx-configure-SerDes-port-polarities.patch using plaintext: 
+patching file drivers/net/dsa/lantiq/Kconfig
+patching file drivers/net/dsa/lantiq/mxl-gsw1xx.c
+
+Applying /home/runner/work/wr1204s/wr1204s/openwrt/target/linux/siflower/patches-6.18/750-0039-net-dsa-mxl-gsw1xx-validate-chip-ID.patch using plaintext: 
+patching file drivers/net/dsa/lantiq/mxl-gsw1xx.c
+patching file drivers/net/dsa/lantiq/mxl-gsw1xx.h
+
+Applying /home/runner/work/wr1204s/wr1204s/openwrt/target/linux/siflower/patches-6.18/755-0001-remove-pointers.patch using plaintext: 
+patching file drivers/net/dsa/lantiq/lantiq_gswip_common.c
+Hunk #1 succeeded at 1647 (offset -13 lines).
+touch /home/runner/work/wr1204s/wr1204s/openwrt/build_dir/target-mipsel_24kc+24kf_musl/linux-siflower_sf19a2890/linux-6.18.62/.prepared_21236a1cfe880ffee0169104f60684c8
+make[3]: Leaving directory '/home/runner/work/wr1204s/wr1204s/openwrt/target/linux/siflower'
+make[2]: Leaving directory '/home/runner/work/wr1204s/wr1204s/openwrt/target/linux'
+time: target/linux/prepare#13.40#9.51#908.29
+make[1]: Leaving directory '/home/runner/work/wr1204s/wr1204s/openwrt'
+     [1;32m✓[0m kernel prepared -- make returned 0
+     kernel tree: build_dir/target-mipsel_24kc+24kf_musl/linux-siflower_sf19a2890/linux-6.18.62
+       kernel 6.18.62
+     [1;32m✓[0m all 5 patch-created files present -- siflower patches applied
+     log: /home/runner/work/wr1204s/wr1204s/prepare.log
