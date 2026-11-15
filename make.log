@@ -117,3 +117,13 @@ time: target/linux/prereq#0.08#0.08#0.15
  make[3] -C package/libs/jansson compile
  make[3] -C package/libs/libpcap compile
  make[3] -C package/network/services/dropbear compile
+ make[3] -C package/network/utils/linux-atm compile
+ make[3] -C package/network/utils/resolveip compile
+ make[3] -C package/network/utils/tcpdump compile
+ make[3] -C package/libs/libubox host-compile
+ make[3] -C package/libs/libnl-tiny compile
+ make[3] -C package/libs/libjson-c compile
+ make[3] -C package/utils/lua compile
+ make[3] -C package/libs/libmd compile
+ make[3] -C package/libs/zlib compile
+ make[3] -C package/firmware/cypress-firmware compile
