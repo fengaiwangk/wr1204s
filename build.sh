@@ -552,3 +552,5 @@ done
 printf '\n  flash on the router (no sysupgrade -- custom partition layout):\n'
 printf '    cat factory.bin | ssh root@192.168.100.1 "cat > /tmp/fw.bin"\n'
 printf '    ssh root@192.168.100.1 "wr1204s-upgrade -n /tmp/fw.bin && wr1204s-upgrade /tmp/fw.bin && reboot"\n\n'
+
+# 触发探测（2026-11-15 08:40）：验证 push 事件是否还能拉起工作流
