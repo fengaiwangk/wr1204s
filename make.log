@@ -66,3 +66,7 @@ time: target/linux/prereq#0.08#0.08#0.15
  make[3] -C tools/mtd-utils compile
  make[3] -C tools/mpc compile
  make[3] -C tools/firmware-utils compile
+ make[2] toolchain/compile
+ make[3] -C toolchain/fortify-headers compile
+ make[3] -C toolchain/gdb compile
+ make[3] -C toolchain/binutils compile
