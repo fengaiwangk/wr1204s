@@ -102,3 +102,18 @@ time: target/linux/prereq#0.07#0.05#0.11
  make[3] -C package/system/ca-certificates compile
  make[3] -C feeds/packages/libs/nghttp2 compile
  make[3] -C feeds/packages/libs/giflib compile
+ make[3] -C feeds/packages/utils/attr compile
+ make[3] -C package/libs/gmp compile
+ make[3] -C feeds/luci/libs/luci-lib-chartjs compile
+ make[3] -C feeds/packages/libs/libcap-ng compile
+ make[3] -C package/libs/libnftnl compile
+ make[3] -C feeds/packages/net/vlmcsd compile
+ make[3] -C feeds/packages/net/etherwake compile
+ make[3] -C package/utils/px5g-mbedtls compile
+ make[3] -C feeds/luci/themes/luci-theme-design compile
+ make[3] -C feeds/packages/utils/coremark compile
+ make[3] -C feeds/packages/libs/libcbor compile
+ make[3] -C feeds/packages/libs/libevdev compile
+ make[3] -C feeds/packages/libs/libpam compile
+ make[3] -C package/libs/pcre compile
+ make[3] -C feeds/packages/lang/golang/golang host-compile
