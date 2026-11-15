@@ -33,10 +33,11 @@ on:
     # a plain `git push` and no token:
     #   preflight       -> base bleach, stop after kernel patches (~10 min)
     #   build-tools     -> base bleach, host tools only (~30 min)
+    #   build-config    -> base bleach, stop after package selection (~20 min)
     #   build-bleach    -> base bleach, full image
     #   build-immortal  -> base immortal, full image
     #   build-ulli      -> base ulli, full image
-    branches: [main, preflight, build-tools, build-bleach, build-immortal, build-ulli]
+    branches: [main, preflight, build-tools, build-config, build-bleach, build-immortal, build-ulli]
     paths-ignore: ['**.md', 'out/**']
 
 concurrency:
@@ -96,6 +97,7 @@ jobs:
           case "${GITHUB_REF_NAME}" in
             preflight)      BASE=bleach;   PREP=true;  NOIMAGE=true ;;
             build-tools)    BASE=bleach;   TOOLS=true; NOIMAGE=true ;;
+            build-config)   BASE=bleach;   CONFIGONLY=true; NOIMAGE=true ;;
             build-bleach)   BASE=bleach;   PREP=false ;;
             build-immortal) BASE=immortal; PREP=false ;;
             build-ulli)     BASE=ulli;     PREP=false ;;
@@ -111,6 +113,9 @@ jobs:
           fi
           if [ "${TOOLS:-false}" = "true" ]; then
             ARGS="$ARGS --tools"
+          fi
+          if [ "${CONFIGONLY:-false}" = "true" ]; then
+            ARGS="$ARGS --config-only"
           fi
           echo "running: ./build.sh $ARGS"
           # NOIMAGE: preflight and tools-only runs produce no firmware, so the

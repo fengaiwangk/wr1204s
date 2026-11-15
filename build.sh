@@ -41,6 +41,7 @@ PREPARE_ONLY=0
 SKIP_ELFUTILS=0
 TOOLS_ONLY=0
 KEEP_ELFUTILS=0
+CONFIG_ONLY=0
 
 IMMORTAL_URL="https://github.com/immortalwrt/immortalwrt.git"
 IMMORTAL_REF="master"
@@ -67,6 +68,7 @@ while [ $# -gt 0 ]; do
 	--prepare) PREPARE_ONLY=1 ;;
 	--skip-elfutils) SKIP_ELFUTILS=1 ;;
 	--tools)   TOOLS_ONLY=1 ;;
+	--config-only) CONFIG_ONLY=1 ;;
 	--keep-elfutils) KEEP_ELFUTILS=1 ;;
 		--src)    SRC="$2"; shift ;;
 		-h|--help) sed -n '2,30p' "$0"; exit 0 ;;
@@ -412,6 +414,11 @@ luci-theme-design luci-app-accesscontrol luci-app-turboacc"
 
 say "Trimming the default package set"
 for pkg in $DROP_PKGS; do
+	# Replace, never append: .config already carries CONFIG_PACKAGE_xray-core=y
+	# from the first defconfig, and kconfig keeps the FIRST occurrence of a
+	# duplicated symbol -- appending a second line silently does nothing.
+	sed -i -e "/^CONFIG_PACKAGE_${pkg}=/d" \
+	       -e "/^# CONFIG_PACKAGE_${pkg} is not set\$/d" "$SRC/.config"
 	printf '# CONFIG_PACKAGE_%s is not set\n' "$pkg" >> "$SRC/.config"
 done
 ( cd "$SRC" && make defconfig >>"$DEFLOG" 2>&1 ) || warn "second defconfig returned non-zero"
@@ -434,6 +441,20 @@ if [ -n "$LEAKED" ]; then
 	die "package trim did not stick:$LEAKED -- a dependency still selects them"
 fi
 ok "dropped $(printf '%s\n' $DROP_PKGS | wc -l) packages (proxy stack, KMS, FTP, benchmark, design theme)"
+
+# Fast loop for package-selection work: stop here instead of burning 90 minutes
+# on a build that would only prove the config was wrong.
+if [ "$CONFIG_ONLY" = 1 ]; then
+	say "Config only: package selection is final"
+	info "selected packages: $(grep -cE '^CONFIG_PACKAGE_[a-z0-9.+_-]+=y' "$SRC/.config")"
+	for pkg in $DROP_PKGS; do
+		info "  $(grep -E "^(CONFIG_PACKAGE_${pkg}=|# CONFIG_PACKAGE_${pkg} is not set)" "$SRC/.config" | head -1)"
+	done
+	info "golang/rust/cgo packages still selected:"
+	grep -E '^CONFIG_PACKAGE_(golang|xray|v2ray|naiveproxy|rust)[a-z0-9.+_-]*=y' "$SRC/.config" \
+		| sed 's/^/       /' || info "       (none)"
+	exit 0
+fi
 
 # ---------------------------------------------------------------- preflight --
 # The 61 siflower patches-6.18 files were written against kernel 6.18.35, while
