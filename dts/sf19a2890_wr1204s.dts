@@ -48,7 +48,26 @@
 
 	chosen {
 		stdout-path = "serial0:115200n8";
-		bootargs = "console=ttyS0,115200";
+		/*
+		 * 三个必须项，少一个就是黑屏：
+		 *
+		 * earlycon
+		 *   sf19a2890/config-6.18 里 CONFIG_MIPS_CMDLINE_DTB_EXTEND=y，
+		 *   意思是内核命令行 = 内置 CONFIG_CMDLINE + 本节点 bootargs，
+		 *   u-boot 的 bootargs 根本不会被读。所以 dtsi 里那句
+		 *   bootargs = "earlycon" 一旦被这里覆盖掉，早期控制台就没了。
+		 *
+		 * console=ttyAMA0,115200
+		 *   UART 是 arm,pl011（config-6.18: CONFIG_SERIAL_AMBA_PL011=y，
+		 *   同时 # CONFIG_SERIAL_8250 is not set），设备名是 ttyAMA0。
+		 *   写成 ttyS0 的话那台设备永远不存在，等于没有 console。
+		 *
+		 * root=/dev/mtdblock7
+		 *   本 dts 的固定分区是 0..5（firmware 在 5），firmware 带
+		 *   compatible="denx,uimage"，由 mtdsplit 在它后面追加
+		 *   kernel(6) / rootfs(7)，custom 顺延成 8。
+		 */
+		bootargs = "earlycon console=ttyAMA0,115200 rootfstype=squashfs rootwait root=/dev/mtdblock7";
 	};
 
 	memory@0 {
