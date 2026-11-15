@@ -56,3 +56,5 @@ time: target/linux/prereq#0.10#0.08#0.16
  make[2] -C tools/util-linux compile
  make[2] -C tools/findutils compile
  make[2] -C tools/mkimage compile
+ make[2] -C tools/mpfr compile
+ make[2] -C tools/e2fsprogs compile
