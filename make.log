@@ -64,3 +64,4 @@ time: target/linux/prereq#0.05#0.03#0.09
  make[3] -C tools/mtd-utils compile
  make[3] -C tools/padjffs2 compile
  make[3] -C tools/quilt compile
+ make[3] -C tools/mpc compile
