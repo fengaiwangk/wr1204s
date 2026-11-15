@@ -127,3 +127,27 @@ time: target/linux/prereq#0.08#0.08#0.15
  make[3] -C package/libs/libmd compile
  make[3] -C package/libs/zlib compile
  make[3] -C package/firmware/cypress-firmware compile
+ make[3] -C package/firmware/linux-firmware compile
+ make[3] -C package/system/fwtool compile
+ make[3] -C package/system/ucert host-compile
+ make[3] -C feeds/luci/libs/luci-lib-uqr compile
+ make[3] -C feeds/luci/protocols/luci-proto-ppp compile
+ make[3] -C feeds/luci/protocols/luci-proto-ipv6 compile
+ make[3] -C package/libs/elfutils compile
+ make[3] -C feeds/packages/utils/acl compile
+ make[3] -C feeds/luci/libs/luci-lib-ip compile
+ make[3] -C feeds/luci/libs/luci-lib-jsonc compile
+ make[3] -C feeds/luci/libs/luci-lib-nixio compile
+ make[3] -C feeds/packages/libs/libudev-zero compile
+ make[3] -C package/system/opkg host-compile
+ make[3] -C package/libs/libubox compile
+ make[3] -C package/kernel/linux compile
+ make[3] -C package/libs/ncurses compile
+ make[3] -C package/utils/jsonfilter compile
+ make[3] -C feeds/packages/libs/pcre2 compile
+ make[3] -C package/system/usign compile
+ make[3] -C package/libs/ustream-ssl compile
+ make[3] -C feeds/luci/themes/luci-theme-argon compile
+luci-theme-argon does not support CSS source minification
+luci-theme-argon does not support CSS source minification
+ make[3] -C package/network/utils/iptables compile
