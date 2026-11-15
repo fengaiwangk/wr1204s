@@ -1,0 +1,30 @@
+time  : 2026-11-15T03:38:40Z
+ref   : build-bleach  run 22
+--- sizes (bytes) ---
+build.log 2484
+--- tail of build.log ---
+
+[1;36m[10] ==> Installing default configuration (keeps the current settings)[0m
+     [1;32m✓[0m network/wireless/dhcp/system/firewall/dropbear + uci-defaults installed
+     LAN 192.168.99.1 | WAN 44.0.30.233 static | WiFi TENDAINF-D9DA + -5G
+     SSH admin/admin on port 12580 (also root/admin)
+
+[1;36m[11] ==> Assembling the WiFi driver package (sf_smac)[0m
+     cloning https://github.com/Siflower/sf_wifi.git
+Cloning into '/home/runner/work/wr1204s/wr1204s/sf_wifi'...
+     [1;32m✓[0m driver tree at da991fafab179a2ed495c2925a0bf219ef38e22e + linux-6.18 port
+
+[1;36m[12] ==> Installing LMAC firmware blobs[0m
+     [1;32m✓[0m sf1688_hb_fmac.bin (236768 bytes, md5 verified)
+     [1;32m✓[0m sf1688_lb_fmac.bin (236624 bytes, md5 verified)
+
+[1;36m[13] ==> Seeding kernel config (append-only)[0m
+     appended CONFIG_INPUT_EVDEV=y
+     appended CONFIG_KEYBOARD_GPIO=y
+     [1;32m✓[0m 2 key(s) appended; existing AN8855/DSA options left untouched
+     [1;32m✓[0m AN8855 driver options confirmed present
+
+[1;36m[14] ==> Dropping the helloworld feed[0m
+     [1;32m✓[0m helloworld commented out of feeds.conf.default
+
+[1;36m[15] ==> Updating feeds[0m
