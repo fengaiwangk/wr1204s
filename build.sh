@@ -20,6 +20,7 @@
 #   ./build.sh --base bleach      # BleachWrt base (coolsnowwolf/lede) + Argon
 #   ./build.sh --min              # no LuCI, smallest rootfs
 #   ./build.sh --prepare          # stop after the kernel patches are applied (~10 min)
+#   ./build.sh --tools            # build only the host tools (~30 min, isolates toolchain bugs)
 #   ./build.sh --jobs 8           # parallel build jobs
 #   ./build.sh --clean            # wipe the source tree first
 #
@@ -38,6 +39,8 @@ MINIMAL=0
 CLEAN=0
 PREPARE_ONLY=0
 SKIP_ELFUTILS=0
+TOOLS_ONLY=0
+KEEP_ELFUTILS=0
 
 IMMORTAL_URL="https://github.com/immortalwrt/immortalwrt.git"
 IMMORTAL_REF="master"
@@ -447,8 +450,15 @@ drop_elfutils() {
 	ok "elfutils + dwarves removed from the host tool list"
 }
 
+# A hung child (a stalled package download is the usual one) keeps make alive
+# forever: make reports the failed package and then waits on its outstanding
+# jobs, so nothing downstream ever runs. Run #8 burned its whole 350-minute
+# budget that way. A hard timeout turns that into a normal, diagnosable failure.
+MAKE_TIMEOUT="${MAKE_TIMEOUT:-260m}"
+
 run_make() {
-	if ( cd "$SRC" && make -j"$JOBS" 2>&1 | tee -a "$MAKELOG" | tail -40 ); then
+	if ( cd "$SRC" && timeout --signal=INT --kill-after=3m "$MAKE_TIMEOUT" \
+			make -j"$JOBS" 2>&1 | tee -a "$MAKELOG" | tail -40 ); then
 		return 0
 	fi
 
@@ -478,9 +488,37 @@ run_make() {
 	return 1
 }
 
+# Host tools are the riskiest stage on a fresh tree: they are compiled with the
+# host gcc, they run first, and one failure there costs the whole run. --tools
+# builds just that stage (~30 min) so a broken tool can be diagnosed without
+# spending the 4-hour budget.
+if [ "$TOOLS_ONLY" = 1 ]; then
+	say "Host tools only (make tools/compile) -- isolates toolchain failures"
+	: >"$MAKELOG"
+	( cd "$SRC" && timeout --signal=INT --kill-after=3m "${TOOLS_TIMEOUT:-70m}" \
+			make -j"$JOBS" tools/compile 2>&1 | tee -a "$MAKELOG" | tail -40 ) || true
+	FAILED="$(grep -oE 'ERROR: [^ ]+ failed to build' "$MAKELOG" | tail -1 | awk '{print $2}')"
+	if [ -n "$FAILED" ]; then
+		warn "host tool failed: $FAILED -- rebuilding it alone with V=s"
+		{
+			echo; echo "========== VERBOSE RETRY: $FAILED =========="
+			( cd "$SRC" && make "$FAILED/clean" V=s >/dev/null 2>&1 || true
+			  make -j1 "$FAILED/compile" V=s 2>&1 | tail -150 )
+			echo; echo "========== END VERBOSE RETRY =========="
+		} 2>&1 | tee -a "$MAKELOG" | tail -160 || true
+		die "host tools failed at $FAILED -- see $MAKELOG"
+	fi
+	grep -qE 'make(\[[0-9]+\])?: \*\*\*' "$MAKELOG" && die "make errored without naming a package -- see $MAKELOG"
+	ok "host tools built clean"
+	exit 0
+fi
+
 say "Building (jobs=$JOBS) -- first run downloads ~3 GB of sources and takes 2-4 h"
-if [ "$SKIP_ELFUTILS" = 1 ]; then
-	say "Skipping the elfutils host tool (requested)"
+# Dropped up front rather than after a failure: the post-failure fallback only
+# fires if make actually returns, and on a hung child it never does (run #8).
+if [ "$KEEP_ELFUTILS" = 1 ]; then
+	info "keeping tools/elfutils (--keep-elfutils)"
+else
 	drop_elfutils
 fi
 rc=0

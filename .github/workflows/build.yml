@@ -32,10 +32,11 @@ on:
     # Branch name doubles as the parameter set, so a build can be started with
     # a plain `git push` and no token:
     #   preflight       -> base bleach, stop after kernel patches (~10 min)
+    #   build-tools     -> base bleach, host tools only (~30 min)
     #   build-bleach    -> base bleach, full image
     #   build-immortal  -> base immortal, full image
     #   build-ulli      -> base ulli, full image
-    branches: [main, preflight, build-bleach, build-immortal, build-ulli]
+    branches: [main, preflight, build-tools, build-bleach, build-immortal, build-ulli]
     paths-ignore: ['**.md', 'out/**']
 
 concurrency:
@@ -90,13 +91,14 @@ jobs:
           MIN="${{ inputs.minimal }}"
           PREP="${{ inputs.prepare_only }}"
           case "${GITHUB_REF_NAME}" in
-            preflight)      BASE=bleach;   PREP=true  ;;
+            preflight)      BASE=bleach;   PREP=true;  NOIMAGE=true ;;
+            build-tools)    BASE=bleach;   TOOLS=true; NOIMAGE=true ;;
             build-bleach)   BASE=bleach;   PREP=false ;;
             build-immortal) BASE=immortal; PREP=false ;;
             build-ulli)     BASE=ulli;     PREP=false ;;
           esac
           [ -n "$BASE" ] || BASE=immortal
-          echo "base=$BASE minimal=${MIN:-false} prepare_only=${PREP:-false}"
+          echo "base=$BASE minimal=${MIN:-false} prepare_only=${PREP:-false} tools_only=${TOOLS:-false}"
           ARGS="$ARGS --base $BASE"
           if [ "${MIN:-false}" = "true" ]; then
             ARGS="$ARGS --min"
@@ -104,8 +106,13 @@ jobs:
           if [ "${PREP:-false}" = "true" ]; then
             ARGS="$ARGS --prepare"
           fi
+          if [ "${TOOLS:-false}" = "true" ]; then
+            ARGS="$ARGS --tools"
+          fi
           echo "running: ./build.sh $ARGS"
-          echo "prepare_only=${PREP:-false}" >> "$GITHUB_OUTPUT"
+          # NOIMAGE: preflight and tools-only runs produce no firmware, so the
+          # upload step must not demand one.
+          echo "prepare_only=${NOIMAGE:-${PREP:-false}}" >> "$GITHUB_OUTPUT"
           echo "base=$BASE"                   >> "$GITHUB_OUTPUT"
           # Heartbeat: a 2-4 h step is unobservable from outside -- the run
           # object only changes at step boundaries, and the log API needs admin
