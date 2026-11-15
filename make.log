@@ -118,3 +118,10 @@ time: target/linux/prereq#0.07#0.05#0.11
  make[3] -C package/libs/pcre compile
  make[3] -C feeds/packages/lang/golang/golang host-compile
  make[3] -C package/lean/upx host-compile
+ make[3] -C package/kernel/gpio-button-hotplug compile
+ make[3] -C package/libs/jansson compile
+ make[3] -C package/libs/libpcap compile
+ make[3] -C package/network/services/dropbear compile
+ make[3] -C package/network/utils/linux-atm compile
+ make[3] -C package/network/utils/resolveip compile
+ make[3] -C package/network/utils/tcpdump compile
