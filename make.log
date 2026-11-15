@@ -91,3 +91,16 @@ time: target/linux/prereq#0.08#0.05#0.13
  make[3] -C feeds/luci/modules/luci-base host-compile
  make[3] -C package/utils/lua host-compile
  make[3] -C feeds/luci/contrib/package/csstidy host-compile
+ make[3] -C package/libs/mbedtls compile
+ make[3] -C package/utils/bzip2 compile
+ make[3] -C package/libs/argp-standalone compile
+ make[3] -C package/libs/libmnl compile
+ make[3] -C feeds/luci/applications/luci-app-autoreboot compile
+ make[3] -C feeds/packages/libs/liburcu compile
+ make[3] -C feeds/packages/libs/libuv compile
+ make[3] -C package/libs/libcap compile
+ make[3] -C package/system/ca-certificates compile
+ make[3] -C feeds/packages/libs/nghttp2 compile
+ make[3] -C feeds/packages/libs/giflib compile
+ make[3] -C feeds/packages/utils/attr compile
+ make[3] -C package/libs/gmp compile
