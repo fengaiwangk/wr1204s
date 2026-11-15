@@ -76,3 +76,19 @@ time: target/linux/prereq#0.06#0.04#0.10
  make[3] -C toolchain/gcc/final compile
  make[2] target/compile
  make[3] -C target/linux compile
+ make[2] buildinfo
+ make[2] package/compile
+ make[3] diffconfig buildversion feedsversion
+ make[3] -C package/libs/libjson-c host-compile
+ make[3] -C package/libs/toolchain compile
+ make[3] -C package/libs/ncurses host-compile
+ make[3] -C package/system/fwtool host-compile
+ make[4] scripts/config/conf
+ make[3] -C package/system/usign host-compile
+ make[3] -C package/libs/libsepol compile
+ make[3] -C package/libs/musl-fts compile
+ make[3] -C package/system/openwrt-keyring compile
+ make[3] -C feeds/luci/modules/luci-base host-compile
+ make[3] -C package/utils/lua host-compile
+ make[3] -C feeds/luci/contrib/package/csstidy host-compile
+ make[3] -C package/libs/mbedtls compile
