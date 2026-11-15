@@ -104,3 +104,14 @@ time: target/linux/prereq#0.08#0.05#0.13
  make[3] -C feeds/packages/libs/giflib compile
  make[3] -C feeds/packages/utils/attr compile
  make[3] -C package/libs/gmp compile
+ make[3] -C feeds/luci/libs/luci-lib-chartjs compile
+ make[3] -C feeds/packages/libs/libcap-ng compile
+ make[3] -C package/libs/libnftnl compile
+ make[3] -C feeds/packages/net/etherwake compile
+ make[3] -C package/utils/px5g-mbedtls compile
+ make[3] -C feeds/packages/libs/libcbor compile
+ make[3] -C feeds/packages/libs/libevdev compile
+ make[3] -C feeds/packages/libs/libpam compile
+ make[3] -C package/libs/pcre compile
+ make[3] -C package/kernel/gpio-button-hotplug compile
+ make[3] -C package/libs/jansson compile
