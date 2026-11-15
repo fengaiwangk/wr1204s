@@ -220,3 +220,12 @@ luci-theme-argon does not support CSS source minification
  make[3] -C package/system/opkg compile
  make[3] -C package/system/procd compile
  make[3] -C package/boot/uboot-envtools compile
+ make[3] -C feeds/luci/collections/luci-light compile
+ make[3] -C feeds/luci/applications/luci-app-upnp compile
+ make[3] -C feeds/luci/collections/luci-ssl compile
+ make[3] -C package/base-files compile
+ make[3] -C feeds/luci/collections/luci compile
+ make[3] -C feeds/packages/net/ddns-scripts compile
+ make[3] -C feeds/luci/applications/luci-app-ddns compile
+ make[3] -C package/lean/ddns-scripts_aliyun compile
+ make[3] -C package/lean/ddns-scripts_dnspod compile
