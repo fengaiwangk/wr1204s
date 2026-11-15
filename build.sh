@@ -235,7 +235,7 @@ grep -q "44.0.30.233"   "$SRC/files/etc/config/network"  || die "WAN IP not pres
 grep -q "TENDAINF-D9DA" "$SRC/files/etc/config/wireless" || die "2.4G SSID not preserved"
 grep -q "9876543210"    "$SRC/files/etc/config/wireless" || die "WiFi key not preserved"
 ok "network/wireless/dhcp/system/firewall/dropbear + uci-defaults installed"
-info "LAN 192.168.100.1 | WAN 44.0.30.233 static | WiFi TENDAINF-D9DA + -5G"
+info "LAN 192.168.99.1 | WAN 44.0.30.233 static | WiFi TENDAINF-D9DA + -5G"
 info "SSH admin/admin on port 12580 (also root/admin)"
 
 # -------------------------------------------------------------- wifi driver --
@@ -440,8 +440,11 @@ MAKELOG="$HERE/make.log"
 # debug info, and this profile does not enable CONFIG_DEBUG_INFO_BTF.
 drop_elfutils() {
 	local TM="$SRC/tools/Makefile"
-	[ -f "$TM" ] || return 0
-	grep -q '^tools-y += elfutils' "$TM" || return 0
+	[ -f "$TM" ] || { warn "no $TM -- cannot drop elfutils"; return 0; }
+	if ! grep -q '^tools-y += elfutils' "$TM"; then
+		warn "tools/Makefile has no 'tools-y += elfutils' line -- nothing to drop"
+		return 0
+	fi
 	cp "$TM" "$TM.orig"
 	sed -i -E \
 		-e 's|^tools-y \+= elfutils$|# &  # dropped: BTF/pahole not used|' \
@@ -490,6 +493,17 @@ run_make() {
 	return 1
 }
 
+# tools/elfutils fails on the stock runner and takes the whole run with it:
+# run 7 died there, run 8 hung there for six hours, run 13 hit it again in the
+# tools-only stage. Nothing in a MIPS router image needs it -- it is only a
+# dependency of dwarves/pahole, which generate BTF, and CONFIG_DEBUG_INFO_BTF
+# is off -- so drop it before any make runs, in every mode.
+if [ "$KEEP_ELFUTILS" = 1 ]; then
+	info "keeping tools/elfutils (--keep-elfutils)"
+else
+	drop_elfutils
+fi
+
 # Host tools are the riskiest stage on a fresh tree: they are compiled with the
 # host gcc, they run first, and one failure there costs the whole run. --tools
 # builds just that stage (~30 min) so a broken tool can be diagnosed without
@@ -516,13 +530,7 @@ if [ "$TOOLS_ONLY" = 1 ]; then
 fi
 
 say "Building (jobs=$JOBS) -- first run downloads ~3 GB of sources and takes 2-4 h"
-# Dropped up front rather than after a failure: the post-failure fallback only
-# fires if make actually returns, and on a hung child it never does (run #8).
-if [ "$KEEP_ELFUTILS" = 1 ]; then
-	info "keeping tools/elfutils (--keep-elfutils)"
-else
-	drop_elfutils
-fi
+# elfutils was already dropped above, before either branch could run make.
 rc=0
 run_make || rc=$?
 if [ "$rc" = 2 ]; then
