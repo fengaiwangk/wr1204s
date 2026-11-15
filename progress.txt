@@ -1,17 +1,10 @@
-time  : 2026-11-15T08:19:12Z
+time  : 2026-11-15T08:20:14Z
 ref   : build-bleach  run 23
 --- sizes (bytes) ---
-build.log 2553
-defconfig.log 0
+build.log 2955
+make.log 1641
+defconfig.log 2616
 --- tail of build.log ---
-     LAN 192.168.99.1 | WAN 44.0.30.233 static | WiFi TENDAINF-D9DA + -5G
-     SSH admin/admin on port 12580 (also root/admin)
-
-[1;36m[11] ==> Assembling the WiFi driver package (sf_smac)[0m
-     cloning https://github.com/Siflower/sf_wifi.git
-Cloning into '/home/runner/work/wr1204s/wr1204s/sf_wifi'...
-     [1;32m✓[0m driver tree at da991fafab179a2ed495c2925a0bf219ef38e22e + linux-6.18 port
-
 [1;36m[12] ==> Installing LMAC firmware blobs[0m
      [1;32m✓[0m sf1688_hb_fmac.bin (236768 bytes, md5 verified)
      [1;32m✓[0m sf1688_lb_fmac.bin (236624 bytes, md5 verified)
@@ -29,3 +22,11 @@ Cloning into '/home/runner/work/wr1204s/wr1204s/sf_wifi'...
      [1;32m✓[0m feeds ready
 
 [1;36m[16] ==> Writing .config[0m
+     [1;32m✓[0m profile tenbay_wr1204s active
+
+[1;36m[17] ==> Trimming the default package set[0m
+     [1;32m✓[0m dropped 7 packages (proxy stack, KMS, FTP, benchmark, design theme)
+     tools/Makefile: 16 -> 19 comment lines
+     [1;32m✓[0m elfutils + dwarves removed from the host tool list
+
+[1;36m[18] ==> Building (jobs=4) -- first run downloads ~3 GB of sources and takes 2-4 h[0m
