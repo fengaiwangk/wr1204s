@@ -170,13 +170,22 @@
 	ethernet-switch {
 		compatible = "airoha,an8855-switch";
 		/*
-		 * GPIO 8 is driven high by the vendor firmware and was the only
-		 * unclaimed output GPIO on the running device, so it is the
-		 * AN8855 reset line. If the switch is not detected on boot, try
-		 * <&gpio 11 GPIO_ACTIVE_HIGH> (the BPI-WiFi5 value) or drop the
-		 * property entirely.
+		 * 这里原来挂的是 reset-gpios = <&gpio 8 GPIO_ACTIVE_HIGH>，那是我
+		 * 照着「vendor firmware 把 GPIO 8 拉高」猜的，没有实据。实测内核
+		 * probe 直接失败：
+		 *
+		 *   an8855-switch an8855-switch.1.auto:
+		 *     probe with driver an8855-switch failed with error -16
+		 *
+		 * 驱动的 probe 第一件事就是 devm_gpiod_get_optional(dev, "reset")
+		 * 拿到 GPIO 后立刻拉低 100ms、拉高 100ms，再轮询 HWTRAP 等交换机
+		 * 初始化。如果 GPIO 8 压根不是复位线，这一拉一放就把 U-Boot 刚
+		 * 建好的交换机状态打乱了，后续读 chip id / 注册 DSA 自然失败。
+		 *
+		 * 而 U-Boot 启动日志已经证明交换机是好的：
+		 *   sf_eth1 connected to an8855, id 0x8855
+		 * 所以内核不需要再复位它，去掉这个属性即可。
 		 */
-		reset-gpios = <&gpio 8 GPIO_ACTIVE_HIGH>;
 		airoha,ext-surge;
 
 		ports {
