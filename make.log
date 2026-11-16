@@ -1,0 +1,22 @@
+WARNING: Makefile 'package/feeds/video/kmscon/Makefile' has a dependency on 'input-support', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-amdgpu', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-radeon', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-intel', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-tegra', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-etnaviv', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-nouveau', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-intel', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-intel', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-amdgpu', which does not exist
+WARNING: Makefile 'package/feeds/video/mesa/Makefile' has a dependency on 'libdrm-etnaviv', which does not exist
+make[2]: Entering directory '/home/runner/work/wr1204s/wr1204s/openwrt/scripts/config'
+make[2]: 'conf' is up to date.
+make[2]: Leaving directory '/home/runner/work/wr1204s/wr1204s/openwrt/scripts/config'
+time: target/linux/prereq#0.09#0.07#0.15
+ make[1] world
+ make[2] tools/compile
+ make[2] package/cleanup
+ make[3] -C tools/libdeflate compile
+ make[3] -C tools/flock compile
+ make[3] -C tools/zstd compile
+ make[3] -C tools/sed compile
