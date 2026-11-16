@@ -71,3 +71,4 @@ time: target/linux/prereq#0.09#0.07#0.15
  make[3] -C toolchain/gdb compile
  make[3] -C toolchain/binutils compile
  make[3] -C toolchain/gcc/initial compile
+ make[3] -C toolchain/kernel-headers compile
