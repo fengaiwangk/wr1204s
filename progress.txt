@@ -1,8 +1,8 @@
-time  : 2026-11-16T10:43:25Z
+time  : 2026-11-16T10:44:27Z
 ref   : build-bleach  run 29
 --- sizes (bytes) ---
 build.log 3054
-make.log 4400
+make.log 5250
 defconfig.log 2616
 --- tail of build.log ---
      [1;32m✓[0m sf1688_lb_fmac.bin (236624 bytes, md5 verified)
