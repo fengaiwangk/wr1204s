@@ -1,0 +1,133 @@
+
+[1;36m[01] ==> Checking host tools[0m
+     [1;32m✓[0m all host tools present
+     cpu cores: 4
+
+[1;36m[02] ==> Preparing source tree (bleach)[0m
+     cloning https://github.com/coolsnowwolf/lede.git (a0c958aee9d6dda2dc2241318b0c7507053ea21b) -- this is ~300 MB, be patient
+     [1;32m✓[0m source tree ready
+
+[1;36m[03] ==> Installing hardware-complete siflower target[0m
+     [1;32m✓[0m target/linux/siflower replaced (181 files)
+
+[1;36m[04] ==> Installing Airoha AN8855 driver[0m
+     [1;32m✓[0m 5 driver sources + 1 header in target/linux/generic/files-6.18
+
+[1;36m[05] ==> Patching AN8855 MAC5 sideband (CPU port)[0m
+     [1;32m✓[0m MAC5 sideband forced for port 5 in RGMII mode (target/linux/generic/files-6.18)
+
+[1;36m[06] ==> Adding Tenbay WR1204S board definition[0m
+     [1;32m✓[0m dts: sf19a2890_wr1204s.dts
+     [1;32m✓[0m device: tenbay_wr1204s (BOARD_NAME tenbay,wr1204s, IMAGE_SIZE 15616k)
+
+[1;36m[07] ==> Pinning the kernel to 6.18[0m
+     [1;32m✓[0m KERNEL_PATCHVER:=6.18 (testing left at 6.12)
+
+[1;36m[08] ==> Clearing the source-only flag[0m
+     [1;32m✓[0m sf19a2890 is buildable
+
+[1;36m[09] ==> Switching the subtarget to DEVICE_TYPE:=basic[0m
+     [1;32m✓[0m device package list now comes only from image/sf19a2890.mk
+
+[1;36m[10] ==> Installing default configuration (keeps the current settings)[0m
+     [1;32m✓[0m network/wireless/dhcp/system/firewall/dropbear + uci-defaults installed
+     LAN 192.168.99.1 | WAN 44.0.30.233 static | WiFi TENDAINF-D9DA + -5G
+     SSH admin/admin on port 12580 (also root/admin)
+
+[1;36m[11] ==> Assembling the WiFi driver package (sf_smac)[0m
+     cloning https://github.com/Siflower/sf_wifi.git
+Cloning into '/home/runner/work/wr1204s/wr1204s/sf_wifi'...
+     [1;32m✓[0m driver tree at da991fafab179a2ed495c2925a0bf219ef38e22e + linux-6.18 port
+
+[1;36m[12] ==> Installing LMAC firmware blobs[0m
+     [1;32m✓[0m sf1688_hb_fmac.bin (236768 bytes, md5 verified)
+     [1;32m✓[0m sf1688_lb_fmac.bin (236624 bytes, md5 verified)
+
+[1;36m[13] ==> Seeding kernel config (append-only)[0m
+     appended CONFIG_INPUT_EVDEV=y
+     appended CONFIG_KEYBOARD_GPIO=y
+     [1;32m✓[0m 2 key(s) appended; existing AN8855/DSA options left untouched
+     [1;32m✓[0m AN8855 driver options confirmed present
+
+[1;36m[14] ==> Dropping the helloworld feed[0m
+     [1;32m✓[0m helloworld commented out of feeds.conf.default
+
+[1;36m[15] ==> Updating feeds[0m
+     [1;32m✓[0m feeds ready
+
+[1;36m[16] ==> Writing .config[0m
+     [1;32m✓[0m profile tenbay_wr1204s active
+
+[1;36m[17] ==> Trimming the default package set[0m
+     ustream backend: libustream-mbedtls 
+     [1;32m✓[0m no file-clash package pairs selected
+     [1;32m✓[0m dropped 7 packages (proxy stack, KMS, FTP, benchmark, design theme)
+     tools/Makefile: 16 -> 19 comment lines
+     [1;32m✓[0m elfutils + dwarves removed from the host tool list
+
+[1;36m[18] ==> Building (jobs=4) -- first run downloads ~3 GB of sources and takes 2-4 h[0m
+ make[3] -C feeds/luci/applications/luci-app-arpbind compile
+ make[3] -C feeds/luci/modules/luci-lua-runtime compile
+ make[3] -C feeds/luci/applications/luci-app-nlbwmon compile
+ make[3] -C feeds/luci/applications/luci-app-upnp compile
+ make[3] -C feeds/luci/applications/luci-app-wol compile
+ make[3] -C package/system/urandom-seed compile
+ make[3] -C package/system/procd compile
+ make[3] -C package/boot/uboot-envtools compile
+ make[3] -C feeds/luci/applications/luci-app-package-manager compile
+ make[3] -C feeds/luci/applications/luci-app-firewall compile
+ make[3] -C feeds/luci/applications/luci-app-oui compile
+ make[3] -C feeds/luci/modules/luci-mod-network compile
+ make[3] -C feeds/luci/modules/luci-mod-status compile
+ make[3] -C feeds/luci/modules/luci-mod-system compile
+ make[3] -C feeds/luci/themes/luci-theme-bootstrap compile
+ make[3] -C feeds/luci/modules/luci-compat compile
+ make[3] -C package/base-files compile
+ make[3] -C feeds/luci/modules/luci-mod-admin-full compile
+ make[3] -C feeds/luci/applications/luci-app-filetransfer compile
+ make[3] -C package/lean/default-settings compile
+ make[3] -C feeds/luci/collections/luci-light compile
+ make[3] -C feeds/luci/collections/luci compile
+ make[3] -C feeds/luci/collections/luci-ssl compile
+ make[3] -C feeds/packages/net/bind compile
+ make[3] -C feeds/packages/net/curl compile
+ make[3] -C feeds/packages/net/iperf3 compile
+ make[3] -C feeds/packages/libs/libfido2 compile
+ make[3] -C feeds/packages/net/wget compile
+ make[3] -C feeds/packages/net/openssh compile
+ make[3] -C feeds/packages/net/ddns-scripts compile
+ make[3] -C feeds/luci/applications/luci-app-ddns compile
+ make[3] -C package/lean/ddns-scripts_aliyun compile
+ make[3] -C package/lean/ddns-scripts_dnspod compile
+ make[2] package/install
+ make[2] target/install
+ make[3] -C target/linux install
+ make[2] package/index
+WARNING: Applying padding in /home/runner/work/wr1204s/wr1204s/openwrt/bin/targets/siflower/sf19a2890/packages/Packages to workaround usign SHA-512 bug!
+ make[2] json_overview_image_info
+ make[2] checksum
+
+[1;36m[19] ==> Collecting artifacts[0m
+
+[1;32m========== BUILD OK ==========[0m
+  openwrt-siflower-sf19a2890-tenbay_wr1204s-initramfs-kernel.bin   11275397 bytes
+     sha256 4bec6b570e6247f2b363c2e376a0c923b574b740e65a5bdfea58b43db70fe036
+  openwrt-siflower-sf19a2890-tenbay_wr1204s-squashfs-factory.bin   12058628 bytes
+     sha256 7f2920ff3b2f12cdb24811a78c53331907d13527a5a3d4c8a382c565bb53466d
+  openwrt-siflower-sf19a2890-tenbay_wr1204s-squashfs-sysupgrade.bin   12059457 bytes
+     sha256 cd6ea61f17ccdd39899ac9ca7aaad39a62a8ff3d429b9b9cc6e520d2e0b025bd
+
+  image layout:
+    openwrt-siflower-sf19a2890-tenbay_wr1204s-squashfs-factory.bin
+      total       12058628 B  (11.50 MiB)
+      kernel       3709465 B  uImage payload, padded to 3735552
+      rootfs       8323076 B  magic=b'hsqs'
+      note kernel exceeds the stock 0x330000 partition
+      note rootfs exceeds the stock 0x3C5000 partition
+      OK   fits the 15.25 MiB firmware partition
+      free   3932156 B  (3.75 MiB) left for the jffs2 overlay
+
+  flash on the router (no sysupgrade -- custom partition layout):
+    cat factory.bin | ssh root@192.168.99.1 "cat > /tmp/fw.bin"
+    ssh root@192.168.99.1 "wr1204s-upgrade -n /tmp/fw.bin && wr1204s-upgrade /tmp/fw.bin && reboot"
+
