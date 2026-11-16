@@ -87,3 +87,11 @@ time: target/linux/prereq#0.09#0.07#0.15
  make[3] -C package/system/usign host-compile
  make[3] -C package/libs/libsepol compile
  make[3] -C package/libs/musl-fts compile
+ make[3] -C package/system/openwrt-keyring compile
+ make[3] -C feeds/luci/modules/luci-base host-compile
+ make[3] -C package/utils/lua host-compile
+ make[3] -C feeds/luci/contrib/package/csstidy host-compile
+ make[3] -C package/libs/mbedtls compile
+ make[3] -C package/utils/bzip2 compile
+ make[3] -C package/libs/argp-standalone compile
+ make[3] -C package/libs/libmnl compile
