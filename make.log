@@ -56,3 +56,6 @@ time: target/linux/prereq#0.09#0.07#0.15
  make[3] -C tools/cmake compile
  make[3] -C tools/bc compile
  make[3] -C tools/util-linux compile
+ make[3] -C tools/findutils compile
+ make[3] -C tools/mkimage compile
+ make[3] -C tools/mpfr compile
