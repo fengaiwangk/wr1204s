@@ -218,3 +218,9 @@ luci-theme-argon does not support CSS source minification
  make[3] -C feeds/luci/collections/luci-light compile
  make[3] -C feeds/luci/collections/luci compile
  make[3] -C feeds/luci/collections/luci-ssl compile
+ make[3] -C feeds/packages/net/bind compile
+ make[3] -C feeds/packages/net/curl compile
+ make[3] -C feeds/packages/net/iperf3 compile
+ make[3] -C feeds/packages/libs/libfido2 compile
+ make[3] -C feeds/packages/net/wget compile
+ make[3] -C feeds/packages/net/openssh compile
